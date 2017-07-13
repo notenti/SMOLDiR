@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "811354252455",
+    "firebase_url": "https://smokedetect-caf3a.firebaseio.com",
+    "project_id": "smokedetect-caf3a",
+    "storage_bucket": "smokedetect-caf3a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811354252455:android:ff3ea185db4ee460",
+        "android_client_info": {
+          "package_name": "com.v4.nate.smokedetect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811354252455-62sc20s9i3tj8ggqu1dqaa5fjc5tajam.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.v4.nate.smokedetect",
+            "certificate_hash": "a5959e60ccb19135992520a6a48c56d0764c8d40"
+          }
+        },
+        {
+          "client_id": "811354252455-jamn33l2g60ts6m29qo0pa1819dq9q26.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi8la5Yv_RtHo69dXN-qx9Bz4FK0q94gc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811354252455-jamn33l2g60ts6m29qo0pa1819dq9q26.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
