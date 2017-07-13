@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //start subscribe topics
-                FirebaseMessaging.getInstance().subscribeToTopic("nateo");
+                FirebaseMessaging.getInstance().subscribeToTopic("nateotenti");
 
                 //log and toast
                 String msg = getString(R.string.msg_subscribed);
