@@ -3,11 +3,11 @@
     <string name="quickstart_message">Click the SUBSCRIBE TO NEWS button below to subscribe to the
         news topic. Messages sent to the news topic will be received. The LOG TOKEN button logs the
         InstanceID token to logcat.</string>
-    <string name="subscribe_to_news">Subscribe To nateo topic</string>
+    <string name="subscribe_to_news">Subscribe To Smoke Detect topic</string>
     <string name="log_token">Log Token</string>
     <string name="reply_label">This is noise.</string>
 
-    <string name="msg_subscribed">Subscribed to nateo topic</string>
+    <string name="msg_subscribed">Subscribed to Smoke Detect topic</string>
     <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
@@ -15,5 +15,5 @@
         This is the name that users will see when interacting with this channel.
         It should describe the category of notifications that will be sent through this channel
      -->
-    <string name="default_notification_channel_name" translatable="true">Nateo</string>
+    <string name="default_notification_channel_name" translatable="true">smokeDetect</string>
 </resources>

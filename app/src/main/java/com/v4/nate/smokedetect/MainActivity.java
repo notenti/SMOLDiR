@@ -8,36 +8,23 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    TextView _response;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        _response = (TextView) findViewById(R.id.response);
 
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -55,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        Button subscribeButton = (Button) findViewById(R.id.subscribeButton);
-        subscribeButton.setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.subscribeButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //start subscribe topics
-                FirebaseMessaging.getInstance().subscribeToTopic("nateotenti");
+                FirebaseMessaging.getInstance().subscribeToTopic("smokeDetect");
 
                 //log and toast
                 String msg = getString(R.string.msg_subscribed);
@@ -69,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button logTokenButton = (Button) findViewById(R.id.logTokenButton);
-        logTokenButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.logTokenButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //get token
@@ -83,45 +69,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        Button sendPostButton = (Button) findViewById(R.id.sendPostButton);
-        sendPostButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //Instantiate the request queue
-                RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-                String url = "http://192.168.0.110/test.php";
-
-                //Post params to be sent to the server
-                HashMap<String, String> params = new HashMap<String, String>();
-                params.put("name", "Nate Otenti");
-                params.put("age", "22");
-                params.put("job", "student");
-
-                JsonObjectRequest req = new JsonObjectRequest(url, new JSONObject(params),
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    Log.d("Response:%n %s", response.toString(1));
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                error.printStackTrace();
-
-                            }
-
-                        });
-                queue.add(req);
-            }
-        });
     }
 }
 

@@ -13,8 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_smoke_free_black_24dp" />
@@ -27,12 +25,12 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".FirebaseMessaging">
+        <service android:name=".NotificationActivity">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".FirebaseInstanceIDService">
+        <service android:name=".IDServiceActivity">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -45,10 +43,19 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".CustomVolleyRequestQueue" />
-        <activity android:name=".CustomRequest" />
-        <activity android:name=".LoginActivity" android:theme="@style/AppTheme.Dark"/>
-        <activity android:name=".SignupActivity" android:theme="@style/AppTheme.Dark"/>
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.Welcome" />
+        <activity
+            android:name=".SignupActivity"
+            android:theme="@style/AppTheme.Welcome" />
+        <activity
+            android:name=".WelcomeActivity"
+            android:theme="@style/AppTheme.Welcome" />
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/AppTheme.Welcome" />
+        <activity android:name=".SendToDevicesActivity"></activity>
     </application>
 
 </manifest>
