@@ -21,6 +21,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        FirebaseMessaging.getInstance().subscribeToTopic("smokeDetect");
+
+        //log and toast
+        String msg = "Subscibed to topic smokeDetect";
+        Log.d(TAG, msg);
+        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -35,39 +42,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        if (getIntent().getExtras() != null) {
-            for (String key : getIntent().getExtras().keySet()) {
-                Object value = getIntent().getExtras().get(key);
-                Log.d(TAG, "Key: " + key + "Value: " + value);
-            }
-        }
-
-
-        findViewById(R.id.subscribeButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //start subscribe topics
-                FirebaseMessaging.getInstance().subscribeToTopic("smokeDetect");
-
-                //log and toast
-                String msg = getString(R.string.msg_subscribed);
-                Log.d(TAG, msg);
-                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        findViewById(R.id.logTokenButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //get token
-                String token = FirebaseInstanceId.getInstance().getToken();
-
-                //log and toast
-                String msg = getString(R.string.msg_token_fmt, token);
-                Log.d(TAG, msg);
-                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-            }
-        });
 
     }
 }

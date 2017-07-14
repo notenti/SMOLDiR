@@ -4,20 +4,34 @@
     android:layout_height="match_parent"
     android:layout_weight="1">
 
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/login_fragment"
+        android:name="com.v4.nate.smokedetect.LoginFragment"/>
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/register_fragment"
+        android:name="com.v4.nate.smokedetect.RegisterFragment"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
         android:paddingTop="56dp">
 
-        <ImageView
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="72dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
-            android:src="@drawable/ic_smoke_free_black_24dp" />
+            android:text="Fancy Logo"
+            android:textSize="40dip" />
 
         <!-- Register Device Button -->
         <Button
@@ -26,8 +40,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:layout_marginTop="80dp"
-            android:background="@drawable/button_stroke"
+            android:background="@drawable/register_button"
             android:text="Register Device"
+            android:textColor="@color/background"
+            android:stateListAnimator="@null"
             android:textSize="18dip" />
 
     </LinearLayout>
@@ -36,8 +52,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
         android:paddingTop="56dp">
 
 
@@ -47,16 +63,19 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:gravity="center"
+            android:textSize="14dip"
             android:text="Already have an account?"
-            android:textSize="16dip" />
+            android:textAllCaps="true"/>
 
         <Button
             android:id="@+id/btn_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/button_stroke"
+            android:background="@drawable/login_button"
             android:text="Log in"
+            android:stateListAnimator="@null"
+
             android:textSize="15dip" />
     </LinearLayout>
 

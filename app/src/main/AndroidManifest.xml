@@ -52,10 +52,6 @@
         <activity
             android:name=".WelcomeActivity"
             android:theme="@style/AppTheme.Welcome" />
-        <activity
-            android:name=".RegisterActivity"
-            android:theme="@style/AppTheme.Welcome" />
-        <activity android:name=".SendToDevicesActivity"></activity>
     </application>
 
 </manifest>

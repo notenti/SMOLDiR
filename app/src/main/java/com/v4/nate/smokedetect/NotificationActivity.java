@@ -15,17 +15,19 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import android.widget.Toast;
 
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
 import com.google.firebase.messaging.RemoteMessage;
 
 
 public class NotificationActivity extends com.google.firebase.messaging.FirebaseMessagingService {
 
-    private static final String TAG = "MyFirebaseMsgService";
+    private static final String TAG = "NotificationActivity";
+
+    public enum MessageType {
+        LOW_BATTERY,
+        ACTIVE_ALARM
+    }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -42,7 +44,9 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
-        if (remoteMessage.getData().get("ID").equals("1")) {
+        int type = Integer.parseInt(remoteMessage.getData().get("messageType"));
+
+        if (type == MessageType.LOW_BATTERY.ordinal()) {
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle(remoteMessage.getData().get("title"))
                     .setContentText(remoteMessage.getData().get("body"))
@@ -52,17 +56,33 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
                     .setContentIntent(pendingIntent)
                     .setLights(Color.GREEN, 500, 500)
-                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.primary))
                     .setStyle(new NotificationCompat.InboxStyle()
-                            .addLine("Detector ID: " + remoteMessage.getData().get("ID"))
+                            .addLine(remoteMessage.getData().get("body"))
                             .setBigContentTitle(remoteMessage.getData().get("title"))
-                            .setSummaryText("+3 more"));
+                            .setSummaryText(remoteMessage.getData().get("summary")));
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
 
+        } else if(type == MessageType.ACTIVE_ALARM.ordinal()) {
+            NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                    .setContentTitle(remoteMessage.getData().get("title"))
+                    .setContentText(remoteMessage.getData().get("body"))
+                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSound(defaultSoundUri)
+                    .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent)
+                    .setContentIntent(pendingIntent)
+                    .setLights(Color.GREEN, 500, 500)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setFullScreenIntent(pendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setColor(ContextCompat.getColor(this, R.color.primary));
+            NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+            manager.notify(123, notification.build());
         } else {
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle(remoteMessage.getData().get("title"))
@@ -71,28 +91,21 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
-                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Hush", sendPendingIntent)
                     .setContentIntent(pendingIntent)
                     .setLights(Color.GREEN, 500, 500)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setColor(ContextCompat.getColor(this, R.color.primary))
-                    .setStyle(new NotificationCompat.InboxStyle()
-                            .addLine("TEST 1")
-                            .addLine("TEST 2")
-                            .setBigContentTitle(remoteMessage.getData().get("title"))
-                            .setSummaryText("+3 more"));
+                    .setColor(ContextCompat.getColor(this, R.color.primary));
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
+
+
 
         }
 
 
-
-
     }
-
 
 
     //Create simple notification containing the received FCM message.
