@@ -22,12 +22,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         FirebaseMessaging.getInstance().subscribeToTopic("smokeDetect");
-
-        //log and toast
-        String msg = "Subscibed to topic smokeDetect";
-        Log.d(TAG, msg);
-        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

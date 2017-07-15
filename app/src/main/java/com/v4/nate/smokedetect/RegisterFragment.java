@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.EditText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -13,8 +13,10 @@ import butterknife.ButterKnife;
 public class RegisterFragment extends Fragment {
 
     public static final String TAG = "RegisterFragment";
-    @BindView(R.id.btn_regTest)
-    Button regTest;
+
+
+    @BindView(R.id.input_registration_code)
+    EditText _registrationCodeText;
 
     public RegisterFragment() {
     }

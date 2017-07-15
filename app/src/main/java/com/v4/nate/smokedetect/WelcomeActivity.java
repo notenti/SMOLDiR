@@ -49,6 +49,11 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Intent intent = new Intent(getApplicationContext(), RegisterFragment.class);
                 //startActivity(intent);
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.open_translate, R.anim.close_translate)
+                        .show(_registerFragment).commit();
+                _registerDeviceButton.startAnimation(slideLeft);
+                _loginButton.startAnimation(slideLeft);
+                slideLeft.setFillAfter(true);
             }
         });
         _loginButton.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +62,7 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.open_translate, R.anim.close_translate)
                         .show(_loginFragment).commit();
+
                 _registerDeviceButton.startAnimation(slideLeft);
                 slideLeft.setFillAfter(true);
                 //Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
