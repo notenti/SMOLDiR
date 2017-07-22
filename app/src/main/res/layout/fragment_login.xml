@@ -1,8 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.v4.nate.smokedetect.WelcomeActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,45 +11,41 @@
         android:orientation="vertical"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
-        android:paddingTop="156dp">
+        android:paddingTop="56dp">
 
-        <android.support.design.widget.TextInputLayout
+        <EditText
+            android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp">
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:ems="10"
+            android:hint="sdfsdfsdfsdf"
+            android:inputType="textEmailAddress" />
 
-            <EditText
-                android:id="@+id/input_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="email"
-                android:inputType="textEmailAddress"/>
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp">
-
-            <EditText
-                android:id="@+id/input_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="password"
-                android:inputType="textPassword"/>
-        </android.support.design.widget.TextInputLayout>
+            android:layout_below="@+id/username"
+            android:ems="10"
+            android:hint="Password" />
 
         <Button
-            android:id="@+id/btn_login_fragment"
-            android:layout_width="fill_parent"
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/login_button"
-            android:padding="12dp"
+            android:layout_below="@+id/password"
+            android:onClick="tryLogin"
             android:text="Login" />
 
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/username"
+            android:layout_centerHorizontal="true"
+            android:text=""
+            android:textColor="#ffff0000" />
     </LinearLayout>
 </RelativeLayout>

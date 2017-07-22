@@ -4,18 +4,6 @@
     android:layout_height="match_parent"
     android:layout_weight="1">
 
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/login_fragment"
-        android:name="com.v4.nate.smokedetect.LoginFragment"/>
-
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/register_fragment"
-        android:name="com.v4.nate.smokedetect.RegisterFragment"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,20 +19,10 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
             android:text="Fancy Logo"
+            android:textColor="@color/primary"
             android:textSize="40dip" />
 
-        <!-- Register Device Button -->
-        <Button
-            android:id="@+id/btn_registerDevice"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="80dp"
-            android:background="@drawable/register_button"
-            android:text="Register Device"
-            android:textColor="@color/background"
-            android:stateListAnimator="@null"
-            android:textSize="18dip" />
+
 
     </LinearLayout>
     <LinearLayout
@@ -57,26 +35,40 @@
         android:paddingTop="56dp">
 
 
-        <TextView
-            android:id="@+id/text_account"
+        <!--<TextView-->
+            <!--android:id="@+id/text_account"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="4dp"-->
+            <!--android:gravity="center"-->
+            <!--android:textSize="14dip"-->
+            <!--android:text="Already have an account?"-->
+            <!--android:textAllCaps="true"/>-->
+
+        <!--Register Device Button-->
+        <Button
+            android:id="@+id/btn_registerDevice"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:gravity="center"
-            android:textSize="14dip"
-            android:text="Already have an account?"
-            android:textAllCaps="true"/>
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/login_button"
+            android:textColor="@color/background"
+            android:text="Register Device"
+            android:stateListAnimator="@null"
+            android:textSize="18dip" />
 
         <Button
             android:id="@+id/btn_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+            android:textColor="@color/background"
             android:background="@drawable/login_button"
-            android:text="Log in"
+            android:text="login"
             android:stateListAnimator="@null"
+            android:textSize="18dip" />
 
-            android:textSize="15dip" />
     </LinearLayout>
 
 </RelativeLayout>

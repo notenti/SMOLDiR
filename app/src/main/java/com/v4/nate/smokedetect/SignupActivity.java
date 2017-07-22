@@ -54,8 +54,8 @@ public class SignupActivity extends AppCompatActivity {
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Finish the registration screen and return to the Login activity
                 finish();
+                overridePendingTransition(R.anim.center_to_right, R.anim.left_to_center);
             }
         });
     }
@@ -126,6 +126,12 @@ public class SignupActivity extends AppCompatActivity {
 
                     }
                 }, 3000);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.center_to_right, R.anim.left_to_center);
     }
 
     public void onSignupSuccess() {
