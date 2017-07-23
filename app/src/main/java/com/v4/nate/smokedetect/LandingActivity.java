@@ -1,24 +1,26 @@
 package com.v4.nate.smokedetect;
 
-import android.content.Intent;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 public class LandingActivity extends AppCompatActivity {
 
 
-
-
+    Button firstFragment, secondFragment;
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
     private ActionBarDrawerToggle drawerToggle;
@@ -30,9 +32,7 @@ public class LandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
-
         listView = (ListView) findViewById(R.id.navList);
-
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         activityTitle = getTitle().toString();
 
@@ -41,6 +41,7 @@ public class LandingActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
 
 
     }
@@ -53,14 +54,15 @@ public class LandingActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                Fragment fragment = new Fragment();
                 switch (i) {
                     case 0:
-                        Intent intent = new Intent(getApplicationContext(), NotificationConfigureActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.left_to_center, R.anim.center_to_right);
+                        fragment = new NotificationConfigureFragment();
                         break;
                     case 1:
-                        Toast.makeText(LandingActivity.this, "2", Toast.LENGTH_SHORT).show();
+                        fragment = new DetectorHealthFragment();
                         break;
                     case 2:
                         Toast.makeText(LandingActivity.this, "3", Toast.LENGTH_SHORT).show();
@@ -69,22 +71,29 @@ public class LandingActivity extends AppCompatActivity {
                         Toast.makeText(LandingActivity.this, "4", Toast.LENGTH_SHORT).show();
                         break;
                 }
+                fragmentTransaction.replace(R.id.frameLayout, fragment);
+                fragmentTransaction.commit();
+                listView.setItemChecked(i, true);
+                drawerLayout.closeDrawer(listView);
 
             }
         });
     }
 
+
     private void setupDrawer() {
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close) {
             //Called when a drawer has settled in a completely open state
             public void onDrawerOpened(View drawerView) {
+                listView.bringToFront();
+                listView.requestLayout();
                 super.onDrawerOpened(drawerView);
                 getSupportActionBar().setTitle(activityTitle);
                 invalidateOptionsMenu(); //creates call to onPrepareOptionsMenu()
             }
 
             //Called when a drawer has settled in a completely closed state
-            public void onDrawerClosed(View view){
+            public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 getSupportActionBar().setTitle(activityTitle);
                 invalidateOptionsMenu();
@@ -123,7 +132,7 @@ public class LandingActivity extends AppCompatActivity {
             return true;
         }
 
-        if(drawerToggle.onOptionsItemSelected(item)) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);

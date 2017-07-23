@@ -51,9 +51,7 @@
             android:name=".RegisterActivity"
             android:theme="@style/AppTheme.Welcome"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".RegisterFragment" />
         <activity android:name=".LandingActivity" />
-        <activity android:name=".NotificationConfigureActivity"></activity>
     </application>
 
 </manifest>
