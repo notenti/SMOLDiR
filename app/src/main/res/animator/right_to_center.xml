@@ -4,6 +4,8 @@
 
     <translate
         android:duration="400"
-        android:fromXDelta="100%"
-        android:toXDelta="0%" />
+        android:propertyName="x"
+        android:valueFrom="1000"
+        android:valueTo="0"
+        android:valueType="floatType" />
 </set>

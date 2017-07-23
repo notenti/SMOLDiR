@@ -52,6 +52,7 @@
             android:theme="@style/AppTheme.Welcome"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".LandingActivity" />
+        <activity android:name=".WelcomeFragment"></activity>
     </application>
 
 </manifest>

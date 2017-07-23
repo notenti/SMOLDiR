@@ -1,17 +1,20 @@
 package com.v4.nate.smokedetect;
 
+import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,62 +33,113 @@ import butterknife.ButterKnife;
 
 public class LoginFragment extends Fragment {
 
-    public static final String TAG = "LoginFragment";
-    public static final int REQUEST_SIGNUP = 0;
-    final ProgressDialog progressDialog = new ProgressDialog(getActivity(),
-            R.style.AppTheme_Dark_Dialog);
+    private static final String TAG = "LoginFragment";
+    private static final int REQUEST_SIGNUP = 0;
+
     @BindView(R.id.input_email)
     EditText _emailText;
     @BindView(R.id.input_password)
     EditText _passwordText;
-//    @BindView(R.id.btn_login_fragment)
-//    Button _loginButton;
+    @BindView(R.id.btn_login)
+    Button _loginButton;
+    @BindView(R.id.link_signup)
+    TextView _signupLink;
 
-
-    public LoginFragment() {
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this, view);
 
+        _loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login();
+            }
+        });
+
+//        _signupLink.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+//                startActivityForResult(intent, REQUEST_SIGNUP);
+//
+//            }
+//        });
         return view;
     }
 
-
-    public void login(Boolean result) {
+    public void login() {
         Log.d(TAG, "Login");
 
-        Utility.setUserLoggedIn(getActivity(), result);
-        if (result) {
-            EditText _emailText = (EditText) getActivity().findViewById(R.id.input_email);
-            EditText _passwordText = (EditText) getActivity().findViewById(R.id.input_password);
-            String username = _emailText.getText().toString();
-            String password = _passwordText.getText().toString();
-            Utility.saveUsernameAndPassword(getActivity(), username, password);
-
-            getActivity().finish();
-        } else {
-            Utility.saveUsernameAndPassword(getActivity(), null, null);
-            TextView error = (TextView) getActivity().findViewById(R.id.error);
-            error.setText("Login failed! Please try again.");
+        if (!validate()) {
+            onLoginFailed();
+            return;
         }
-    }
 
-    public void tryLogin(View view) {
-        EditText _emailText = (EditText) getActivity().findViewById(R.id.input_email);
-        EditText _passwordText = (EditText) getActivity().findViewById(R.id.input_password);
-        String username = _emailText.getText().toString();
+        _loginButton.setEnabled(false);
+
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity(),
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Authenticating...");
+        progressDialog.show();
+
+        String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        if (!username.isEmpty() && !password.isEmpty()) {
-            TextView error = (TextView) getActivity().findViewById(R.id.error);
-            error.setText("");
-            CheckLoginTask loginTask = new CheckLoginTask();
-            loginTask.execute(username, password);
-        }
+        //TODO: Implement own authentication logic here
+
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        //On complete call either onLogicSuccess or onLoginFailed
+                        onLoginSuccessful();
+                        //onLoginFailed();
+                        progressDialog.dismiss();
+
+                    }
+                }, 3000);
+
     }
+
+    public void onLoginSuccessful() {
+        _loginButton.setEnabled(true);
+        Intent intent = new Intent(getActivity(), LandingActivity.class);
+        startActivity(intent);
+        getActivity().getFragmentManager().popBackStack();
+    }
+
+    public void onLoginFailed() {
+        Toast.makeText(getActivity(), "Login failed", Toast.LENGTH_SHORT).show();
+        _loginButton.setEnabled(true);
+    }
+
+    public boolean validate() {
+        boolean valid = true;
+
+        String email = _emailText.getText().toString();
+        String password = _passwordText.getText().toString();
+
+        if (email.isEmpty()) {//|| !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            _emailText.setError("enter a valid email address");
+            valid = false;
+        } else {
+            _emailText.setError(null);
+        }
+
+        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
+            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            valid = false;
+        } else {
+            _passwordText.setError(null);
+        }
+
+        return valid;
+    }
+
 
     public class CheckLoginTask extends AsyncTask<String, Void, Boolean> {
         @Override
@@ -166,7 +220,7 @@ public class LoginFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            login(result);
+            login();
         }
     }
 

@@ -13,14 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 public class LandingActivity extends AppCompatActivity {
 
 
-    Button firstFragment, secondFragment;
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
     private ActionBarDrawerToggle drawerToggle;
@@ -41,7 +39,6 @@ public class LandingActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
 
 
     }
@@ -126,12 +123,9 @@ public class LandingActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-
         if (id == R.id.action_settings) {
             return true;
         }
-
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
