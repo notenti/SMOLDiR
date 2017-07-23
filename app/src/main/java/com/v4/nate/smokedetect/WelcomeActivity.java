@@ -20,8 +20,8 @@ public class WelcomeActivity extends AppCompatActivity {
     Button _registerDeviceButton;
     @BindView(R.id.btn_login)
     Button _loginButton;
-    private Animation slideLeft;
-    private Animation slideUp;
+//    private RegisterFragment _registerFragment;
+//    private Animation slideLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +29,12 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         _registerDeviceButton = findViewById(R.id.btn_registerDevice);
+//        _registerFragment = (RegisterFragment) getSupportFragmentManager().findFragmentById(R.id.register_fragment);
         _loginButton = findViewById(R.id.btn_login);
-//
-//
+
+//        getSupportFragmentManager().beginTransaction().hide(_registerFragment).commit();
+
+
         _registerDeviceButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

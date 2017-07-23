@@ -107,6 +107,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccessful() {
         _loginButton.setEnabled(true);
+        Intent intent = new Intent(this, LandingActivity.class);
+        startActivity(intent);
         finish();
     }
 
@@ -121,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (email.isEmpty() ){//|| !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             _emailText.setError("enter a valid email address");
             valid = false;
         } else {

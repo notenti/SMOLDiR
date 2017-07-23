@@ -53,6 +53,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         String code = _registrationCode.getText().toString();
 
+        //TODO: Implement some sort of verification thing to add this new node to the network
+
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     @Override
