@@ -1,5 +1,6 @@
 package com.v4.nate.smokedetect;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -52,7 +53,23 @@ public class LandingActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(LandingActivity.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
+                switch (i) {
+                    case 0:
+                        Intent intent = new Intent(getApplicationContext(), NotificationConfigureActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.left_to_center, R.anim.center_to_right);
+                        break;
+                    case 1:
+                        Toast.makeText(LandingActivity.this, "2", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(LandingActivity.this, "3", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(LandingActivity.this, "4", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+
             }
         });
     }
@@ -101,9 +118,11 @@ public class LandingActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+
         if (id == R.id.action_settings) {
             return true;
         }
+
         if(drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
