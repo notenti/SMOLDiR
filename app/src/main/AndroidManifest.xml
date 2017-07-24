@@ -37,22 +37,9 @@
         </service>
 
         <activity
-            android:name=".SignupActivity"
-            android:theme="@style/AppTheme.Welcome"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".WelcomeActivity"
             android:theme="@style/AppTheme.Welcome" />
-        <activity
-            android:name=".LoginActivity"
-            android:theme="@style/AppTheme.Welcome"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".RegisterActivity"
-            android:theme="@style/AppTheme.Welcome"
-            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".LandingActivity" />
-        <activity android:name=".WelcomeFragment"></activity>
     </application>
 
 </manifest>

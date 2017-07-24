@@ -1,10 +1,12 @@
 package com.v4.nate.smokedetect;
 
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,10 +14,9 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterFragment extends Fragment {
 
-    private static final String TAG = "RegisterActivity";
-    private static final int REQUEST_REGISTER = 0;
+    private static final String TAG = "RegisterFragment";
 
     @BindView(R.id.input_registration_code)
     EditText _registrationCode;
@@ -23,17 +24,18 @@ public class RegisterActivity extends AppCompatActivity {
     Button _registrationButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        ButterKnife.bind(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstancestate) {
+        View view = inflater.inflate(R.layout.fragment_register, container, false);
+        ButterKnife.bind(this, view);
 
         _registrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 register();
             }
         });
+
+        return view;
     }
 
     public void register() {
@@ -45,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         _registrationButton.setEnabled(false);
-        final ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this,
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity(),
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Registering Device...");
@@ -66,19 +68,13 @@ public class RegisterActivity extends AppCompatActivity {
                 }, 3000);
     }
 
-    @Override
-    public void onBackPressed() {
-        finish();
-        overridePendingTransition(R.anim.center_to_left, R.anim.right_to_center);
-    }
-
     public void onRegistrationSuccess() {
         _registrationButton.setEnabled(true);
-        finish();
+        getActivity().getFragmentManager().popBackStack();
     }
 
     public void onRegistrationFailed() {
-        Toast.makeText(this, "Registration failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Registration failed", Toast.LENGTH_SHORT).show();
         _registrationButton.setEnabled(true);
     }
 

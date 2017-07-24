@@ -28,6 +28,8 @@ public class WelcomeFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+                RegisterFragment registerFragment = new RegisterFragment();
+                ((WelcomeActivity) getActivity()).setNewFragment(registerFragment);
             }
         });
 

@@ -58,15 +58,15 @@ public class LoginFragment extends Fragment {
             }
         });
 
-//        _signupLink.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-//                startActivityForResult(intent, REQUEST_SIGNUP);
-//
-//            }
-//        });
+        _signupLink.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                SignupFragment signupFragment = new SignupFragment();
+                ((WelcomeActivity) getActivity()).setNewFragment(signupFragment);
+
+            }
+        });
         return view;
     }
 

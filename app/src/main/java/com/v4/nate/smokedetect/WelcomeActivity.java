@@ -51,7 +51,7 @@ public class WelcomeActivity extends AppCompatActivity {
     public void setNewFragment(Fragment fragment) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.animator.left_to_center, R.animator.center_to_right);
+        fragmentTransaction.setCustomAnimations(R.animator.right_to_center, R.animator.center_to_left);
         fragmentTransaction.replace(R.id.welcomeFrameLayout, fragment);
         fragmentTransaction.addToBackStack(null).commit();
     }

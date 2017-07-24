@@ -1,10 +1,12 @@
 package com.v4.nate.smokedetect;
 
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,8 +26,8 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SignupActivity extends AppCompatActivity {
-    private static final String TAG = "SignupActivity";
+public class SignupFragment extends Fragment {
+    private static final String TAG = "SignupFragment";
 
     @BindView(R.id.input_name)
     EditText _nameText;
@@ -39,25 +41,23 @@ public class SignupActivity extends AppCompatActivity {
     TextView _loginLink;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
-        ButterKnife.bind(this);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_signup, container, false);
+        ButterKnife.bind(this, view);
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 signup();
             }
         });
 
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                finish();
-                overridePendingTransition(R.anim.center_to_right, R.anim.left_to_center);
+            public void onClick(View view) {
+                getActivity().getFragmentManager().popBackStack();
             }
         });
+        return view;
     }
 
     public void signup() {
@@ -70,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
 
         _signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity(),
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
@@ -81,7 +81,7 @@ public class SignupActivity extends AppCompatActivity {
         String password = _emailText.getText().toString();
 
         //Instantiate the request queue
-        RequestQueue queue = Volley.newRequestQueue(SignupActivity.this);
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url = "http://httpbin.org/post";
 
         //Post params to be sent to the server
@@ -128,20 +128,13 @@ public class SignupActivity extends AppCompatActivity {
                 }, 3000);
     }
 
-    @Override
-    public void onBackPressed() {
-        finish();
-        overridePendingTransition(R.anim.center_to_right, R.anim.left_to_center);
-    }
-
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
-        setResult(RESULT_OK, null);
-        finish();
+        getActivity().getFragmentManager().popBackStack();
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "Login failed", Toast.LENGTH_LONG).show();
         _signupButton.setEnabled(true);
     }
 

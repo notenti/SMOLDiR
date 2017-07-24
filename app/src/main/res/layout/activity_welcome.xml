@@ -4,11 +4,25 @@
     android:layout_height="match_parent"
     android:layout_weight="1">
 
-    <FrameLayout
-        android:id="@+id/welcomeFrameLayout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"></FrameLayout>
+        android:orientation="vertical"
+        android:paddingTop="56dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Abode"
+            android:textSize="40dp" />
+
+        <FrameLayout
+            android:id="@+id/welcomeFrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"></FrameLayout>
+    </LinearLayout>
 
 </RelativeLayout>
 
