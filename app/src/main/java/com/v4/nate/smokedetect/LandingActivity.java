@@ -1,8 +1,9 @@
 package com.v4.nate.smokedetect;
 
-import android.app.Fragment;
+
+import android.support.v4.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -51,15 +52,24 @@ public class LandingActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Fragment fragment = new Fragment();
+
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+                Fragment fragment = new DetectorHealthFragment();
+                Fragment notificationConfigureFragment = new NotificationConfigureFragment();
                 switch (i) {
                     case 0:
-                        fragment = new NotificationConfigureFragment();
+                        fragmentTransaction.replace(R.id.frameLayout, notificationConfigureFragment);
+                        fragmentTransaction.commit();
+                        listView.setItemChecked(i, true);
+                        drawerLayout.closeDrawer(listView);
                         break;
                     case 1:
-                        fragment = new DetectorHealthFragment();
+                        fragmentTransaction.replace(R.id.frameLayout, fragment);
+                        fragmentTransaction.commit();
+                        listView.setItemChecked(i, true);
+                        drawerLayout.closeDrawer(listView);
+
                         break;
                     case 2:
                         Toast.makeText(LandingActivity.this, "3", Toast.LENGTH_SHORT).show();
@@ -68,10 +78,7 @@ public class LandingActivity extends AppCompatActivity {
                         Toast.makeText(LandingActivity.this, "4", Toast.LENGTH_SHORT).show();
                         break;
                 }
-                fragmentTransaction.replace(R.id.frameLayout, fragment);
-                fragmentTransaction.commit();
-                listView.setItemChecked(i, true);
-                drawerLayout.closeDrawer(listView);
+
 
             }
         });

@@ -1,20 +1,14 @@
 package com.v4.nate.smokedetect;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
-public class NotificationConfigureFragment extends Fragment {
+public class NotificationConfigureFragment extends PreferenceFragmentCompat {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_notification_configure, container, false);
-
-        return view;
+    public void onCreatePreferences(Bundle savedInstanceState, String S) {
+        addPreferencesFromResource(R.xml.notification_preferences);
     }
 
 
