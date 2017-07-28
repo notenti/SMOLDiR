@@ -1,9 +1,6 @@
 package com.v4.nate.smokedetect;
 
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
@@ -17,29 +14,11 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class SendToDevicesActivity extends AppCompatActivity {
+public class SendToDevicesActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_send_to_devices);
 
-        if(savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                //extra bundle is null
-            } else {
-                String method = extras.getString("methodName");
-
-                if(method.equals("hush")) {
-                    sendHush();
-                }
-            }
-        }
-    }
-
-    public void sendHush() {
-        RequestQueue queue = Volley.newRequestQueue(SendToDevicesActivity.this);
+    public void sendHush(Context context) {
+        RequestQueue queue = Volley.newRequestQueue(context);
         String url = "http://192.168.1.239/test.php";
 
         //POST params to be sent to the server
@@ -66,4 +45,5 @@ public class SendToDevicesActivity extends AppCompatActivity {
                 });
         queue.add(req);
     }
+
 }

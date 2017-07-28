@@ -1,9 +1,5 @@
 package com.v4.nate.smokedetect;
 
-/**
- * Created by nate on 7/11/17.
- */
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,7 +11,6 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
-import android.widget.Toast;
 
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -23,11 +18,6 @@ import com.google.firebase.messaging.RemoteMessage;
 public class NotificationActivity extends com.google.firebase.messaging.FirebaseMessagingService {
 
     private static final String TAG = "NotificationActivity";
-
-    public enum MessageType {
-        LOW_BATTERY,
-        ACTIVE_ALARM
-    }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -66,7 +56,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
 
-        } else if(type == MessageType.ACTIVE_ALARM.ordinal()) {
+        } else if (type == MessageType.ACTIVE_ALARM.ordinal()) {
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle(remoteMessage.getData().get("title"))
                     .setContentText(remoteMessage.getData().get("body"))
@@ -101,12 +91,10 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             manager.notify(123, notification.build());
 
 
-
         }
 
 
     }
-
 
     //Create simple notification containing the received FCM message.
     private void sendNotification(String messageBody) {
@@ -130,5 +118,11 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0, notif.build());
+    }
+
+
+    public enum MessageType {
+        LOW_BATTERY,
+        ACTIVE_ALARM
     }
 }

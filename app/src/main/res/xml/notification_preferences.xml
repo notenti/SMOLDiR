@@ -2,25 +2,26 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <android.support.v7.preference.PreferenceCategory android:title="Category 1">
-
-        <android.support.v7.preference.SwitchPreferenceCompat
-            android:defaultValue="true"
-            android:key="Key1"
-            android:summary="Switch Summary"
-            android:title="Switch Preference" />
-
-        <android.support.v7.preference.EditTextPreference
-            android:defaultValue="Default Value"
-            android:dialogMessage="Dialog Message"
-            android:key="Key2"
-            android:summary="EditText Summary"
-            android:title="EditText Preference" />
+    <android.support.v7.preference.PreferenceCategory>
 
         <android.support.v7.preference.CheckBoxPreference
-            android:defaultValue="true"
-            android:key="Key3"
+            android:defaultValue="false"
+            android:key="Key1"
             android:summary="CheckBox Summary"
-            android:title="CheckBox Preference" />
+            android:title="Enable Notifications" />
+
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="hush"
+            android:summary="Enables silencing the smoke detector when it goes off"
+            android:title="Hush Notifications" />
+
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="Key3"
+            android:summary="Notification identifies which smoke detector is going off"
+            android:title="Localized Notifications" />
+
+
     </android.support.v7.preference.PreferenceCategory>
 </PreferenceScreen>
