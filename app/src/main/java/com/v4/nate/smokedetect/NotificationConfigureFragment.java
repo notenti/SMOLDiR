@@ -20,6 +20,10 @@ public class NotificationConfigureFragment extends PreferenceFragmentCompat impl
             Preference preference = findPreference(key);
             SendToDevicesActivity send = new SendToDevicesActivity();
             send.sendHush(getActivity());
+        } else if (key.equals("localized")) {
+            Preference preference = findPreference(key);
+            SendToDevicesActivity send = new SendToDevicesActivity();
+            send.sendLocalized(getActivity());
         }
     }
 

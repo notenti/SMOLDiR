@@ -18,7 +18,7 @@
 
         <android.support.v7.preference.SwitchPreferenceCompat
             android:defaultValue="false"
-            android:key="Key3"
+            android:key="localized"
             android:summary="Notification identifies which smoke detector is going off"
             android:title="Localized Notifications" />
 

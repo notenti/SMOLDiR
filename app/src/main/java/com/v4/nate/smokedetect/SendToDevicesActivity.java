@@ -46,4 +46,34 @@ public class SendToDevicesActivity {
         queue.add(req);
     }
 
+    public void sendLocalized(Context context) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = "http://192.168.1.239/test.php";
+
+        //POST params to be sent to the server
+        HashMap<String, String> params = new HashMap<>();
+        params.put("detectorID", "2");
+        params.put("hush", "2");
+
+        JsonObjectRequest req = new JsonObjectRequest(url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Log.d("Response:%n %s", response.toString(1));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+        queue.add(req);
+    }
+
 }
