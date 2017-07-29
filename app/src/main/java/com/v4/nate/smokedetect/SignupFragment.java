@@ -29,8 +29,8 @@ import butterknife.ButterKnife;
 public class SignupFragment extends Fragment {
     private static final String TAG = "SignupFragment";
 
-    @BindView(R.id.input_name)
-    EditText _nameText;
+    @BindView(R.id.input_confirm_password)
+    EditText _confirmPasswordText;
     @BindView(R.id.input_email)
     EditText _emailText;
     @BindView(R.id.input_password)
@@ -76,9 +76,9 @@ public class SignupFragment extends Fragment {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _emailText.getText().toString();
+        String confirmPassword = _confirmPasswordText.getText().toString();
 
         //Instantiate the request queue
         RequestQueue queue = Volley.newRequestQueue(getActivity());
@@ -86,9 +86,9 @@ public class SignupFragment extends Fragment {
 
         //Post params to be sent to the server
         HashMap<String, String> params = new HashMap<>();
-        params.put("name", name);
         params.put("email", email);
         params.put("password", password);
+        params.put("confirmPassword", confirmPassword);
 
         //Send data entered to server
         JsonObjectRequest req = new JsonObjectRequest(url, new JSONObject(params),
@@ -141,16 +141,11 @@ public class SignupFragment extends Fragment {
     public boolean validate() {
         boolean valid = true;
 
-        String name = _nameText.getText().toString();
+
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
+        String confirmPassword = _confirmPasswordText.getText().toString();
 
-        if (name.isEmpty() || name.length() < 2) {
-            _nameText.setError("at least 2 characters");
-            valid = false;
-        } else {
-            _nameText.setError(null);
-        }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             _emailText.setError("enter a valid email address");
@@ -160,10 +155,17 @@ public class SignupFragment extends Fragment {
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError("please enter at least 4 characters");
             valid = false;
         } else {
             _passwordText.setError(null);
+        }
+
+        if (!confirmPassword.equals(password)) {
+            _confirmPasswordText.setError("passwords do not match");
+            valid = false;
+        } else {
+            _confirmPasswordText.setError(null);
         }
         return valid;
     }

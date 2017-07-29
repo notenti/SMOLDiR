@@ -23,13 +23,9 @@
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/input_email"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/edittext"
-                android:hint="EMAIL"
-                android:inputType="textEmailAddress"
-                android:paddingLeft="8dp"
-                android:paddingStart="8dp" />
+                style="@style/Abode.TextEdit"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
         <!--Password label-->
@@ -41,34 +37,27 @@
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/input_password"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/edittext"
-                android:hint="PASSWORD"
-                android:inputType="textPassword"
-                android:paddingLeft="8dp"
-                android:paddingStart="8dp" />
+                style="@style/Abode.TextEdit"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
+        <!--Login Button-->
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_login"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:layout_marginBottom="24dp"
+            style="@style/Abode.LaunchButton"
+            android:layout_marginBottom="20dp"
             android:layout_marginTop="24dp"
-            android:background="@drawable/login_button"
-            android:text="Login"
-            android:textColor="@color/background"
-            android:textSize="18sp" />
+            android:text="@string/login" />
 
         <TextView
             android:id="@+id/link_signup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="40dp"
             android:gravity="center"
-            android:text="No account yet? Create one."
-            android:textSize="16sp" />
+            android:text="@string/sign_up_prompt"
+            android:textSize="14sp" />
 
     </LinearLayout>
 </RelativeLayout>

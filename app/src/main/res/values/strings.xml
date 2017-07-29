@@ -2,15 +2,18 @@
     <item name="visible" type="id" />
     <item name="masked" type="id" />
     <string name="app_name">Abode</string>
-
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
-    <!--
-        This is the name that users will see when interacting with this channel.
-        It should describe the category of notifications that will be sent through this channel
-     -->
-    <string name="default_notification_channel_name" translatable="true">smokeDetect</string>
+    <string name="default_notification_channel_name">smokeDetect</string>
     <string name="action_settings">Settings</string>
     <string name="registration_prompt">Please enter the 10-digit registration code found on the back of your device.</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Register Device</string>
+    <string name="login">Login</string>
+    <string name="sign_up_prompt">Don\'t have an account? Create one.</string>
+    <string name="login_prompt">Already have an account? Login.</string>
+    <string name="create_account">Create Account</string>
 </resources>

@@ -17,34 +17,17 @@
         <!--Register Device Button-->
         <Button
             android:id="@+id/btn_registerDevice"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            style="@style/Abode.LaunchButton"
             android:layout_marginBottom="24dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/login_button"
-            android:text="Register Device"
-            android:textColor="@color/background"
-            android:textSize="18sp" />
+            android:text="@string/register" />
 
+        <!--Login Button-->
         <Button
             android:id="@+id/btn_login"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/login_button"
-            android:stateListAnimator="@null"
-            android:text="login"
-            android:textColor="@color/background"
-            android:textSize="18sp" />
+            style="@style/Abode.LaunchButton"
+            android:layout_marginBottom="40dp"
+            android:text="@string/login" />
 
-        <TextView
-            android:id="@+id/text_signup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="55dp"
-            android:gravity="center_horizontal"
-            android:text="Don't have an account? Sign up"
-            android:textColor="@color/monsoon" />
 
     </LinearLayout>
 

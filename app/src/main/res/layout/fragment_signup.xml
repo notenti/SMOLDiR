@@ -9,47 +9,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:orientation="vertical"
         android:paddingLeft="34dp"
-        android:paddingRight="34dp"
-        android:orientation="vertical">
-
-        <!--  Name Label -->
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:textColorHint="@color/monsoon"
-            android:textColor="@color/monsoon"
-            android:layout_marginTop="8dp">
-
-            <EditText
-                android:id="@+id/input_name"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/edittext"
-                android:paddingStart="8dp"
-                android:paddingLeft="8dp"
-                android:hint="NAME"
-                android:inputType="textCapWords" />
-        </android.support.design.widget.TextInputLayout>
+        android:paddingRight="34dp">
 
         <!-- Email Label -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:textColorHint="@color/monsoon"
-            android:textColor="@color/monsoon"
             android:layout_marginTop="8dp">
 
             <EditText
                 android:id="@+id/input_email"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/edittext"
-                android:paddingLeft="8dp"
-                android:paddingStart="8dp"
-                android:hint="EMAIL"
+                style="@style/Abode.TextEdit"
+                android:hint="@string/email"
                 android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
@@ -58,41 +32,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:textColorHint="@color/monsoon"
-            android:textColor="@color/monsoon"
             android:layout_marginTop="8dp">
 
             <EditText
                 android:id="@+id/input_password"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/edittext"
-                android:paddingLeft="8dp"
-                android:paddingStart="8dp"
-                android:hint="PASSWORD"
+                style="@style/Abode.TextEdit"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Confirm Password Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+
+            <EditText
+                android:id="@+id/input_confirm_password"
+                style="@style/Abode.TextEdit"
+                android:hint="@string/confirm_password"
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Signup Button -->
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_signup"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/login_button"
-            android:textColor="@color/background"
-            android:layout_marginBottom="24dp"
+            style="@style/Abode.LaunchButton"
+            android:layout_marginBottom="20dp"
             android:layout_marginTop="24dp"
-            android:text="Create Account" />
+            android:text="@string/create_account" />
 
         <TextView
             android:id="@+id/link_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:textColor="@color/monsoon"
+            android:layout_marginBottom="40dp"
             android:gravity="center"
-            android:text="Already a member? Login"
-            android:textSize="16sp" />
+            android:text="@string/login_prompt"
+            android:textColor="@color/color_text"
+            android:textSize="14sp" />
 
     </LinearLayout>
 

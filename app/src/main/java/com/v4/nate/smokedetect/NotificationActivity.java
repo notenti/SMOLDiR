@@ -48,7 +48,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setLights(Color.GREEN, 500, 500)
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setColor(ContextCompat.getColor(this, R.color.primary))
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary))
                     .setStyle(new NotificationCompat.InboxStyle()
                             .addLine(remoteMessage.getData().get("body"))
                             .setBigContentTitle(remoteMessage.getData().get("title"))
@@ -70,7 +70,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setColor(ContextCompat.getColor(this, R.color.primary));
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary));
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
         } else {
@@ -86,7 +86,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setColor(ContextCompat.getColor(this, R.color.primary));
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary));
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
 
