@@ -71,7 +71,7 @@ public class SignupFragment extends Fragment {
         _signupButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(getActivity(),
-                R.style.AppTheme_Dark_Dialog);
+                R.style.AppTheme_Welcome_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();

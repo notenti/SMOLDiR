@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
-        android:paddingRight="34dp"
         android:paddingLeft="34dp"
+        android:paddingRight="34dp"
         android:paddingTop="56dp">
 
         <!--Register Device Button-->
@@ -30,12 +30,21 @@
             android:id="@+id/btn_login"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
-            android:layout_marginBottom="80dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/login_button"
             android:stateListAnimator="@null"
             android:text="login"
             android:textColor="@color/background"
             android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/text_signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="55dp"
+            android:gravity="center_horizontal"
+            android:text="Don't have an account? Sign up"
+            android:textColor="@color/monsoon" />
 
     </LinearLayout>
 

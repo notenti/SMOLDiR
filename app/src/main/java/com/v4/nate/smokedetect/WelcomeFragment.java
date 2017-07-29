@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import butterknife.BindView;
 
@@ -16,6 +17,8 @@ public class WelcomeFragment extends Fragment {
     Button _registerDeviceButton;
     @BindView(R.id.btn_login)
     Button _loginButton;
+    @BindView(R.id.text_signup)
+    TextView _signupText;
     View view;
 
     @Override
@@ -23,6 +26,15 @@ public class WelcomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_welcome, container, false);
         _registerDeviceButton = view.findViewById(R.id.btn_registerDevice);
         _loginButton = view.findViewById(R.id.btn_login);
+        _signupText = view.findViewById(R.id.text_signup);
+
+        _signupText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SignupFragment signupFragment = new SignupFragment();
+                ((WelcomeActivity) getActivity()).setNewFragment(signupFragment);
+            }
+        });
 
         _registerDeviceButton.setOnClickListener(new View.OnClickListener() {
 

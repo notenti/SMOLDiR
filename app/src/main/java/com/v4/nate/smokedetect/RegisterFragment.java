@@ -48,7 +48,7 @@ public class RegisterFragment extends Fragment {
 
         _registrationButton.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(getActivity(),
-                R.style.AppTheme_Dark_Dialog);
+                R.style.AppTheme_Welcome_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Registering Device...");
         progressDialog.show();

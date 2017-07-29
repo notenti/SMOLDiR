@@ -81,7 +81,7 @@ public class LoginFragment extends Fragment {
         _loginButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(getActivity(),
-                R.style.AppTheme_Dark_Dialog);
+                R.style.AppTheme_Welcome_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();

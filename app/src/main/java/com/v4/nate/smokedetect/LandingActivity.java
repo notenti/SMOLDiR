@@ -55,7 +55,8 @@ public class LandingActivity extends AppCompatActivity {
 
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-                Fragment fragment = new DetectorHealthFragment();
+                Fragment detectorHealth = new DetectorHealthFragment();
+                Fragment historyFragment = new HistoryFragment();
                 Fragment notificationConfigureFragment = new NotificationConfigureFragment();
                 switch (i) {
                     case 0:
@@ -65,14 +66,16 @@ public class LandingActivity extends AppCompatActivity {
                         drawerLayout.closeDrawer(listView);
                         break;
                     case 1:
-                        fragmentTransaction.replace(R.id.frameLayout, fragment);
+                        fragmentTransaction.replace(R.id.frameLayout, detectorHealth);
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);
                         drawerLayout.closeDrawer(listView);
-
                         break;
                     case 2:
-                        Toast.makeText(LandingActivity.this, "3", Toast.LENGTH_SHORT).show();
+                        fragmentTransaction.replace(R.id.frameLayout, historyFragment);
+                        fragmentTransaction.commit();
+                        listView.setItemChecked(i, true);
+                        drawerLayout.closeDrawer(listView);
                         break;
                     default:
                         Toast.makeText(LandingActivity.this, "4", Toast.LENGTH_SHORT).show();
