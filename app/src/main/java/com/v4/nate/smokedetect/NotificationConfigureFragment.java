@@ -17,6 +17,7 @@ public class NotificationConfigureFragment extends PreferenceFragmentCompat impl
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("hush")) {
+            //PreferenceManager.getDefaultSharedPreferences(this).edit().putString()
             Preference preference = findPreference(key);
             SendToDevicesActivity send = new SendToDevicesActivity();
             send.sendHush(getActivity());

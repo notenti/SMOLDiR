@@ -5,9 +5,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +24,9 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean hush = prefs.getBoolean("hush", false);
 
         Intent sendIntent = new Intent(getApplicationContext(), SendToDevicesActivity.class);
         sendIntent.putExtra("methodName", "hush");
@@ -64,13 +69,16 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
-                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent)
                     .setContentIntent(pendingIntent)
                     .setLights(Color.GREEN, 500, 500)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary));
+
+            if (hush) {
+                notification.addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
+            }
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
         } else {
