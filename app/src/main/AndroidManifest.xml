@@ -39,7 +39,9 @@
         <activity
             android:name=".WelcomeActivity"
             android:theme="@style/AppTheme.Welcome" />
-        <activity android:name=".LandingActivity" />
+        <activity
+            android:name=".LandingActivity"
+            android:theme="@style/AppTheme.Welcome" />
     </application>
 
 </manifest>

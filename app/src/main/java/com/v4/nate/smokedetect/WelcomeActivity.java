@@ -26,7 +26,6 @@ public class WelcomeActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
-
     }
 
     @Override
@@ -40,7 +39,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -64,6 +62,7 @@ public class WelcomeActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

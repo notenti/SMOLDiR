@@ -20,13 +20,12 @@
             style="@style/Abode.LaunchButton"
             android:layout_marginBottom="24dp"
             android:text="@string/register" />
-
-        <!--Login Button-->
+        <!--Google login button-->
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/sign_in_button"
             style="@style/Abode.LaunchButton"
-            android:layout_marginBottom="40dp"
-            android:text="@string/login" />
+            android:layout_marginBottom="24dp"
+            android:text="Login with Google" />
 
 
     </LinearLayout>
