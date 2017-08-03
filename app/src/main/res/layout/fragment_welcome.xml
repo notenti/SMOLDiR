@@ -17,13 +17,13 @@
         <!--Register Device Button-->
         <Button
             android:id="@+id/btn_registerDevice"
-            style="@style/Abode.LaunchButton"
+            style="@style/Smoldr.LaunchButton"
             android:layout_marginBottom="24dp"
             android:text="@string/register" />
         <!--Google login button-->
         <Button
             android:id="@+id/sign_in_button"
-            style="@style/Abode.LaunchButton"
+            style="@style/Smoldr.LaunchButton"
             android:layout_marginBottom="24dp"
             android:text="Login with Google" />
 

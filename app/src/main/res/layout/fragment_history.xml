@@ -5,14 +5,20 @@
     android:layout_height="match_parent"
     tools:context="com.v4.nate.smokedetect.HistoryFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:paddingLeft="34dp"
+        android:paddingRight="34dp"
+        android:paddingTop="56dp">
+
+        <Button
+            android:id="@+id/history_button"
+            style="@style/Smoldr.LaunchButton"
         android:layout_marginTop="100dp"
-        android:text="This shows the history"
-        android:textColor="@color/black"
-        android:textSize="25sp" />
+            android:text="This shows the history" />
+    </LinearLayout>
 
 
 </RelativeLayout>

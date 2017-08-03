@@ -76,4 +76,36 @@ public class SendToDevicesActivity {
         queue.add(req);
     }
 
+    public void sendHistory(Context context, final VolleyCallback callback) {
+
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = "http://192.168.0.107/history.php";
+
+        //POST params to be sent to the server
+        HashMap<String, String> params = new HashMap<>();
+        params.put("user", "1234");
+        params.put("history", "1");
+
+        JsonObjectRequest req = new JsonObjectRequest(url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        callback.onSuccessResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+
+        queue.add(req);
+    }
+
+    public interface VolleyCallback {
+        void onSuccessResponse(JSONObject result);
+    }
+
 }

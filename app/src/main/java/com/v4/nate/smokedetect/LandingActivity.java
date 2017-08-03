@@ -29,7 +29,6 @@ public class LandingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
-        SendToDevicesActivity send = new SendToDevicesActivity();
 
         listView = findViewById(R.id.navList);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -46,7 +45,7 @@ public class LandingActivity extends AppCompatActivity {
 
     private void addDrawerItems() {
         String[] navBarOptions = {"Notifications", "Detector Health", "History", "Preferences"};
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navBarOptions);
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, navBarOptions);
         listView.setAdapter(arrayAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -58,28 +57,32 @@ public class LandingActivity extends AppCompatActivity {
                 Fragment detectorHealth = new DetectorHealthFragment();
                 Fragment historyFragment = new HistoryFragment();
                 Fragment generalPreferencesFragment = new GeneralPreferencesFragment();
-                Fragment notificationConfigureFragment = new NotificationConfigureFragment();
+                Fragment notificationPreferencesFragment = new NotificationPreferencesFragment();
                 switch (i) {
                     case 0:
-                        fragmentTransaction.replace(R.id.frameLayout, notificationConfigureFragment);
+                        fragmentTransaction.replace(R.id.frameLayout, notificationPreferencesFragment);
+                        fragmentTransaction.addToBackStack("notificationPreferences");
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);
                         drawerLayout.closeDrawer(listView);
                         break;
                     case 1:
                         fragmentTransaction.replace(R.id.frameLayout, detectorHealth);
+                        fragmentTransaction.addToBackStack("detector");
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);
                         drawerLayout.closeDrawer(listView);
                         break;
                     case 2:
                         fragmentTransaction.replace(R.id.frameLayout, historyFragment);
+                        fragmentTransaction.addToBackStack("history");
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);
                         drawerLayout.closeDrawer(listView);
                         break;
                     case 3:
                         fragmentTransaction.replace(R.id.frameLayout, generalPreferencesFragment);
+                        fragmentTransaction.addToBackStack("generalPreferences");
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);
                         drawerLayout.closeDrawer(listView);
@@ -106,7 +109,6 @@ public class LandingActivity extends AppCompatActivity {
                 invalidateOptionsMenu(); //creates call to onPrepareOptionsMenu()
             }
 
-            //Called when a drawer has settled in a completely closed state
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 getSupportActionBar().setTitle(activityTitle);
