@@ -57,6 +57,7 @@ public class LandingActivity extends AppCompatActivity {
 
                 Fragment detectorHealth = new DetectorHealthFragment();
                 Fragment historyFragment = new HistoryFragment();
+                Fragment generalPreferencesFragment = new GeneralPreferencesFragment();
                 Fragment notificationConfigureFragment = new NotificationConfigureFragment();
                 switch (i) {
                     case 0:
@@ -73,6 +74,12 @@ public class LandingActivity extends AppCompatActivity {
                         break;
                     case 2:
                         fragmentTransaction.replace(R.id.frameLayout, historyFragment);
+                        fragmentTransaction.commit();
+                        listView.setItemChecked(i, true);
+                        drawerLayout.closeDrawer(listView);
+                        break;
+                    case 3:
+                        fragmentTransaction.replace(R.id.frameLayout, generalPreferencesFragment);
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);
                         drawerLayout.closeDrawer(listView);

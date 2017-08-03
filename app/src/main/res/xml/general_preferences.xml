@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <android.support.v7.preference.PreferenceCategory>
+
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="login"
+            android:summary="Automatically login each time the app is opened"
+            android:title="Auto Login" />
+    </android.support.v7.preference.PreferenceCategory>
+</PreferenceScreen>

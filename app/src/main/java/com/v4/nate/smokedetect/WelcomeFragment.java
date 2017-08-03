@@ -3,7 +3,9 @@ package com.v4.nate.smokedetect;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,15 +32,21 @@ public class WelcomeFragment extends Fragment {
     Button _registerDeviceButton;
     @BindView(R.id.sign_in_button)
     Button _googleSignup;
+    Boolean login = false;
+
     private GoogleApiClient mGoogleApiClient;
     private ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle onSavedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_welcome, container, false);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        login = prefs.getBoolean("login", false);
+
+
         _registerDeviceButton = view.findViewById(R.id.btn_registerDevice);
         _googleSignup = view.findViewById(R.id.sign_in_button);
-
 
         _registerDeviceButton.setOnClickListener(new View.OnClickListener() {
 
@@ -92,21 +100,22 @@ public class WelcomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        OptionalPendingResult<GoogleSignInResult> optionalPendingResult = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (optionalPendingResult.isDone()) {
-            GoogleSignInResult result = optionalPendingResult.get();
-            handleSignInResult(result);
-            Log.e("CACHE STATUS", "Got cached sign-in");
-        } else {
-            showProgressDialog();
-            optionalPendingResult.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
-                }
-
-            });
+        if (login) {
+            OptionalPendingResult<GoogleSignInResult> optionalPendingResult = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+            if (optionalPendingResult.isDone()) {
+                GoogleSignInResult result = optionalPendingResult.get();
+                handleSignInResult(result);
+                Log.e("CACHE STATUS", "Got cached sign-in");
+            } else {
+                showProgressDialog();
+                optionalPendingResult.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                    @Override
+                    public void onResult(GoogleSignInResult googleSignInResult) {
+                        hideProgressDialog();
+                        handleSignInResult(googleSignInResult);
+                    }
+                });
+            }
         }
     }
 
@@ -116,6 +125,8 @@ public class WelcomeFragment extends Fragment {
         if (result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
             Toast.makeText(getActivity(), account.getDisplayName(), Toast.LENGTH_SHORT).show();
+
+            //Logging for debugging, can remove later
             String name = account.getDisplayName();
             Log.e("DISPLAY NAME", name);
             String email = account.getEmail();
@@ -123,6 +134,8 @@ public class WelcomeFragment extends Fragment {
             String profile = String.valueOf(account.getPhotoUrl());
             Log.e("USER PROFILE", profile);
             Log.e("ID", account.getId());
+
+
             Intent intent = new Intent(getActivity(), LandingActivity.class);
             startActivity(intent);
 
@@ -135,7 +148,6 @@ public class WelcomeFragment extends Fragment {
             progressDialog.setMessage("Loading...");
             progressDialog.setIndeterminate(true);
         }
-
         progressDialog.show();
     }
 
