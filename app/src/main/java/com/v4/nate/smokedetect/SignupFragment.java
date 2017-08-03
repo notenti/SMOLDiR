@@ -2,6 +2,7 @@ package com.v4.nate.smokedetect;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +35,7 @@ import butterknife.ButterKnife;
 
 public class SignupFragment extends Fragment {
     private static final String TAG = "SignupFragment";
-
+    private static final int RC_SIGN_IN = 9001;
     @BindView(R.id.input_confirm_password)
     EditText _confirmPasswordText;
     @BindView(R.id.input_email)
@@ -39,6 +46,9 @@ public class SignupFragment extends Fragment {
     Button _signupButton;
     @BindView(R.id.link_login)
     TextView _loginLink;
+    @BindView(R.id.sign_in_button)
+    SignInButton _googleSignup;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,12 +61,28 @@ public class SignupFragment extends Fragment {
             }
         });
 
+        _googleSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sign();
+            }
+        });
+
+
+
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().getFragmentManager().popBackStack();
             }
         });
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
         return view;
     }
 
@@ -136,6 +162,42 @@ public class SignupFragment extends Fragment {
     public void onSignupFailed() {
         Toast.makeText(getActivity(), "Login failed", Toast.LENGTH_LONG).show();
         _signupButton.setEnabled(true);
+    }
+
+    private void sign() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d(TAG, "handSignInResult:" + result.isSuccess());
+
+        if (result.isSuccess()) {
+            GoogleSignInAccount account = result.getSignInAccount();
+            Toast.makeText(getActivity(), "Login success", Toast.LENGTH_LONG).show();
+            updateUI(true);
+
+        } else {
+            updateUI(false);
+        }
+    }
+
+    private void updateUI(boolean signedIn) {
+        if (signedIn) {
+            _googleSignup.setVisibility(View.GONE);
+        } else {
+            _googleSignup.setVisibility(View.VISIBLE);
+        }
     }
 
     public boolean validate() {
