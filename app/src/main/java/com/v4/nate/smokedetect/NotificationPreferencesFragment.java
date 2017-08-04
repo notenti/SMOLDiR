@@ -2,8 +2,10 @@ package com.v4.nate.smokedetect;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+
+import java.util.HashMap;
+
 
 public class NotificationPreferencesFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -17,14 +19,12 @@ public class NotificationPreferencesFragment extends PreferenceFragmentCompat im
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("hush")) {
-            //PreferenceManager.getDefaultSharedPreferences(this).edit().putString()
-            Preference preference = findPreference(key);
+            String url = "192.168.0.107/hush.php";
+            HashMap<String, String> params = new HashMap<>();
+            params.put("user", "4321");
+            params.put("hush", "1");
             SendToDevicesActivity send = new SendToDevicesActivity();
-            send.sendHush(getActivity());
-        } else if (key.equals("localized")) {
-            Preference preference = findPreference(key);
-            SendToDevicesActivity send = new SendToDevicesActivity();
-            send.sendLocalized(getActivity());
+            send.sendToServer(getActivity(), url, params);
         }
     }
 
