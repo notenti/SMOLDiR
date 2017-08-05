@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,8 +25,12 @@ public class HistoryFragment extends Fragment {
     HashMap<String, String> params = new HashMap<>();
     String url = "http://192.168.0.107/history.php";
     SendToDevicesActivity send = new SendToDevicesActivity();
+
     @BindView(R.id.history_button)
     Button _historyButton;
+    @BindView(R.id.ll)
+    LinearLayout _linearLayout;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,6 +43,8 @@ public class HistoryFragment extends Fragment {
                 trigger();
             }
         });
+
+
         return view;
     }
 
@@ -44,15 +52,22 @@ public class HistoryFragment extends Fragment {
         params.put("user", "1234");
         params.put("history", "1");
 
+
         send.queryServer(getActivity(), url, params, new SendToDevicesActivity.VolleyCallback() {
             @Override
             public void onSuccessResponse(JSONObject result) {
                 try {
+                    TextView textView = new TextView(getActivity());
+                    textView.setText(result.getString("date"));
+                    _linearLayout.addView(textView);
+                    _linearLayout.invalidate();
                     Log.d(TAG, result.toString(1));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
+
+
     }
 }

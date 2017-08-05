@@ -14,9 +14,9 @@ import java.util.HashMap;
 
 public class SendToDevicesActivity {
 
-    public void queryServer(Context context, String URL, HashMap<String, String> params, final VolleyCallback callback) {
+    public void queryServer(Context context, String url, HashMap<String, String> params, final VolleyCallback callback) {
         RequestQueue queue = Volley.newRequestQueue(context);
-        JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params),
+        JsonObjectRequest req = new JsonObjectRequest(url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
