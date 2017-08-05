@@ -66,16 +66,16 @@ public class WelcomeFragment extends Fragment {
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
-                .requestProfile()
+                //.requestIdToken(getString(R.string.server_client_id))
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .enableAutoManage((WelcomeActivity) getActivity(), new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
                     }
                 })
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         return view;
 
@@ -100,7 +100,7 @@ public class WelcomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if (login) {
+        if (!login) {
             OptionalPendingResult<GoogleSignInResult> optionalPendingResult = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
             if (optionalPendingResult.isDone()) {
                 GoogleSignInResult result = optionalPendingResult.get();
@@ -124,7 +124,8 @@ public class WelcomeFragment extends Fragment {
 
         if (result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
-            Toast.makeText(getActivity(), account.getDisplayName(), Toast.LENGTH_SHORT).show();
+            String idToken = account.getIdToken();
+            Toast.makeText(getActivity(), idToken, Toast.LENGTH_SHORT).show();
 
             //Logging for debugging, can remove later
             String name = account.getDisplayName();

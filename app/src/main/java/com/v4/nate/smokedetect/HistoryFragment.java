@@ -6,13 +6,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -30,12 +32,20 @@ public class HistoryFragment extends Fragment {
     Button _historyButton;
     @BindView(R.id.ll)
     LinearLayout _linearLayout;
+    @BindView(R.id.history_list)
+    ListView _historyList;
+    ArrayList<String> listItems;
+    ArrayAdapter<String> adapter;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
         ButterKnife.bind(this, view);
+
+        listItems = new ArrayList<>();
+        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, listItems);
+        _historyList.setAdapter(adapter);
 
         _historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,10 +67,8 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onSuccessResponse(JSONObject result) {
                 try {
-                    TextView textView = new TextView(getActivity());
-                    textView.setText(result.getString("date"));
-                    _linearLayout.addView(textView);
-                    _linearLayout.invalidate();
+                    listItems.add("Detector alarm raised on:" + result.getString("date"));
+                    adapter.notifyDataSetChanged();
                     Log.d(TAG, result.toString(1));
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -16,4 +16,5 @@
     <string name="sign_up_prompt">Don\'t have an account? Create one.</string>
     <string name="login_prompt">Already have an account? Login.</string>
     <string name="create_account">Create Account</string>
+    <string name="server_client_id">1009762478612-ooi106evsru4ba7euu21ntgf67k2puqv.apps.googleusercontent.com</string>
 </resources>

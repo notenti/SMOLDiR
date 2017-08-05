@@ -17,8 +17,14 @@
         <Button
             android:id="@+id/history_button"
             style="@style/Smoldr.LaunchButton"
-        android:layout_marginTop="100dp"
             android:text="This shows the history" />
+
+        <ListView
+            android:id="@+id/history_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
     </LinearLayout>
 
 
