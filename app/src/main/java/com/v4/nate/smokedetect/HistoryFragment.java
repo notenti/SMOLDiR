@@ -43,6 +43,7 @@ public class HistoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
         ButterKnife.bind(this, view);
 
+
         listItems = new ArrayList<>();
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, listItems);
         _historyList.setAdapter(adapter);

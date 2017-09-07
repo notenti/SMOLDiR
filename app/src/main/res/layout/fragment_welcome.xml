@@ -24,7 +24,7 @@
         <Button
             android:id="@+id/sign_in_button"
             style="@style/Smoldr.LaunchButton"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="48dp"
             android:text="Login with Google" />
 
 
