@@ -97,6 +97,14 @@ public class WelcomeFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+
+        mGoogleApiClient.stopAutoManage((WelcomeActivity) getActivity());
+        mGoogleApiClient.disconnect();
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
 

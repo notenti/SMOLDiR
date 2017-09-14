@@ -105,6 +105,7 @@ public class RegisterFragment extends Fragment {
                 public void onSuccessResponse(JSONObject result) {
                     try {
                         // Registration successful
+                        Toast.makeText(getActivity(), "Registration success", Toast.LENGTH_SHORT).show();
                         _registrationCode.setError(null);
                         Log.d(TAG, result.toString(1));
                     } catch (JSONException e) {
