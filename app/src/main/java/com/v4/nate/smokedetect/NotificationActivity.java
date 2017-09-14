@@ -61,7 +61,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
 
-        } else if (type == MessageType.ACTIVE_ALARM.ordinal()) {
+        } else if (type == MessageType.ACTIVE_ALARM_FIRE.ordinal()) {
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle(remoteMessage.getData().get("title"))
                     .setContentText(remoteMessage.getData().get("body"))
@@ -131,6 +131,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
 
     public enum MessageType {
         LOW_BATTERY,
-        ACTIVE_ALARM
+        ACTIVE_ALARM_FIRE,
+        ACTIVE_ALARM_CO
     }
 }

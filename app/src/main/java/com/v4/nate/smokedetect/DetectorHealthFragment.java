@@ -23,7 +23,6 @@ public class DetectorHealthFragment extends Fragment {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
-        myRef.setValue("Hello, World!");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override

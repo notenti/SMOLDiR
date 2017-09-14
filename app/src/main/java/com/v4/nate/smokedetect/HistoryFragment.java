@@ -11,8 +11,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +50,6 @@ public class HistoryFragment extends Fragment {
         listItems = new ArrayList<>();
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, listItems);
         _historyList.setAdapter(adapter);
-
         _historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,23 +62,20 @@ public class HistoryFragment extends Fragment {
     }
 
     public void trigger() {
-        params.put("user", "1234");
-        params.put("history", "1");
-
-
-        send.queryServer(getActivity(), url, params, new SendToDevicesActivity.VolleyCallback() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("12bg");
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onSuccessResponse(JSONObject result) {
-                try {
-                    listItems.add("Detector alarm raised on:" + result.getString("date"));
-                    adapter.notifyDataSetChanged();
-                    Log.d(TAG, result.toString(1));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                Log.d("EHHH", value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
-
 
     }
 }

@@ -40,7 +40,6 @@ public class RegisterFragment extends Fragment {
 
     public void register() {
 
-
         if (!validate()) {
             onRegistrationFailed();
             return;
