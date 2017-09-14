@@ -39,12 +39,16 @@ public class RegisterFragment extends Fragment {
     }
 
     public void register() {
-        Log.d(TAG, "Register");
+
 
         if (!validate()) {
             onRegistrationFailed();
             return;
         }
+
+        Log.d(TAG, "Register");
+
+
 
         _registrationButton.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(getActivity(),
@@ -52,8 +56,6 @@ public class RegisterFragment extends Fragment {
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Registering Device...");
         progressDialog.show();
-
-        String code = _registrationCode.getText().toString();
 
         //TODO: Implement some sort of verification thing to add this new node to the network
 
@@ -81,9 +83,10 @@ public class RegisterFragment extends Fragment {
     public boolean validate() {
         boolean valid = true;
 
+
         String code = _registrationCode.getText().toString();
 
-        if (code.isEmpty() || code.length() < 10) {
+        if (code.isEmpty() || code.length() < 5) {
             _registrationCode.setError("incorrect number of characters");
             valid = false;
         } else {
