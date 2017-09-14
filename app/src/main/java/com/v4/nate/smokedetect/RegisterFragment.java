@@ -11,12 +11,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RegisterFragment extends Fragment {
 
     private static final String TAG = "RegisterFragment";
+    HashMap<String, String> params = new HashMap<>();
+
+    //TODO: Determine a URL that we can reliably send the data to on the Pi
+    String url = "https://192.168.0.112/queryCode.php";
+    SendToDevicesActivity sendToDevicesActivity = new SendToDevicesActivity();
 
     @BindView(R.id.input_registration_code)
     EditText _registrationCode;
@@ -81,17 +91,28 @@ public class RegisterFragment extends Fragment {
 
     public boolean validate() {
         boolean valid = true;
-
-
         String code = _registrationCode.getText().toString();
+        params.put("code", code);
+
+
 
         if (code.isEmpty() || code.length() < 5) {
             _registrationCode.setError("incorrect number of characters");
             valid = false;
         } else {
-            _registrationCode.setError(null);
+            sendToDevicesActivity.queryServer(getActivity(), url, params, new SendToDevicesActivity.VolleyCallback() {
+                @Override
+                public void onSuccessResponse(JSONObject result) {
+                    try {
+                        // Registration successful
+                        _registrationCode.setError(null);
+                        Log.d(TAG, result.toString(1));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
-
         return valid;
     }
 }
