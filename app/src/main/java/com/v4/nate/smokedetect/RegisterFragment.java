@@ -23,10 +23,11 @@ public class RegisterFragment extends Fragment {
 
     private static final String TAG = "RegisterFragment";
     HashMap<String, String> params = new HashMap<>();
+    boolean valid = false;
 
     //TODO: Determine a URL that we can reliably send the data to on the Pi
-    String url = "https://192.168.0.112/queryCode.php";
-    SendToDevicesActivity sendToDevicesActivity = new SendToDevicesActivity();
+    String url = "http://192.168.0.117/queryCode.php";
+    SendToDevicesActivity send = new SendToDevicesActivity();
 
     @BindView(R.id.input_registration_code)
     EditText _registrationCode;
@@ -81,7 +82,8 @@ public class RegisterFragment extends Fragment {
 
     public void onRegistrationSuccess() {
         _registrationButton.setEnabled(true);
-        getActivity().getFragmentManager().popBackStack();
+        Toast.makeText(getActivity(), "Registration success", Toast.LENGTH_SHORT).show();
+        //getActivity().getFragmentManager().popBackStack();
     }
 
     public void onRegistrationFailed() {
@@ -90,7 +92,6 @@ public class RegisterFragment extends Fragment {
     }
 
     public boolean validate() {
-        boolean valid = true;
         String code = _registrationCode.getText().toString();
         params.put("code", code);
 
@@ -98,16 +99,15 @@ public class RegisterFragment extends Fragment {
 
         if (code.isEmpty() || code.length() < 5) {
             _registrationCode.setError("incorrect number of characters");
-            valid = false;
         } else {
-            sendToDevicesActivity.queryServer(getActivity(), url, params, new SendToDevicesActivity.VolleyCallback() {
+            send.queryServer(getActivity(), url, params, new SendToDevicesActivity.VolleyCallback() {
                 @Override
                 public void onSuccessResponse(JSONObject result) {
                     try {
                         // Registration successful
-                        Toast.makeText(getActivity(), "Registration success", Toast.LENGTH_SHORT).show();
                         _registrationCode.setError(null);
                         Log.d(TAG, result.toString(1));
+                        valid = true;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
