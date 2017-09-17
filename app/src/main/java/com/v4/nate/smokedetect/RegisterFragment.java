@@ -26,7 +26,7 @@ public class RegisterFragment extends Fragment {
     boolean valid = false;
 
     //TODO: Determine a URL that we can reliably send the data to on the Pi
-    String url = "http://192.168.0.117/queryCode.php";
+    String url = "http://192.168.0.105/queryCode.php";
     SendToDevicesActivity send = new SendToDevicesActivity();
 
     @BindView(R.id.input_registration_code)
@@ -51,14 +51,25 @@ public class RegisterFragment extends Fragment {
 
     public void register() {
 
-        if (!validate()) {
-            onRegistrationFailed();
-            return;
-        }
-
         Log.d(TAG, "Register");
 
-
+        String code = _registrationCode.getText().toString();
+        params.put("code", code);
+        if (code.isEmpty() || code.length() < 6) {
+            _registrationCode.setError("incorrect number of characters");
+        } else {
+            send.queryServer(getActivity(), url, params, new SendToDevicesActivity.VolleyCallback() {
+                @Override
+                public void onSuccessResponse(JSONObject result) { //Response was successful
+                    try {
+                        valid = result.getBoolean("return");
+                        _registrationCode.setError(null);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
 
         _registrationButton.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(getActivity(),
@@ -73,7 +84,10 @@ public class RegisterFragment extends Fragment {
                 new Runnable() {
                     @Override
                     public void run() {
-                        onRegistrationSuccess();
+                        if (valid)
+                            onRegistrationSuccess();
+                        else
+                            onRegistrationFailed();
                         //onRegistrationFailed();
                         progressDialog.dismiss();
                     }
@@ -87,33 +101,7 @@ public class RegisterFragment extends Fragment {
     }
 
     public void onRegistrationFailed() {
-        Toast.makeText(getActivity(), "Registration failed", Toast.LENGTH_SHORT).show();
         _registrationButton.setEnabled(true);
-    }
-
-    public boolean validate() {
-        String code = _registrationCode.getText().toString();
-        params.put("code", code);
-
-
-
-        if (code.isEmpty() || code.length() < 5) {
-            _registrationCode.setError("incorrect number of characters");
-        } else {
-            send.queryServer(getActivity(), url, params, new SendToDevicesActivity.VolleyCallback() {
-                @Override
-                public void onSuccessResponse(JSONObject result) {
-                    try {
-                        // Registration successful
-                        _registrationCode.setError(null);
-                        Log.d(TAG, result.toString(1));
-                        valid = true;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
-        return valid;
+        Toast.makeText(getActivity(), "Registration failed", Toast.LENGTH_SHORT).show();
     }
 }
