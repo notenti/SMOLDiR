@@ -2,7 +2,6 @@ package com.v4.nate.smokedetect;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,13 +61,14 @@ public class HistoryFragment extends Fragment {
     }
 
     public void trigger() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("12bg");
-        reference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String value = dataSnapshot.getValue(String.class);
-                Log.d("EHHH", value);
+                String key = dataSnapshot.getKey();
+                String value = dataSnapshot.child("12ab12").child(key).child("eventString").getValue(String.class);
+                listItems.add("Blah: " + value);
+                adapter.notifyDataSetChanged();
             }
 
             @Override

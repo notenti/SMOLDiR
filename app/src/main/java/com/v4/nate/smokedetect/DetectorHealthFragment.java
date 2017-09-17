@@ -2,7 +2,6 @@ package com.v4.nate.smokedetect;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class DetectorHealthFragment extends Fragment {
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detector_health, container, false);
@@ -30,13 +26,13 @@ public class DetectorHealthFragment extends Fragment {
                 //This method is called once with the initial value and again
                 //whenever data at this location is updated
                 String value = dataSnapshot.getValue(String.class);
-                Log.d("EHH", "Value is: " + value);
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 //Failed to read value
-                Log.w("EHH", "Failed to read value.", databaseError.toException());
+
             }
         });
         return view;

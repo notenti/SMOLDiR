@@ -66,6 +66,7 @@ public class RegisterFragment extends Fragment {
                         _registrationCode.setError(null);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        valid = false;
                     }
                 }
             });
@@ -88,7 +89,6 @@ public class RegisterFragment extends Fragment {
                             onRegistrationSuccess();
                         else
                             onRegistrationFailed();
-                        //onRegistrationFailed();
                         progressDialog.dismiss();
                     }
                 }, 3000);
