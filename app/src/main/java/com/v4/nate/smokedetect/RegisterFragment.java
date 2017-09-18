@@ -27,11 +27,11 @@ public class RegisterFragment extends Fragment {
     HashMap<String, String> params = new HashMap<>();
     boolean valid = false;
 
-    SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-    SharedPreferences.Editor editor = sharedPref.edit();
+    SharedPreferences sharedPreferences;
+
 
     //TODO: Determine a URL that we can reliably send the data to on the Pi
-    String url = "http://10.110.239.100/queryCode.php";
+    String url = "http://192.168.0.105/queryCode.php";
     SendToDevicesActivity send = new SendToDevicesActivity();
 
     @BindView(R.id.input_registration_code)
@@ -43,6 +43,7 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstancestate) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         ButterKnife.bind(this, view);
+        sharedPreferences = getActivity().getSharedPreferences("test", Context.MODE_PRIVATE);
 
         _registrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,9 +68,12 @@ public class RegisterFragment extends Fragment {
                 @Override
                 public void onSuccessResponse(JSONObject result) { //Response was successful
                     try {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
                         valid = result.getBoolean("return");
+                        Log.d(TAG, result.getString("homeID"));
+                        Log.d(TAG, result.getString("deviceID"));
                         editor.putString("HomeID", result.getString("homeID"));
-                        editor.commit();
+                        editor.apply();
                         _registrationCode.setError(null);
                     } catch (JSONException e) {
                         e.printStackTrace();

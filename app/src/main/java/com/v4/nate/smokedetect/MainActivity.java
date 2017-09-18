@@ -14,16 +14,16 @@ import com.google.firebase.messaging.FirebaseMessaging;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+    SharedPreferences sharedPreferences;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
+        String HomeID = sharedPreferences.getString("HomeID", "smokeDetect");
 
-        String HomeID = sharedPref.getString("HomeID", "smokeDetect");
-
-        FirebaseMessaging.getInstance().subscribeToTopic(HomeID);
+        FirebaseMessaging.getInstance().subscribeToTopic("smokeDetect");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = getString(R.string.default_notification_channel_id);
-            String channelName = HomeID;
+            String channelName = "smokeDetect";
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW));
         }
