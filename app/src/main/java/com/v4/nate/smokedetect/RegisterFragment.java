@@ -2,6 +2,8 @@ package com.v4.nate.smokedetect;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,8 +27,11 @@ public class RegisterFragment extends Fragment {
     HashMap<String, String> params = new HashMap<>();
     boolean valid = false;
 
+    SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+    SharedPreferences.Editor editor = sharedPref.edit();
+
     //TODO: Determine a URL that we can reliably send the data to on the Pi
-    String url = "http://192.168.0.105/queryCode.php";
+    String url = "http://10.110.239.100/queryCode.php";
     SendToDevicesActivity send = new SendToDevicesActivity();
 
     @BindView(R.id.input_registration_code)
@@ -63,6 +68,8 @@ public class RegisterFragment extends Fragment {
                 public void onSuccessResponse(JSONObject result) { //Response was successful
                     try {
                         valid = result.getBoolean("return");
+                        editor.putString("HomeID", result.getString("homeID"));
+                        editor.commit();
                         _registrationCode.setError(null);
                     } catch (JSONException e) {
                         e.printStackTrace();
