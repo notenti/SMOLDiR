@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -74,6 +76,7 @@ public class RegisterFragment extends Fragment {
                         Log.d(TAG, result.getString("deviceID"));
                         editor.putString("HomeID", result.getString("homeID"));
                         editor.apply();
+                        FirebaseMessaging.getInstance().subscribeToTopic(result.getString("homeID").trim());
                         _registrationCode.setError(null);
                     } catch (JSONException e) {
                         e.printStackTrace();
