@@ -70,8 +70,8 @@ public class RegisterFragment extends Fragment {
                 @Override
                 public void onSuccessResponse(JSONObject result) { //Response was successful
                     try {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
                         valid = result.getBoolean("return");
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
                         Log.d(TAG, result.getString("homeID"));
                         Log.d(TAG, result.getString("deviceID"));
                         editor.putString("HomeID", result.getString("homeID"));
@@ -111,6 +111,8 @@ public class RegisterFragment extends Fragment {
     public void onRegistrationSuccess() {
         _registrationButton.setEnabled(true);
         Toast.makeText(getActivity(), "Registration success", Toast.LENGTH_SHORT).show();
+        WifiFragment wifiFragment = new WifiFragment();
+        ((WelcomeActivity) getActivity()).setNewFragment(wifiFragment);
         //getActivity().getFragmentManager().popBackStack();
     }
 

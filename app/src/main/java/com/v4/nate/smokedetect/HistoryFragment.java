@@ -65,9 +65,9 @@ public class HistoryFragment extends Fragment {
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String key = dataSnapshot.getKey();
-                String value = dataSnapshot.child("12ab12").child(key).child("eventString").getValue(String.class);
-                listItems.add("Blah: " + value);
+                //String key = dataSnapshot.getKey();
+                //String value = dataSnapshot.child("12ab12").child(key).child("eventString").getValue(String.class);
+                //listItems.add("Blah: " + value);
                 adapter.notifyDataSetChanged();
             }
 
