@@ -45,7 +45,7 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstancestate) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         ButterKnife.bind(this, view);
-        sharedPreferences = getActivity().getSharedPreferences("test", Context.MODE_PRIVATE);
+        sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
 
         _registrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +113,6 @@ public class RegisterFragment extends Fragment {
         Toast.makeText(getActivity(), "Registration success", Toast.LENGTH_SHORT).show();
         WifiFragment wifiFragment = new WifiFragment();
         ((WelcomeActivity) getActivity()).setNewFragment(wifiFragment);
-        //getActivity().getFragmentManager().popBackStack();
     }
 
     public void onRegistrationFailed() {

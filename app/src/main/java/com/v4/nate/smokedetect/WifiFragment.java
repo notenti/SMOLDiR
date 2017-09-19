@@ -56,7 +56,7 @@ public class WifiFragment extends Fragment {
 
 
     public void pushWifiCredentials() {
-        Log.d(TAG, "Wifi Credentials");
+        Log.d(TAG, "Wifi");
 
 
         String password = _password.getText().toString();

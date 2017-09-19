@@ -1,5 +1,7 @@
 package com.v4.nate.smokedetect;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ public class HistoryFragment extends Fragment {
     HashMap<String, String> params = new HashMap<>();
     String url = "http://192.168.0.107/history.php";
     SendToDevicesActivity send = new SendToDevicesActivity();
+    SharedPreferences sharedPreferences;
 
     @BindView(R.id.history_button)
     Button _historyButton;
@@ -61,14 +64,17 @@ public class HistoryFragment extends Fragment {
     }
 
     public void trigger() {
+        sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
+        String homeID = sharedPreferences.getString("HomeID", null);
+        listItems.add("Blah: " + homeID);
+        adapter.notifyDataSetChanged();
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //String key = dataSnapshot.getKey();
                 //String value = dataSnapshot.child("12ab12").child(key).child("eventString").getValue(String.class);
-                //listItems.add("Blah: " + value);
-                adapter.notifyDataSetChanged();
+
             }
 
             @Override
