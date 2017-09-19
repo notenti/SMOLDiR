@@ -42,6 +42,8 @@ public class HistoryFragment extends Fragment {
     ListView _historyList;
     ArrayList<String> listItems;
     ArrayAdapter<String> adapter;
+    ArrayList<String> eventTitles;
+    ArrayList<String> eventTimes;
 
 
     @Override
@@ -69,10 +71,14 @@ public class HistoryFragment extends Fragment {
         final String homeID = sharedPreferences.getString("HomeID", null);
         adapter.notifyDataSetChanged();
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID);
-        database.addListenerForSingleValueEvent(new ValueEventListener() {
+        database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 collectEvents((Map<String, Object>) dataSnapshot.getValue());
+                for (String s : eventTimes) {
+                    adapter.add("Event: " + s);
+                }
+
 
             }
 
@@ -85,12 +91,16 @@ public class HistoryFragment extends Fragment {
     }
 
     private void collectEvents(Map<String, Object> users) {
-        ArrayList<String> eventTitles = new ArrayList<>();
+        eventTimes = new ArrayList<>();
+        eventTitles = new ArrayList<>();
 
         for (Map.Entry<String, Object> entry : users.entrySet()) {
-            Map singleUser = (Map) entry.getValue();
-            eventTitles.add((String) singleUser.get("eventString"));
+            Map eventString = (Map) entry.getValue();
+            Map eventTime = (Map) entry.getValue();
+            eventTitles.add((String) eventString.get("eventString"));
+            eventTimes.add((String) eventTime.get("eventTime"));
         }
         System.out.println(eventTitles.toString());
+        System.out.println(eventTimes.toString());
     }
 }
