@@ -75,8 +75,9 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 collectEvents((Map<String, Object>) dataSnapshot.getValue());
-                for (String s : eventTimes) {
-                    adapter.add("Event: " + s);
+                adapter.clear();
+                for (int i = 0; i < eventTitles.size(); i++) {
+                    adapter.add(eventTitles.get(i) + " on " + eventTimes.get(i));
                 }
 
 
@@ -100,7 +101,5 @@ public class HistoryFragment extends Fragment {
             eventTitles.add((String) eventString.get("eventString"));
             eventTimes.add((String) eventTime.get("eventTime"));
         }
-        System.out.println(eventTitles.toString());
-        System.out.println(eventTimes.toString());
     }
 }
