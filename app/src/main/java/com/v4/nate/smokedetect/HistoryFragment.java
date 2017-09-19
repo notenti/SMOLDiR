@@ -44,6 +44,7 @@ public class HistoryFragment extends Fragment {
     ArrayAdapter<String> adapter;
     ArrayList<String> eventTitles;
     ArrayList<String> eventTimes;
+    ArrayList<String> deviceID;
 
 
     @Override
@@ -77,10 +78,8 @@ public class HistoryFragment extends Fragment {
                 collectEvents((Map<String, Object>) dataSnapshot.getValue());
                 adapter.clear();
                 for (int i = 0; i < eventTitles.size(); i++) {
-                    adapter.add(eventTitles.get(i) + " on " + eventTimes.get(i));
+                    adapter.add(eventTitles.get(i) + " on " + eventTimes.get(i) + " from device " + deviceID.get(i));
                 }
-
-
             }
 
             @Override
@@ -94,12 +93,15 @@ public class HistoryFragment extends Fragment {
     private void collectEvents(Map<String, Object> users) {
         eventTimes = new ArrayList<>();
         eventTitles = new ArrayList<>();
+        deviceID = new ArrayList<>();
 
         for (Map.Entry<String, Object> entry : users.entrySet()) {
-            Map eventString = (Map) entry.getValue();
-            Map eventTime = (Map) entry.getValue();
-            eventTitles.add((String) eventString.get("eventString"));
-            eventTimes.add((String) eventTime.get("eventTime"));
+            Map eventStringMap = (Map) entry.getValue();
+            Map eventTimeMap = (Map) entry.getValue();
+            Map deviceIDMap = (Map) entry.getValue();
+            deviceID.add((String) deviceIDMap.get("deviceID"));
+            eventTitles.add((String) eventStringMap.get("eventString"));
+            eventTimes.add((String) eventTimeMap.get("eventTime"));
         }
     }
 }
