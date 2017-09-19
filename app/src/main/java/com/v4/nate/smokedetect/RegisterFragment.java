@@ -74,7 +74,7 @@ public class RegisterFragment extends Fragment {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         Log.d(TAG, result.getString("homeID"));
                         Log.d(TAG, result.getString("deviceID"));
-                        editor.putString("HomeID", result.getString("homeID"));
+                        editor.putString("HomeID", result.getString("homeID").trim().replace("\n", ""));
                         editor.apply();
                         FirebaseMessaging.getInstance().subscribeToTopic(result.getString("homeID").trim());
                         _registrationCode.setError(null);

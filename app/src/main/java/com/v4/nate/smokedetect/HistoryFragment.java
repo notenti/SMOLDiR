@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,15 +66,13 @@ public class HistoryFragment extends Fragment {
 
     public void trigger() {
         sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
-        String homeID = sharedPreferences.getString("HomeID", null);
-        listItems.add("Blah: " + homeID);
+        final String homeID = sharedPreferences.getString("HomeID", null);
         adapter.notifyDataSetChanged();
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database.addValueEventListener(new ValueEventListener() {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID);
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //String key = dataSnapshot.getKey();
-                //String value = dataSnapshot.child("12ab12").child(key).child("eventString").getValue(String.class);
+                collectEvents((Map<String, Object>) dataSnapshot.getValue());
 
             }
 
@@ -83,5 +82,15 @@ public class HistoryFragment extends Fragment {
             }
         });
 
+    }
+
+    private void collectEvents(Map<String, Object> users) {
+        ArrayList<String> eventTitles = new ArrayList<>();
+
+        for (Map.Entry<String, Object> entry : users.entrySet()) {
+            Map singleUser = (Map) entry.getValue();
+            eventTitles.add((String) singleUser.get("eventString"));
+        }
+        System.out.println(eventTitles.toString());
     }
 }
