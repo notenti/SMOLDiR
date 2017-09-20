@@ -33,7 +33,7 @@ public class RegisterFragment extends Fragment {
 
 
     //TODO: Determine a URL that we can reliably send the data to on the Pi
-    String url = "http://192.168.0.105/queryCode.php";
+    String url = "http://192.168.0.110/queryCode.php";
     SendToDevicesActivity send = new SendToDevicesActivity();
 
     @BindView(R.id.input_registration_code)
@@ -77,6 +77,7 @@ public class RegisterFragment extends Fragment {
                         editor.putString("HomeID", result.getString("homeID").trim().replace("\n", ""));
                         editor.apply();
                         FirebaseMessaging.getInstance().subscribeToTopic(result.getString("homeID").trim());
+                        Toast.makeText(getActivity(), "Subscribed to topic " + result.getString("homeID").trim(), Toast.LENGTH_SHORT).show();
                         _registrationCode.setError(null);
                     } catch (JSONException e) {
                         e.printStackTrace();

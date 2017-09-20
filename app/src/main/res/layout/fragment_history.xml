@@ -19,7 +19,7 @@
             style="@style/Smoldr.LaunchButton"
             android:text="History" />
 
-        <ExpandableListViewListView
+        <ExpandableListView
             android:id="@+id/history_list"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent" />

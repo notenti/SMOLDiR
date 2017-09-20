@@ -26,6 +26,12 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         this.expandableListDetail = expandableListDetail;
     }
 
+    public void setNewItems(List<String> expandableListTitle, HashMap<String, List<String>> expandableListDetail) {
+        this.expandableListDetail = expandableListDetail;
+        this.expandableListTitle = expandableListTitle;
+        notifyDataSetChanged();
+    }
+
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
         return this.expandableListDetail.get(this.expandableListTitle.get(listPosition)).get(expandedListPosition);

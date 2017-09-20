@@ -61,9 +61,9 @@ public class HistoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
         ButterKnife.bind(this, view);
 
-        expandableListView = getActivity().findViewById(R.id.history_list);
+        expandableListView = view.findViewById(R.id.history_list);
         expandableListDetail = ExpandableListDataPump.getData();
-        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+        expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
         expandableListAdapter = new CustomExpandableListAdapter(getContext(), expandableListTitle, expandableListDetail);
         expandableListView.setAdapter(expandableListAdapter);
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -74,9 +74,7 @@ public class HistoryFragment extends Fragment {
             }
         });
 
-        listItems = new ArrayList<>();
-        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, listItems);
-        _historyList.setAdapter(adapter);
+//
         _historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,18 +87,18 @@ public class HistoryFragment extends Fragment {
     }
 
     public void trigger() {
+
         sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
         final String homeID = sharedPreferences.getString("HomeID", null);
-        adapter.notifyDataSetChanged();
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID);
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 collectEvents((Map<String, Object>) dataSnapshot.getValue());
-                adapter.clear();
-                for (int i = 0; i < eventTitles.size(); i++) {
-                    adapter.add(eventTitles.get(i) + " on " + eventTimes.get(i) + " from device " + deviceID.get(i));
-                }
+//                adapter.clear();
+//                for (int i = 0; i < eventTitles.size(); i++) {
+//                    adapter.add(eventTitles.get(i) + " on " + eventTimes.get(i) + " from device " + deviceID.get(i));
+//                }
             }
 
             @Override
@@ -111,12 +109,12 @@ public class HistoryFragment extends Fragment {
 
     }
 
-    private void collectEvents(Map<String, Object> users) {
+    private void collectEvents(Map<String, Object> events) {
         eventTimes = new ArrayList<>();
         eventTitles = new ArrayList<>();
         deviceID = new ArrayList<>();
 
-        for (Map.Entry<String, Object> entry : users.entrySet()) {
+        for (Map.Entry<String, Object> entry : events.entrySet()) {
             Map eventStringMap = (Map) entry.getValue();
             Map eventTimeMap = (Map) entry.getValue();
             Map deviceIDMap = (Map) entry.getValue();
