@@ -27,6 +27,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean hush = prefs.getBoolean("hush", false);
+        Boolean localized = prefs.getBoolean("localized", false);
 
         Intent sendIntent = new Intent(getApplicationContext(), SendToDevicesActivity.class);
         sendIntent.putExtra("methodName", "hush");
@@ -61,7 +62,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
 
-        } else if (type == MessageType.ACTIVE_ALARM_FIRE.ordinal()) {
+        } else if (type == MessageType.ALARM_FIRE.ordinal()) {
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle(remoteMessage.getData().get("title"))
                     .setContentText(remoteMessage.getData().get("body"))
@@ -76,7 +77,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary));
 
-            if (hush) {
+            if (hush && localized) {
                 notification.addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
             }
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
@@ -131,7 +132,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
 
     public enum MessageType {
         LOW_BATTERY,
-        ACTIVE_ALARM_FIRE,
-        ACTIVE_ALARM_CO
+        ALARM_FIRE,
+        ALARM_CO
     }
 }
