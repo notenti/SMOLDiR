@@ -38,8 +38,6 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_item, null);
         }
-        TextView sequence = convertView.findViewById(R.id.expandedListItem);
-        sequence.setText(detailInfo.getSequence().trim() + ") ");
         TextView childItem = convertView.findViewById(R.id.childItem);
         childItem.setText(detailInfo.getName().trim());
         return convertView;

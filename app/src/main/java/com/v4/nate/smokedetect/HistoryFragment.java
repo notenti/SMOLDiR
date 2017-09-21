@@ -49,10 +49,7 @@ public class HistoryFragment extends Fragment {
     ArrayList<HeaderInfo> SectionList = new ArrayList<>();
 
     ExpandableListView expandableListView;
-    ExpandableListAdapter listAdapter;
-
-
-
+    ExpandableListAdapter expandablelistAdapter;
 
 
     @Override
@@ -61,8 +58,8 @@ public class HistoryFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         expandableListView = view.findViewById(R.id.history_list);
-        listAdapter = new CustomExpandableListAdapter(getContext(), SectionList);
-        expandableListView.setAdapter(listAdapter);
+        expandablelistAdapter = new CustomExpandableListAdapter(getContext(), SectionList);
+        expandableListView.setAdapter(expandablelistAdapter);
 
         _historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,8 +83,9 @@ public class HistoryFragment extends Fragment {
                 collectEvents((Map<String, Object>) dataSnapshot.getValue());
 
                 for (int i = 0; i < eventTitles.size(); i++) {
-                    int groupPosition = addProduct(deviceID.get(i), eventTitles.get(i) + " on " + eventTimes.get(i) + " from device " + deviceID.get(i));
-                    ((BaseExpandableListAdapter) listAdapter).notifyDataSetChanged();
+                    addProduct(eventTitles.get(i), deviceID.get(i));
+                    addProduct(eventTitles.get(i), eventTimes.get(i));
+                    ((BaseExpandableListAdapter) expandablelistAdapter).notifyDataSetChanged();
                 }
             }
 
@@ -128,11 +126,7 @@ public class HistoryFragment extends Fragment {
         }
 
         ArrayList<DetailInfo> productList = headerInfo.getProductList();
-        int listSize = productList.size();
-        listSize++;
-
         DetailInfo detailInfo = new DetailInfo();
-        detailInfo.setSequence(String.valueOf(listSize));
         detailInfo.setName(product);
         productList.add(detailInfo);
         headerInfo.setProductList(productList);
