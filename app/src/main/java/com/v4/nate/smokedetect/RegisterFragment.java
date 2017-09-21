@@ -33,7 +33,7 @@ public class RegisterFragment extends Fragment {
 
 
     //TODO: Determine a URL that we can reliably send the data to on the Pi
-    String url = "http://192.168.0.110/queryCode.php";
+    String url = "http://192.168.0.110/register.php";
     SendToDevicesActivity send = new SendToDevicesActivity();
 
     @BindView(R.id.input_registration_code)
@@ -65,9 +65,13 @@ public class RegisterFragment extends Fragment {
 
         String code = _registrationCode.getText().toString();
         final String nickname = _nickname.getText().toString();
+
         params.put("code", code);
+        params.put("name", nickname);
         if (code.isEmpty() || code.length() < 6) {
             _registrationCode.setError("incorrect number of characters");
+        } else if (nickname.isEmpty()) {
+            _nickname.setError("please enter a name for the device");
         } else {
             send.queryServer(getActivity(), url, params, new SendToDevicesActivity.VolleyCallback() {
                 @Override
