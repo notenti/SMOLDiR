@@ -83,8 +83,7 @@ public class HistoryFragment extends Fragment {
                 collectEvents((Map<String, Object>) dataSnapshot.getValue());
 
                 for (int i = 0; i < eventTitles.size(); i++) {
-                    addProduct(eventTitles.get(i), deviceID.get(i));
-                    addProduct(eventTitles.get(i), eventTimes.get(i));
+                    addEvent(eventTitles.get(i), deviceID.get(i), eventTimes.get(i));
                     ((BaseExpandableListAdapter) expandablelistAdapter).notifyDataSetChanged();
                 }
             }
@@ -113,25 +112,23 @@ public class HistoryFragment extends Fragment {
     }
 
 
-    private int addProduct(String department, String product) {
-        int groupPosition;
-
-        HeaderInfo headerInfo = mySection.get(department);
+    private int addEvent(String eventTitle, String eventDevice, String eventTime) {
+        HeaderInfo headerInfo = mySection.get(eventTitle);
 
         if (headerInfo == null) {
             headerInfo = new HeaderInfo();
-            headerInfo.setName(department);
-            mySection.put(department, headerInfo);
+            headerInfo.setEventTitle(eventTitle);
+            mySection.put(eventTitle, headerInfo);
             SectionList.add(headerInfo);
         }
 
         ArrayList<DetailInfo> productList = headerInfo.getProductList();
         DetailInfo detailInfo = new DetailInfo();
-        detailInfo.setName(product);
+        detailInfo.setEventStrings("Event time: " + eventTime, "From device: " + eventDevice);
         productList.add(detailInfo);
         headerInfo.setProductList(productList);
 
-        groupPosition = SectionList.indexOf(headerInfo);
-        return groupPosition;
+        return SectionList.indexOf(headerInfo);
+
     }
 }

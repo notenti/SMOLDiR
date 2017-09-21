@@ -38,8 +38,10 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_item, null);
         }
-        TextView childItem = convertView.findViewById(R.id.childItem);
-        childItem.setText(detailInfo.getName().trim());
+        TextView firstChildItem = convertView.findViewById(R.id.firstItem);
+        firstChildItem.setText(detailInfo.getEventTime().trim());
+        TextView secondChildItem = convertView.findViewById(R.id.secondItem);
+        secondChildItem.setText(detailInfo.getEventDevice().trim());
         return convertView;
     }
 
@@ -73,7 +75,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         }
         TextView heading = convertView.findViewById(R.id.listTitle);
         heading.setTypeface(null, Typeface.BOLD);
-        heading.setText(headerInfo.getName().trim());
+        heading.setText(headerInfo.getEventTitle().trim());
         return convertView;
     }
 

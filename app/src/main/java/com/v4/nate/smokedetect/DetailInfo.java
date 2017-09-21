@@ -1,18 +1,22 @@
 package com.v4.nate.smokedetect;
 
-/**
- * Created by nate on 9/20/17.
- */
 
 public class DetailInfo {
 
-    private String name = "";
+    private String eventTime;
+    private String eventDevice;
 
-    public String getName() {
-        return name;
+    public String getEventTime() {
+        return eventTime;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getEventDevice() {
+        return eventDevice;
     }
+
+    public void setEventStrings(String eventTime, String eventDevice) {
+        this.eventTime = eventTime;
+        this.eventDevice = eventDevice;
+    }
+
 }

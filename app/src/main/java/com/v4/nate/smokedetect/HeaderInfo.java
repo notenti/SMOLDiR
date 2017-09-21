@@ -7,15 +7,15 @@ import java.util.ArrayList;
  */
 
 public class HeaderInfo {
-    private String name;
-    private ArrayList<DetailInfo> productList = new ArrayList<DetailInfo>();
+    private String eventTitle;
+    private ArrayList<DetailInfo> productList = new ArrayList<>();
 
-    public String getName() {
-        return name;
+    public String getEventTitle() {
+        return eventTitle;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEventTitle(String eventTitle) {
+        this.eventTitle = eventTitle;
     }
 
     public ArrayList<DetailInfo> getProductList() {
