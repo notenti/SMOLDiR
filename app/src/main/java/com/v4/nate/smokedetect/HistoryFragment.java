@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,7 +23,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -33,13 +30,6 @@ public class HistoryFragment extends Fragment {
 
     private static final String TAG = "HistoryFragment";
     SharedPreferences sharedPreferences;
-    //    @BindView(R.id.history_button)
-//    Button _historyButton;
-//    @BindView(R.id.ll)
-    LinearLayout _linearLayout;
-    @BindView(R.id.history_list)
-    ListView _historyList;
-    //Retrieve from database
     ArrayList<String> eventTitles;
     ArrayList<String> eventTimes;
     ArrayList<String> deviceID;
@@ -47,7 +37,7 @@ public class HistoryFragment extends Fragment {
     ArrayList<HeaderInfo> SectionList = new ArrayList<>();
     ExpandableListView expandableListView;
     ExpandableListAdapter expandablelistAdapter;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,8 +55,6 @@ public class HistoryFragment extends Fragment {
                     expandableListView.expandGroup(position);
                     expandableListView.setSelectedGroup(position);
                 }
-
-
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -81,14 +69,6 @@ public class HistoryFragment extends Fragment {
         expandablelistAdapter = new CustomExpandableListAdapter(getContext(), SectionList);
         expandableListView.setAdapter(expandablelistAdapter);
         trigger();
-
-//        _historyButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                trigger();
-//            }
-//        });
-
 
         return view;
     }

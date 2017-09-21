@@ -75,6 +75,7 @@ public class RegisterFragment extends Fragment {
                         Log.d(TAG, result.getString("homeID"));
                         Log.d(TAG, result.getString("deviceID"));
                         editor.putString("HomeID", result.getString("homeID").trim().replace("\n", ""));
+                        editor.putString("DeviceID", result.getString("deviceID").trim().replace("\n", ""));
                         editor.apply();
                         FirebaseMessaging.getInstance().subscribeToTopic(result.getString("homeID").trim());
                         Toast.makeText(getActivity(), "Subscribed to topic " + result.getString("homeID").trim(), Toast.LENGTH_SHORT).show();

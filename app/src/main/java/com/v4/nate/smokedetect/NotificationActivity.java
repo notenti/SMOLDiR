@@ -20,14 +20,18 @@ import com.google.firebase.messaging.RemoteMessage;
 public class NotificationActivity extends com.google.firebase.messaging.FirebaseMessagingService {
 
     private static final String TAG = "NotificationActivity";
+    SharedPreferences customSharedPreferences;
+    SharedPreferences defaultSharedPreferences;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Boolean hush = prefs.getBoolean("hush", false);
-        Boolean localized = prefs.getBoolean("localized", false);
+        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        customSharedPreferences = this.getSharedPreferences("ID", Context.MODE_PRIVATE);
+        final String deviceID = customSharedPreferences.getString("DeviceID", null);
+        Boolean hush = defaultSharedPreferences.getBoolean("hush", false);
+        Boolean localized = defaultSharedPreferences.getBoolean("localized", false);
 
         Intent sendIntent = new Intent(getApplicationContext(), SendToDevicesActivity.class);
         sendIntent.putExtra("methodName", "hush");
@@ -54,11 +58,14 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setLights(Color.GREEN, 500, 500)
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setColor(ContextCompat.getColor(this, R.color.color_primary))
-                    .setStyle(new NotificationCompat.InboxStyle()
-                            .addLine(remoteMessage.getData().get("body"))
-                            .setBigContentTitle(remoteMessage.getData().get("title"))
-                            .setSummaryText(remoteMessage.getData().get("summary")));
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary));
+            if (localized) {
+                notification.setStyle(new NotificationCompat.InboxStyle()
+                        .addLine(remoteMessage.getData().get("body"))
+                        .setBigContentTitle(remoteMessage.getData().get("title"))
+                        .setSummaryText(deviceID));
+            }
+
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
 
