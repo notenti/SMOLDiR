@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -32,41 +33,61 @@ public class HistoryFragment extends Fragment {
 
     private static final String TAG = "HistoryFragment";
     SharedPreferences sharedPreferences;
-
-    @BindView(R.id.history_button)
-    Button _historyButton;
-    @BindView(R.id.ll)
+    //    @BindView(R.id.history_button)
+//    Button _historyButton;
+//    @BindView(R.id.ll)
     LinearLayout _linearLayout;
     @BindView(R.id.history_list)
     ListView _historyList;
-
     //Retrieve from database
     ArrayList<String> eventTitles;
     ArrayList<String> eventTimes;
     ArrayList<String> deviceID;
-
-    LinkedHashMap<String, HeaderInfo> mySection = new LinkedHashMap<>();
+    LinkedHashMap<String, HeaderInfo> linkedHashMap = new LinkedHashMap<>();
     ArrayList<HeaderInfo> SectionList = new ArrayList<>();
-
     ExpandableListView expandableListView;
     ExpandableListAdapter expandablelistAdapter;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
         ButterKnife.bind(this, view);
+        swipeRefreshLayout = view.findViewById(R.id.swipeContainer);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                for (int i = 0; i < eventTitles.size(); i++) {
+
+                    int position = addEvent(eventTitles.get(i), deviceID.get(i), eventTimes.get(i));
+                    ((BaseExpandableListAdapter) expandablelistAdapter).notifyDataSetChanged();
+                    collapseAll();
+                    expandableListView.expandGroup(position);
+                    expandableListView.setSelectedGroup(position);
+                }
+
+
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
 
         expandableListView = view.findViewById(R.id.history_list);
         expandablelistAdapter = new CustomExpandableListAdapter(getContext(), SectionList);
         expandableListView.setAdapter(expandablelistAdapter);
+        trigger();
 
-        _historyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                trigger();
-            }
-        });
+//        _historyButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                trigger();
+//            }
+//        });
 
 
         return view;
@@ -77,15 +98,13 @@ public class HistoryFragment extends Fragment {
         final String homeID = sharedPreferences.getString("HomeID", null);
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID);
-        database.addValueEventListener(new ValueEventListener() {
+        Query dataOrderedByKey = database.orderByKey();
+        dataOrderedByKey.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                //Grabs all of the database info and stores it in three arraylists
                 collectEvents((Map<String, Object>) dataSnapshot.getValue());
 
-                for (int i = 0; i < eventTitles.size(); i++) {
-                    addEvent(eventTitles.get(i), deviceID.get(i), eventTimes.get(i));
-                    ((BaseExpandableListAdapter) expandablelistAdapter).notifyDataSetChanged();
-                }
             }
 
             @Override
@@ -109,19 +128,15 @@ public class HistoryFragment extends Fragment {
             eventTitles.add((String) eventStringMap.get("eventString"));
             eventTimes.add((String) eventTimeMap.get("eventTime"));
         }
+        System.out.println(eventTimes);
     }
 
 
     private int addEvent(String eventTitle, String eventDevice, String eventTime) {
-        HeaderInfo headerInfo = mySection.get(eventTitle);
-
-        if (headerInfo == null) {
-            headerInfo = new HeaderInfo();
-            headerInfo.setEventTitle(eventTitle);
-            mySection.put(eventTitle, headerInfo);
-            SectionList.add(headerInfo);
-        }
-
+        HeaderInfo headerInfo = new HeaderInfo();
+        headerInfo.setEventTitle(eventTitle);
+        linkedHashMap.put(eventTitle, headerInfo);
+        SectionList.add(headerInfo);
         ArrayList<DetailInfo> productList = headerInfo.getProductList();
         DetailInfo detailInfo = new DetailInfo();
         detailInfo.setEventStrings("Event time: " + eventTime, "From device: " + eventDevice);
@@ -130,5 +145,19 @@ public class HistoryFragment extends Fragment {
 
         return SectionList.indexOf(headerInfo);
 
+    }
+
+    private void expandAll() {
+        int count = expandablelistAdapter.getGroupCount();
+        for (int i = 0; i < count; i++) {
+            expandableListView.expandGroup(i);
+        }
+    }
+
+    private void collapseAll() {
+        int count = expandablelistAdapter.getGroupCount();
+        for (int i = 0; i < count; i++) {
+            expandableListView.collapseGroup(i);
+        }
     }
 }

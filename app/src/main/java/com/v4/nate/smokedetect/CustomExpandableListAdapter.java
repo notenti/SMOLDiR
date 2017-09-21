@@ -1,7 +1,6 @@
 package com.v4.nate.smokedetect;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +73,6 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = layoutInflater.inflate(R.layout.list_group, null);
         }
         TextView heading = convertView.findViewById(R.id.listTitle);
-        heading.setTypeface(null, Typeface.BOLD);
         heading.setText(headerInfo.getEventTitle().trim());
         return convertView;
     }

@@ -1,31 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipeContainer"
+    context="com.v4.nate.smokedetect.HistoryFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.v4.nate.smokedetect.HistoryFragment">
+    android:paddingLeft="17dp"
+    android:paddingTop="56dp">
 
-    <LinearLayout
-        android:id="@+id/ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="34dp"
-        android:paddingRight="34dp"
-        android:paddingTop="56dp">
-
-        <Button
-            android:id="@+id/history_button"
-            style="@style/Smoldr.LaunchButton"
-            android:text="History" />
-
-        <ExpandableListView
-            android:id="@+id/history_list"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent" />
-
-
-    </LinearLayout>
-
-
-</RelativeLayout>
+    <ExpandableListView
+        android:id="@+id/history_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"></ExpandableListView>
+</android.support.v4.widget.SwipeRefreshLayout>
