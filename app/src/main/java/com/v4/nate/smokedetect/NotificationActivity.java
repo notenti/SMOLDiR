@@ -29,7 +29,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
 
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         customSharedPreferences = this.getSharedPreferences("ID", Context.MODE_PRIVATE);
-        final String deviceID = customSharedPreferences.getString("DeviceID", null);
+        final String deviceName = customSharedPreferences.getString("DeviceName", null);
         Boolean hush = defaultSharedPreferences.getBoolean("hush", false);
         Boolean localized = defaultSharedPreferences.getBoolean("localized", false);
 
@@ -63,7 +63,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                 notification.setStyle(new NotificationCompat.InboxStyle()
                         .addLine(remoteMessage.getData().get("body"))
                         .setBigContentTitle(remoteMessage.getData().get("title"))
-                        .setSummaryText(deviceID));
+                        .setSummaryText(deviceName));
             }
 
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());

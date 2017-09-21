@@ -9,5 +9,10 @@
             android:key="login"
             android:summary="Automatically login each time the app is opened"
             android:title="Auto Login" />
+        <android.support.v7.preference.EditTextPreference
+            android:key="nickname"
+            android:summary="Give your devices a localized name (e.g. Kitchen)"
+            android:title="Device name" />
+
     </android.support.v7.preference.PreferenceCategory>
 </PreferenceScreen>
