@@ -7,13 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,8 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -33,9 +31,6 @@ import butterknife.ButterKnife;
 public class HistoryFragment extends Fragment {
 
     private static final String TAG = "HistoryFragment";
-    HashMap<String, String> params = new HashMap<>();
-    String url = "http://192.168.0.107/history.php";
-    SendToDevicesActivity send = new SendToDevicesActivity();
     SharedPreferences sharedPreferences;
 
     @BindView(R.id.history_button)
@@ -44,16 +39,20 @@ public class HistoryFragment extends Fragment {
     LinearLayout _linearLayout;
     @BindView(R.id.history_list)
     ListView _historyList;
-    ArrayList<String> listItems;
-    ArrayAdapter<String> adapter;
+
+    //Retrieve from database
     ArrayList<String> eventTitles;
     ArrayList<String> eventTimes;
     ArrayList<String> deviceID;
 
+    LinkedHashMap<String, HeaderInfo> mySection = new LinkedHashMap<>();
+    ArrayList<HeaderInfo> SectionList = new ArrayList<>();
+
     ExpandableListView expandableListView;
-    ExpandableListAdapter expandableListAdapter;
-    List<String> expandableListTitle;
-    HashMap<String, List<String>> expandableListDetail;
+    ExpandableListAdapter listAdapter;
+
+
+
 
 
     @Override
@@ -62,19 +61,9 @@ public class HistoryFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         expandableListView = view.findViewById(R.id.history_list);
-        expandableListDetail = ExpandableListDataPump.getData();
-        expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
-        expandableListAdapter = new CustomExpandableListAdapter(getContext(), expandableListTitle, expandableListDetail);
-        expandableListView.setAdapter(expandableListAdapter);
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Toast.makeText(getContext(), expandableListTitle.get(groupPosition) + " -> " + expandableListDetail.get(expandableListTitle.get(groupPosition)).get(childPosition), Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
+        listAdapter = new CustomExpandableListAdapter(getContext(), SectionList);
+        expandableListView.setAdapter(listAdapter);
 
-//
         _historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,18 +76,19 @@ public class HistoryFragment extends Fragment {
     }
 
     public void trigger() {
-
         sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
         final String homeID = sharedPreferences.getString("HomeID", null);
+
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID);
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 collectEvents((Map<String, Object>) dataSnapshot.getValue());
-//                adapter.clear();
-//                for (int i = 0; i < eventTitles.size(); i++) {
-//                    adapter.add(eventTitles.get(i) + " on " + eventTimes.get(i) + " from device " + deviceID.get(i));
-//                }
+
+                for (int i = 0; i < eventTitles.size(); i++) {
+                    int groupPosition = addProduct(deviceID.get(i), eventTitles.get(i) + " on " + eventTimes.get(i) + " from device " + deviceID.get(i));
+                    ((BaseExpandableListAdapter) listAdapter).notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -122,5 +112,32 @@ public class HistoryFragment extends Fragment {
             eventTitles.add((String) eventStringMap.get("eventString"));
             eventTimes.add((String) eventTimeMap.get("eventTime"));
         }
+    }
+
+
+    private int addProduct(String department, String product) {
+        int groupPosition;
+
+        HeaderInfo headerInfo = mySection.get(department);
+
+        if (headerInfo == null) {
+            headerInfo = new HeaderInfo();
+            headerInfo.setName(department);
+            mySection.put(department, headerInfo);
+            SectionList.add(headerInfo);
+        }
+
+        ArrayList<DetailInfo> productList = headerInfo.getProductList();
+        int listSize = productList.size();
+        listSize++;
+
+        DetailInfo detailInfo = new DetailInfo();
+        detailInfo.setSequence(String.valueOf(listSize));
+        detailInfo.setName(product);
+        productList.add(detailInfo);
+        headerInfo.setProductList(productList);
+
+        groupPosition = SectionList.indexOf(headerInfo);
+        return groupPosition;
     }
 }

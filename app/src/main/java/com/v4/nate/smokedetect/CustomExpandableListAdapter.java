@@ -8,33 +8,22 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import java.util.HashMap;
-import java.util.List;
-
-/**
- * Created by root on 9/20/17.
- */
+import java.util.ArrayList;
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
-    private List<String> expandableListTitle;
-    private HashMap<String, List<String>> expandableListDetail;
+    private ArrayList<HeaderInfo> expandableListTitle;
 
-    public CustomExpandableListAdapter(Context context, List<String> expandableListTitle, HashMap<String, List<String>> expandableListDetail) {
+
+    public CustomExpandableListAdapter(Context context, ArrayList<HeaderInfo> expandableListTitle) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
-        this.expandableListDetail = expandableListDetail;
-    }
-
-    public void setNewItems(List<String> expandableListTitle, HashMap<String, List<String>> expandableListDetail) {
-        this.expandableListDetail = expandableListDetail;
-        this.expandableListTitle = expandableListTitle;
-        notifyDataSetChanged();
     }
 
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
-        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition)).get(expandedListPosition);
+        ArrayList<DetailInfo> productList = expandableListTitle.get(listPosition).getProductList();
+        return productList.get(expandedListPosition);
     }
 
     @Override
@@ -44,30 +33,32 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        final String expandedListText = (String) getChild(listPosition, expandedListPosition);
+        DetailInfo detailInfo = (DetailInfo) getChild(listPosition, expandedListPosition);
         if (convertView == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_item, null);
         }
-
-        TextView expandedListTextView = convertView.findViewById(R.id.expandedListItem);
-        expandedListTextView.setText(expandedListText);
+        TextView sequence = convertView.findViewById(R.id.expandedListItem);
+        sequence.setText(detailInfo.getSequence().trim() + ") ");
+        TextView childItem = convertView.findViewById(R.id.childItem);
+        childItem.setText(detailInfo.getName().trim());
         return convertView;
     }
 
     @Override
     public int getChildrenCount(int listPosition) {
-        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition)).size();
+        ArrayList<DetailInfo> productList = expandableListTitle.get(listPosition).getProductList();
+        return productList.size();
     }
 
     @Override
     public Object getGroup(int listPosition) {
-        return this.expandableListTitle.get(listPosition);
+        return expandableListTitle.get(listPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this.expandableListTitle.size();
+        return expandableListTitle.size();
     }
 
     @Override
@@ -77,20 +68,20 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int listPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        String listTitle = (String) getGroup(listPosition);
+        HeaderInfo headerInfo = (HeaderInfo) getGroup(listPosition);
         if (convertView == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_group, null);
         }
-        TextView listTitleTextView = convertView.findViewById(R.id.listTitle);
-        listTitleTextView.setTypeface(null, Typeface.BOLD);
-        listTitleTextView.setText(listTitle);
+        TextView heading = convertView.findViewById(R.id.listTitle);
+        heading.setTypeface(null, Typeface.BOLD);
+        heading.setText(headerInfo.getName().trim());
         return convertView;
     }
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 
     @Override
