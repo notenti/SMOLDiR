@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -29,6 +30,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class WelcomeFragment extends Fragment {
     public static final String TAG = "WelcomeFragment";
@@ -37,6 +39,9 @@ public class WelcomeFragment extends Fragment {
     Button _registerDeviceButton;
     @BindView(R.id.sign_in_button)
     Button _googleSignup;
+    @BindView(R.id.text_install)
+    TextView _install;
+
     Boolean login = false;
 
     private GoogleApiClient mGoogleApiClient;
@@ -46,6 +51,7 @@ public class WelcomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle onSavedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_welcome, container, false);
+        ButterKnife.bind(this, view);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         login = prefs.getBoolean("login", false);
@@ -53,6 +59,7 @@ public class WelcomeFragment extends Fragment {
 
         _registerDeviceButton = view.findViewById(R.id.btn_registerDevice);
         _googleSignup = view.findViewById(R.id.sign_in_button);
+        _install = view.findViewById(R.id.text_install);
 
         _registerDeviceButton.setOnClickListener(new View.OnClickListener() {
 
@@ -67,6 +74,14 @@ public class WelcomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 sign();
+            }
+        });
+
+        _install.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InstallFragment installFragment = new InstallFragment();
+                ((WelcomeActivity) getActivity()).setNewFragment(installFragment);
             }
         });
 

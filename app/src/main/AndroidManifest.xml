@@ -27,7 +27,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".MainActivity" />
 
         <service android:name=".NotificationActivity">
@@ -47,7 +46,7 @@
         <activity
             android:name=".LandingActivity"
             android:theme="@style/AppTheme.Welcome" />
-
+        <activity android:name=".InstallFragment"></activity>
     </application>
 
 </manifest>
