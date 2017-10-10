@@ -20,8 +20,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import butterknife.BindView;
 
@@ -36,6 +41,7 @@ public class WelcomeFragment extends Fragment {
 
     private GoogleApiClient mGoogleApiClient;
     private ProgressDialog progressDialog;
+    private FirebaseAuth mAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle onSavedInstanceState) {
@@ -68,6 +74,7 @@ public class WelcomeFragment extends Fragment {
                 .requestEmail()
                 //.requestIdToken(getString(R.string.server_client_id))
                 .build();
+        //mAuth = FirebaseAuth.getInstance();
 
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .enableAutoManage((WelcomeActivity) getActivity(), new GoogleApiClient.OnConnectionFailedListener() {
@@ -108,23 +115,41 @@ public class WelcomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if (!login) {
-            OptionalPendingResult<GoogleSignInResult> optionalPendingResult = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-            if (optionalPendingResult.isDone()) {
-                GoogleSignInResult result = optionalPendingResult.get();
-                handleSignInResult(result);
-                Log.e("CACHE STATUS", "Got cached sign-in");
-            } else {
-                showProgressDialog();
-                optionalPendingResult.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+//        if (!login) {
+//            OptionalPendingResult<GoogleSignInResult> optionalPendingResult = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+//            if (optionalPendingResult.isDone()) {
+//                GoogleSignInResult result = optionalPendingResult.get();
+//                handleSignInResult(result);
+//                Log.e("CACHE STATUS", "Got cached sign-in");
+//            } else {
+//                showProgressDialog();
+//                optionalPendingResult.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+//                    @Override
+//                    public void onResult(GoogleSignInResult googleSignInResult) {
+//                        hideProgressDialog();
+//                        handleSignInResult(googleSignInResult);
+//                    }
+//                });
+//            }
+//        }
+
+        // FirebaseUser currentUser = mAuth.getCurrentUser();
+
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onResult(GoogleSignInResult googleSignInResult) {
-                        hideProgressDialog();
-                        handleSignInResult(googleSignInResult);
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                        } else {
+                            Toast.makeText(getActivity(), "Authentication failed", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
-            }
-        }
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
@@ -132,17 +157,18 @@ public class WelcomeFragment extends Fragment {
 
         if (result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
-            String idToken = account.getIdToken();
-            Toast.makeText(getActivity(), idToken, Toast.LENGTH_SHORT).show();
-
-            //Logging for debugging, can remove later
-            String name = account.getDisplayName();
-            Log.e("DISPLAY NAME", name);
-            String email = account.getEmail();
-            Log.e("USER EMAIL", email);
-            String profile = String.valueOf(account.getPhotoUrl());
-            Log.e("USER PROFILE", profile);
-            Log.e("ID", account.getId());
+            //firebaseAuthWithGoogle(account);
+//            String idToken = account.getIdToken();
+//            Toast.makeText(getActivity(), idToken, Toast.LENGTH_SHORT).show();
+//
+//            //Logging for debugging, can remove later
+//            String name = account.getDisplayName();
+//            Log.e("DISPLAY NAME", name);
+//            String email = account.getEmail();
+//            Log.e("USER EMAIL", email);
+//            String profile = String.valueOf(account.getPhotoUrl());
+//            Log.e("USER PROFILE", profile);
+//            Log.e("ID", account.getId());
 
 
             Intent intent = new Intent(getActivity(), LandingActivity.class);

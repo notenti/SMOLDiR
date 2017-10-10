@@ -18,13 +18,17 @@
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_smoke_free_black_24dp" />
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".MainActivity" />
 
         <service android:name=".NotificationActivity">
             <intent-filter>
@@ -43,11 +47,7 @@
         <activity
             android:name=".LandingActivity"
             android:theme="@style/AppTheme.Welcome" />
-        <activity android:name=".GeneralPreferencesFragment" />
-        <activity
-            android:name=".WifiFragment"
-            android:label="@string/title_activity_wifi_fragment"
-            android:theme="@style/AppTheme.Welcome.NoActionBar"></activity>
+
     </application>
 
 </manifest>
