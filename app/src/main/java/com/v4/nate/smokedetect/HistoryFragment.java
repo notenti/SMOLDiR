@@ -84,7 +84,6 @@ public class HistoryFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Grabs all of the database info and stores it in three arraylists
                 collectEvents((Map<String, Object>) dataSnapshot.getValue());
-
             }
 
             @Override

@@ -81,10 +81,12 @@ public class RegisterFragment extends Fragment {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         Log.d(TAG, result.getString("homeID"));
                         Log.d(TAG, result.getString("deviceID"));
-                        editor.putString("HomeID", result.getString("homeID").trim().replace("\n", ""));
-                        editor.putString("DeviceID", result.getString("deviceID").trim().replace("\n", ""));
-                        editor.putString("DeviceName", nickname);
-                        editor.apply();
+                        if (valid) {
+                            editor.putString("HomeID", result.getString("homeID").trim().replace("\n", ""));
+                            editor.putString("DeviceID", result.getString("deviceID").trim().replace("\n", ""));
+                            editor.putString("DeviceName", nickname);
+                            editor.apply();
+                        }
                         FirebaseMessaging.getInstance().subscribeToTopic(result.getString("homeID").trim());
                         Toast.makeText(getActivity(), "Subscribed to topic " + result.getString("homeID").trim(), Toast.LENGTH_SHORT).show();
                         _registrationCode.setError(null);

@@ -69,7 +69,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
 
-        } else if (type == MessageType.ALARM_FIRE.ordinal()) {
+        } else if (type == MessageType.IR_DETECTED_FIRE.ordinal()) {
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle(remoteMessage.getData().get("title"))
                     .setContentText(remoteMessage.getData().get("body"))
@@ -139,7 +139,13 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
 
     public enum MessageType {
         LOW_BATTERY,
-        ALARM_FIRE,
-        ALARM_CO
+        VERY_LOW_BATTERY,
+        BATTERY_DISCONNECTED,
+        IR_DETECTED_FIRE,
+        SMOKE_IR_DETECTED_FIRE,
+        SMOKE_DETECTED_FIRE,
+        INTERCONNECTED_DETECTED_FIRE,
+        CO_DETECTED,
+        TEST_ALARM
     }
 }
