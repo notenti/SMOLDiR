@@ -1,5 +1,7 @@
 package com.v4.nate.smokedetect;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,28 +15,44 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class DetectorHealthFragment extends Fragment {
+    String homeID;
+    SharedPreferences sharedPreferences;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detector_health, container, false);
+        sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
+        homeID = sharedPreferences.getString("HomeID", null);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID);
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //This method is called once with the initial value and again
-                //whenever data at this location is updated
-                String value = dataSnapshot.getValue(String.class);
+                //Grabs all of the database info and stores it in three arraylists
+                //collectEvents((Map<String, Object>) dataSnapshot.getValue());
 
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                //Failed to read value
 
             }
         });
         return view;
     }
+
+//    private void collectEvents(Map<String, Object> events) {
+//        deviceIDList = new ArrayList<>();
+//
+//        for (Map.Entry<String, Object> entry : events.entrySet()) { //Gets all of the entries directly beneath the device
+//            Map<String, Object> messagesMap = (Map<String, Object>) entry.getValue();
+//            for (Map.Entry<String, Object> innerEntry : messagesMap.entrySet()) { //gets all of the entries directly beneath the time stamp (will always be messages and var)
+//                Map entryMessages = (Map) innerEntry.getValue();
+//                Map entryVariables = (Map) innerEntry.getValue();
+//                deviceIDList.add(deviceID);
+//                eventTitlesList.add(entryMessages.get("eventString").toString());
+//                eventTimesList.add(entryMessages.get("eventTime").toString());
+//            }
+//        }
+//    }
 }

@@ -10,18 +10,16 @@
         android:orientation="vertical"
         android:paddingTop="56dp">
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="72dp"
             android:layout_gravity="center_horizontal"
-            android:text="@string/app_name"
-            android:textSize="40sp" />
+            android:src="@drawable/ic_smoke_free_black_24dp" />
 
         <FrameLayout
             android:id="@+id/welcomeFrameLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"></FrameLayout>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -94,8 +94,11 @@ public class WelcomeFragment extends Fragment {
     }
 
     private void sign() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        Intent intent = new Intent(getActivity(), LandingActivity.class);
+        startActivity(intent);
+
+//        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+//        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
 

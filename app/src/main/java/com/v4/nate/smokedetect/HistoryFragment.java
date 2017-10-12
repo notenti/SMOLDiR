@@ -80,7 +80,7 @@ public class HistoryFragment extends Fragment {
         homeID = sharedPreferences.getString("HomeID", null);
         deviceID = sharedPreferences.getString("DeviceID", null);
 
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(deviceID);
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(deviceID).child("messages");
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -104,13 +104,12 @@ public class HistoryFragment extends Fragment {
 
         for (Map.Entry<String, Object> entry : events.entrySet()) { //Gets all of the entries directly beneath the device
             Map<String, Object> messagesMap = (Map<String, Object>) entry.getValue();
-            for (Map.Entry<String, Object> innerEntry : messagesMap.entrySet()) { //gets all of the entries directly beneath the time stamp (will always be messages and var)
-                Map entryMessages = (Map) innerEntry.getValue();
-                Map entryVariables = (Map) innerEntry.getValue();
+//                Map entryMessages = (Map) messagesMap.getValue();
+//                Map entryVariables = (Map) innerEntry.getValue();
                 deviceIDList.add(deviceID);
-                eventTitlesList.add(entryMessages.get("eventString").toString());
-                eventTimesList.add(entryMessages.get("eventTime").toString());
-            }
+            eventTitlesList.add(messagesMap.get("eventString").toString());
+            eventTimesList.add(messagesMap.get("eventTime").toString());
+
         }
     }
 

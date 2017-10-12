@@ -151,5 +151,13 @@ public class LandingActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void function(View view) {
+
+//        Intent sendIntent = new Intent(getApplicationContext(), DatabasePushActivity.class);
+//        sendIntent.putExtra("hush", true);
+//
+//        this.startActivity(sendIntent);
+    }
+
 
 }

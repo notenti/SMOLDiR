@@ -40,8 +40,6 @@ public class RegisterFragment extends Fragment {
     EditText _registrationCode;
     @BindView(R.id.btn_registerDevice)
     Button _registrationButton;
-    @BindView(R.id.input_device_nickname)
-    EditText _nickname;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstancestate) {
@@ -64,14 +62,10 @@ public class RegisterFragment extends Fragment {
         Log.d(TAG, "Register");
 
         String code = _registrationCode.getText().toString();
-        final String nickname = _nickname.getText().toString();
 
         params.put("code", code);
-        params.put("name", nickname);
         if (code.isEmpty() || code.length() < 6) {
             _registrationCode.setError("incorrect number of characters");
-        } else if (nickname.isEmpty()) {
-            _nickname.setError("please enter a name for the device");
         } else {
             send.queryServer(getActivity(), url, params, new SendToDevicesActivity.VolleyCallback() {
                 @Override
@@ -84,7 +78,6 @@ public class RegisterFragment extends Fragment {
                         if (valid) {
                             editor.putString("HomeID", result.getString("homeID").trim().replace("\n", ""));
                             editor.putString("DeviceID", result.getString("deviceID").trim().replace("\n", ""));
-                            editor.putString("DeviceName", nickname);
                             editor.apply();
                         }
                         FirebaseMessaging.getInstance().subscribeToTopic(result.getString("homeID").trim());
