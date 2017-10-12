@@ -46,10 +46,10 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
 
         int type = Integer.parseInt(remoteMessage.getData().get("messageType"));
 
-        if (type == MessageType.LOW_BATTERY.ordinal()) {
+        if (type == 10) { //Low battery
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
-                    .setContentTitle(remoteMessage.getData().get("title"))
-                    .setContentText(remoteMessage.getData().get("body"))
+                    .setContentTitle("Low Battery")
+                    .setContentText("Time to charge your battery")
                     .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
@@ -59,20 +59,14 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary));
-            if (localized) {
-                notification.setStyle(new NotificationCompat.InboxStyle()
-                        .addLine(remoteMessage.getData().get("body"))
-                        .setBigContentTitle(remoteMessage.getData().get("title"))
-                        .setSummaryText(deviceName));
-            }
 
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
 
-        } else if (type == MessageType.IR_DETECTED_FIRE.ordinal()) {
+        } else if (type == 11) { //Very low battery
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
-                    .setContentTitle(remoteMessage.getData().get("title"))
-                    .setContentText(remoteMessage.getData().get("body"))
+                    .setContentTitle("Very Low Battery")
+                    .setContentText("Time to change your battery")
                     .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
@@ -84,9 +78,203 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary));
 
-            if (hush && localized) {
-                notification.addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
-            }
+            NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+            manager.notify(123, notification.build());
+        } else if (type == 12) { //Battery disconnected
+            NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                    .setContentTitle("Battery Disconnected")
+                    .setContentText("Connect your battery")
+                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSound(defaultSoundUri)
+                    .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .setContentIntent(pendingIntent)
+                    .setLights(Color.GREEN, 500, 500)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setFullScreenIntent(pendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary));
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+            manager.notify(123, notification.build());
+        } else if (type == 20) { //IR Detected Fire
+            NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                    .setContentTitle("IR Detected Fire")
+                    .setContentText("Fire detected!!!!")
+                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSound(defaultSoundUri)
+                    .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .setContentIntent(pendingIntent)
+                    .setLights(Color.GREEN, 500, 500)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setFullScreenIntent(pendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary))
+                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+            manager.notify(123, notification.build());
+        } else if (type == 21) { //Smoke/IR Detected Fire
+            NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                    .setContentTitle("Smoke/IR Detected Fire")
+                    .setContentText("Fire detected!!!!")
+                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSound(defaultSoundUri)
+                    .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .setContentIntent(pendingIntent)
+                    .setLights(Color.GREEN, 500, 500)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setFullScreenIntent(pendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary))
+                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+            manager.notify(123, notification.build());
+        } else if (type == 22) { //Smoke Detected Fire
+            NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                    .setContentTitle("Smoke Detected Fire")
+                    .setContentText("Fire detected!!!!")
+                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSound(defaultSoundUri)
+                    .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .setContentIntent(pendingIntent)
+                    .setLights(Color.GREEN, 500, 500)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setFullScreenIntent(pendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary))
+                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+            manager.notify(123, notification.build());
+        } else if (type == 23) { //Interconnected Detected Fire
+            NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                    .setContentTitle("Interconnected Fire Detected")
+                    .setContentText("Fire detected!!!!")
+                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSound(defaultSoundUri)
+                    .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .setContentIntent(pendingIntent)
+                    .setLights(Color.GREEN, 500, 500)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setFullScreenIntent(pendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary))
+                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+            manager.notify(123, notification.build());
+        } else if (type == 30) { //Smoke/IR Warning
+            NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                    .setContentTitle("Smoke/IR warning")
+                    .setContentText("Issuing a warning")
+                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSound(defaultSoundUri)
+                    .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .setContentIntent(pendingIntent)
+                    .setLights(Color.GREEN, 500, 500)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setFullScreenIntent(pendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary));
+
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+            manager.notify(123, notification.build());
+        } else if (type == 31) { //Smoke only warning
+            NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                    .setContentTitle("Smoke Only Warning")
+                    .setContentText("Smoke is present, stove situation")
+                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSound(defaultSoundUri)
+                    .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .setContentIntent(pendingIntent)
+                    .setLights(Color.GREEN, 500, 500)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setFullScreenIntent(pendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary));
+
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+            manager.notify(123, notification.build());
+        } else if (type == 40) { //CO alarm
+            NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                    .setContentTitle("Carbon Monoxide Alarm")
+                    .setContentText("Detected carbon monoxide")
+                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSound(defaultSoundUri)
+                    .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .setContentIntent(pendingIntent)
+                    .setLights(Color.GREEN, 500, 500)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setFullScreenIntent(pendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary))
+                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
+
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+            manager.notify(123, notification.build());
+        } else if (type == 50) { //button test
+            NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                    .setContentTitle("button test alarm")
+                    .setContentText("button test alarm body")
+                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSound(defaultSoundUri)
+                    .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .setContentIntent(pendingIntent)
+                    .setLights(Color.GREEN, 500, 500)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setFullScreenIntent(pendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary))
+                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+            manager.notify(123, notification.build());
+        } else if (type == 51) { //remote test
+            NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                    .setContentTitle("remote test alarm")
+                    .setContentText("remote test alarm body")
+                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSound(defaultSoundUri)
+                    .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .setContentIntent(pendingIntent)
+                    .setLights(Color.GREEN, 500, 500)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setFullScreenIntent(pendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary))
+                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+            manager.notify(123, notification.build());
+        } else if (type == 60) { //Power warning
+            NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                    .setContentTitle("Power warning")
+                    .setContentText("Power has been disconnected")
+                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSound(defaultSoundUri)
+                    .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .setContentIntent(pendingIntent)
+                    .setLights(Color.GREEN, 500, 500)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setFullScreenIntent(pendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary));
+
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
         } else {
