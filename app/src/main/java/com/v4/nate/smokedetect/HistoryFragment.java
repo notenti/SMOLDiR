@@ -16,7 +16,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -30,26 +29,29 @@ public class HistoryFragment extends Fragment {
 
     private static final String TAG = "HistoryFragment";
     SharedPreferences sharedPreferences;
-    ArrayList<String> eventTitles;
-    ArrayList<String> eventTimes;
-    ArrayList<String> deviceID;
+    ArrayList<String> eventTitlesList;
+    ArrayList<String> eventTimesList;
+    ArrayList<String> deviceIDList;
     LinkedHashMap<String, HeaderInfo> linkedHashMap = new LinkedHashMap<>();
     ArrayList<HeaderInfo> SectionList = new ArrayList<>();
     ExpandableListView expandableListView;
     ExpandableListAdapter expandablelistAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
+    String homeID;
+    String deviceID;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
         ButterKnife.bind(this, view);
+        initialize();
         swipeRefreshLayout = view.findViewById(R.id.swipeContainer);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                for (int i = 0; i < eventTitles.size(); i++) {
+                for (int i = 0; i < eventTitlesList.size(); i++) {
 
-                    int position = addEvent(eventTitles.get(i), deviceID.get(i), eventTimes.get(i));
+                    int position = addEvent(eventTitlesList.get(i), deviceIDList.get(i), eventTimesList.get(i));
                     ((BaseExpandableListAdapter) expandablelistAdapter).notifyDataSetChanged();
                     collapseAll();
                     expandableListView.expandGroup(position);
@@ -68,22 +70,23 @@ public class HistoryFragment extends Fragment {
         expandableListView = view.findViewById(R.id.history_list);
         expandablelistAdapter = new CustomExpandableListAdapter(getContext(), SectionList);
         expandableListView.setAdapter(expandablelistAdapter);
-        trigger();
+
 
         return view;
     }
 
-    public void trigger() {
+    public void initialize() {
         sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
-        final String homeID = sharedPreferences.getString("HomeID", null);
+        homeID = sharedPreferences.getString("HomeID", null);
+        deviceID = sharedPreferences.getString("DeviceID", null);
 
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID);
-        Query dataOrderedByKey = database.orderByKey();
-        dataOrderedByKey.addValueEventListener(new ValueEventListener() {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(deviceID);
+        database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Grabs all of the database info and stores it in three arraylists
                 collectEvents((Map<String, Object>) dataSnapshot.getValue());
+
             }
 
             @Override
@@ -95,19 +98,20 @@ public class HistoryFragment extends Fragment {
     }
 
     private void collectEvents(Map<String, Object> events) {
-        eventTimes = new ArrayList<>();
-        eventTitles = new ArrayList<>();
-        deviceID = new ArrayList<>();
+        eventTimesList = new ArrayList<>();
+        eventTitlesList = new ArrayList<>();
+        deviceIDList = new ArrayList<>();
 
-        for (Map.Entry<String, Object> entry : events.entrySet()) {
-            Map eventStringMap = (Map) entry.getValue();
-            Map eventTimeMap = (Map) entry.getValue();
-            Map deviceIDMap = (Map) entry.getValue();
-            deviceID.add((String) deviceIDMap.get("deviceID"));
-            eventTitles.add((String) eventStringMap.get("eventString"));
-            eventTimes.add((String) eventTimeMap.get("eventTime"));
+        for (Map.Entry<String, Object> entry : events.entrySet()) { //Gets all of the entries directly beneath the device
+            Map<String, Object> messagesMap = (Map<String, Object>) entry.getValue();
+            for (Map.Entry<String, Object> innerEntry : messagesMap.entrySet()) { //gets all of the entries directly beneath the time stamp (will always be messages and var)
+                Map entryMessages = (Map) innerEntry.getValue();
+                Map entryVariables = (Map) innerEntry.getValue();
+                deviceIDList.add(deviceID);
+                eventTitlesList.add(entryMessages.get("eventString").toString());
+                eventTimesList.add(entryMessages.get("eventTime").toString());
+            }
         }
-        System.out.println(eventTimes);
     }
 
 
