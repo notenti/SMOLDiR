@@ -3,9 +3,10 @@
     <item android:drawable="@color/color_primary" />
 
     <item>
+
         <bitmap
             android:gravity="center"
-            android:src="@drawable/ic_smoke_free_black_24dp" />
+            android:src="@drawable/flame_icon_large" />
 
     </item>
 
