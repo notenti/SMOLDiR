@@ -29,12 +29,11 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
 
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         customSharedPreferences = this.getSharedPreferences("ID", Context.MODE_PRIVATE);
-        final String deviceName = customSharedPreferences.getString("DeviceName", null);
         Boolean hush = defaultSharedPreferences.getBoolean("hush", false);
         Boolean localized = defaultSharedPreferences.getBoolean("localized", false);
 
-        Intent sendIntent = new Intent(getApplicationContext(), SendToDevicesActivity.class);
-        sendIntent.putExtra("methodName", "hush");
+        Intent sendIntent = new Intent(getApplicationContext(), DatabasePushActivity.class);
+        sendIntent.putExtra("hush", true);
 
         PendingIntent sendPendingIntent = PendingIntent.getActivity(this, 0, sendIntent, PendingIntent.FLAG_ONE_SHOT);
 
@@ -324,16 +323,4 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
         notificationManager.notify(0, notif.build());
     }
 
-
-    public enum MessageType {
-        LOW_BATTERY,
-        VERY_LOW_BATTERY,
-        BATTERY_DISCONNECTED,
-        IR_DETECTED_FIRE,
-        SMOKE_IR_DETECTED_FIRE,
-        SMOKE_DETECTED_FIRE,
-        INTERCONNECTED_DETECTED_FIRE,
-        CO_DETECTED,
-        TEST_ALARM
-    }
 }

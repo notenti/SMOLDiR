@@ -46,7 +46,8 @@
         <activity
             android:name=".LandingActivity"
             android:theme="@style/AppTheme.Welcome" />
-        <activity android:name=".InstallFragment"></activity>
+        <activity android:name=".InstallFragment" />
+        <activity android:name=".DatabasePushActivity"></activity>
     </application>
 
 </manifest>
