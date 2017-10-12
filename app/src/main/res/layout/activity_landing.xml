@@ -7,21 +7,31 @@
     tools:context="com.v4.nate.smokedetect.LandingActivity">
 
     <!--normal layout-->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:paddingTop="24dp">
+        android:orientation="vertical">
 
         <ImageButton
+            android:id="@+id/landingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
+            android:maxHeight="280dp"
+            android:maxWidth="280dp"
             android:onClick="function"
-            android:src="@drawable/ic_smoke_free_black_24dp" />
-    </LinearLayout>
+            android:padding="3dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/orange_flame" />
+
+        <TextView
+            android:id="@+id/detectorStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:text="" />
+    </RelativeLayout>
     <!--nav open-->
     <ListView
         android:id="@+id/navList"

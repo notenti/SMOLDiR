@@ -104,9 +104,7 @@ public class HistoryFragment extends Fragment {
 
         for (Map.Entry<String, Object> entry : events.entrySet()) { //Gets all of the entries directly beneath the device
             Map<String, Object> messagesMap = (Map<String, Object>) entry.getValue();
-//                Map entryMessages = (Map) messagesMap.getValue();
-//                Map entryVariables = (Map) innerEntry.getValue();
-                deviceIDList.add(deviceID);
+            deviceIDList.add(deviceID);
             eventTitlesList.add(messagesMap.get("eventString").toString());
             eventTimesList.add(messagesMap.get("eventTime").toString());
 

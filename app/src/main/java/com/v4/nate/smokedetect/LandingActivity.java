@@ -1,6 +1,8 @@
 package com.v4.nate.smokedetect;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,11 +16,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class LandingActivity extends AppCompatActivity {
 
-
+    DatabaseQuery databaseQuery = new DatabaseQuery();
+    SharedPreferences sharedPreferences;
+    @BindView(R.id.detectorStatus)
+    TextView _detectorStatus;
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
     private ActionBarDrawerToggle drawerToggle;
@@ -29,9 +38,19 @@ public class LandingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
+        ButterKnife.bind(this);
+
+
+        sharedPreferences = this.getSharedPreferences("ID", Context.MODE_PRIVATE);
+        String homeID = sharedPreferences.getString("HomeID", null);
+        String deviceID = sharedPreferences.getString("DeviceID", null);
+
 
         listView = findViewById(R.id.navList);
         drawerLayout = findViewById(R.id.drawer_layout);
+        _detectorStatus = findViewById(R.id.detectorStatus);
+        String db = databaseQuery.requestFromDatabase(homeID, deviceID, "var", "hush");
+        _detectorStatus.setText(db);
         activityTitle = getTitle().toString();
 
         addDrawerItems();
@@ -125,6 +144,7 @@ public class LandingActivity extends AppCompatActivity {
         // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState();
     }
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
