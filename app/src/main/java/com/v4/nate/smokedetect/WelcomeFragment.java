@@ -33,9 +33,9 @@ public class WelcomeFragment extends Fragment {
     @BindView(R.id.btn_registerDevice)
     Button _registerDeviceButton;
     @BindView(R.id.sign_in_button)
-    Button _googleSignup;
+    Button _googleSignupButton;
     @BindView(R.id.text_install)
-    TextView _install;
+    TextView _installText;
     Boolean login = false;
 
     private GoogleApiClient mGoogleApiClient;
@@ -50,8 +50,8 @@ public class WelcomeFragment extends Fragment {
 
 
         _registerDeviceButton = view.findViewById(R.id.btn_registerDevice);
-        _googleSignup = view.findViewById(R.id.sign_in_button);
-        _install = view.findViewById(R.id.text_install);
+        _googleSignupButton = view.findViewById(R.id.sign_in_button);
+        _installText = view.findViewById(R.id.text_install);
 
         _registerDeviceButton.setOnClickListener(new View.OnClickListener() {
 
@@ -62,10 +62,18 @@ public class WelcomeFragment extends Fragment {
             }
         });
 
-        _googleSignup.setOnClickListener(new View.OnClickListener() {
+        _googleSignupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sign();
+            }
+        });
+
+        _installText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InstallFragment installFragment = new InstallFragment();
+                ((WelcomeActivity) getActivity()).setNewFragment(installFragment);
             }
         });
 
