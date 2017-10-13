@@ -16,18 +16,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LandingActivity extends AppCompatActivity {
 
     DatabaseQuery databaseQuery = new DatabaseQuery();
     SharedPreferences sharedPreferences;
-    @BindView(R.id.detectorStatus)
-    TextView _detectorStatus;
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
     private ActionBarDrawerToggle drawerToggle;
@@ -48,9 +44,7 @@ public class LandingActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.navList);
         drawerLayout = findViewById(R.id.drawer_layout);
-        _detectorStatus = findViewById(R.id.detectorStatus);
-        String db = databaseQuery.requestFromDatabase(homeID, deviceID, "var", "hush");
-        _detectorStatus.setText(db);
+        //String db = databaseQuery.requestFromDatabase(homeID, deviceID, "var", "hush");
         activityTitle = getTitle().toString();
 
         addDrawerItems();
@@ -58,6 +52,12 @@ public class LandingActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        Fragment landingFragment = new LandingFragment();
+        fragmentTransaction.replace(R.id.frameLayout, landingFragment);
+        fragmentTransaction.addToBackStack("landingFragment");
+        fragmentTransaction.commit();
 
 
     }

@@ -33,7 +33,7 @@ public class RegisterFragment extends Fragment {
 
 
     //TODO: Determine a URL that we can reliably send the data to on the Pi
-    String url = "http://192.168.1.208/register.php";
+    String url = "http://192.168.0.107/register.php";
     SendToDevicesActivity send = new SendToDevicesActivity();
 
     @BindView(R.id.input_registration_code)

@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -107,8 +106,6 @@ public class WelcomeFragment extends Fragment {
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
-                        // [START_EXCLUDE]
-                        // [END_EXCLUDE]
                     }
                 });
     }
@@ -163,9 +160,6 @@ public class WelcomeFragment extends Fragment {
 
         if (result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
-            String idToken = account.getIdToken();
-            Toast.makeText(getActivity(), idToken, Toast.LENGTH_SHORT).show();
-
             //Logging for debugging, can remove later
             String name = account.getDisplayName();
             Log.e("DISPLAY NAME", name);
