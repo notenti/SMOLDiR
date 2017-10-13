@@ -11,16 +11,17 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:adjustViewBounds="true"
+        android:background="@null"
         android:maxHeight="280dp"
         android:maxWidth="280dp"
         android:padding="3dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/orange_flame" />
+        android:src="@drawable/green_flame" />
 
     <TextView
         android:id="@+id/detectorStatus"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="" />
 </RelativeLayout>
