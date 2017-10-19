@@ -28,8 +28,8 @@ public class LandingFragment extends Fragment {
     ImageButton _flameButton;
     @BindView(R.id.detectorStatus)
     TextView _detectorStatus;
-    String homeID;
-    String deviceID;
+    String homeID = "1376hh";
+    String deviceID = "12ab12";
     String status;
     SharedPreferences sharedPreferences;
 
@@ -39,8 +39,8 @@ public class LandingFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
-        homeID = sharedPreferences.getString("HomeID", null);
-        deviceID = sharedPreferences.getString("DeviceID", null);
+//        homeID = sharedPreferences.getString("HomeID", null);
+//        deviceID = sharedPreferences.getString("DeviceID", null);
 
         _flameButton = view.findViewById(R.id.landingButton);
         _detectorStatus.setText("Everything is ok.");

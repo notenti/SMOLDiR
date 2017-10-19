@@ -14,11 +14,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,13 +29,12 @@ import butterknife.ButterKnife;
 public class RegisterFragment extends Fragment {
 
     private static final String TAG = "RegisterFragment";
+    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
+    SharedPreferences.Editor editor = sharedPreferences.edit();
     HashMap<String, String> params = new HashMap<>();
+    List<String> deviceList = new ArrayList<>();
     boolean valid = false;
 
-    SharedPreferences sharedPreferences;
-
-
-    //TODO: Determine a URL that we can reliably send the data to on the Pi
     String url = "http://192.168.0.107/register.php";
     SendToDevicesActivity send = new SendToDevicesActivity();
 
@@ -45,20 +47,16 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstancestate) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         ButterKnife.bind(this, view);
-        sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
-
         _registrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 register();
             }
         });
-
         return view;
     }
 
     public void register() {
-
         Log.d(TAG, "Register");
 
         String code = _registrationCode.getText().toString();
@@ -72,13 +70,11 @@ public class RegisterFragment extends Fragment {
                 public void onSuccessResponse(JSONObject result) { //Response was successful
                     try {
                         valid = result.getBoolean("return");
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
                         Log.d(TAG, result.getString("homeID"));
                         Log.d(TAG, result.getString("deviceID"));
                         if (valid) {
-                            editor.putString("HomeID", result.getString("homeID").trim().replace("\n", ""));
-                            editor.putString("DeviceID", result.getString("deviceID").trim().replace("\n", ""));
-                            editor.apply();
+                            set("HomeID", result.getString("homeID").trim().replace("\n", ""));
+                            set("DeviceID", result.getString("deviceID").trim().replace("\n", ""));
                         }
                         FirebaseMessaging.getInstance().subscribeToTopic(result.getString("homeID").trim());
                         Toast.makeText(getActivity(), "Subscribed to topic " + result.getString("homeID").trim(), Toast.LENGTH_SHORT).show();
@@ -123,5 +119,16 @@ public class RegisterFragment extends Fragment {
     public void onRegistrationFailed() {
         _registrationButton.setEnabled(true);
         Toast.makeText(getActivity(), "Registration failed", Toast.LENGTH_SHORT).show();
+    }
+
+    public <T> void setList(String key, List<T> list) {
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+    }
+
+    public void set(String key, String value) {
+        editor.putString(key, value);
+        editor.apply();
+
     }
 }

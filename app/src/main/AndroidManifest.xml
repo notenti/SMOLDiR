@@ -49,7 +49,8 @@
         <activity android:name=".InstallFragment" />
         <activity android:name=".DatabasePushActivity" />
         <activity android:name=".DatabaseQuery" />
-        <activity android:name=".LandingFragment"></activity>
+        <activity android:name=".LandingFragment" />
+        <activity android:name=".DeviceListFragment"></activity>
     </application>
 
 </manifest>

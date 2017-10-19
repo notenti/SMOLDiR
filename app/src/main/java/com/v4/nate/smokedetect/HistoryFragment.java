@@ -37,8 +37,8 @@ public class HistoryFragment extends Fragment {
     ExpandableListView expandableListView;
     ExpandableListAdapter expandablelistAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
-    String homeID;
-    String deviceID;
+    String homeID = "1376hh";
+    String deviceID = "12ab12";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,8 +77,8 @@ public class HistoryFragment extends Fragment {
 
     public void initialize() {
         sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
-        homeID = sharedPreferences.getString("HomeID", null);
-        deviceID = sharedPreferences.getString("DeviceID", null);
+//        homeID = sharedPreferences.getString("HomeID", null);
+//        deviceID = sharedPreferences.getString("DeviceID", null);
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(deviceID).child("messages");
         database.addValueEventListener(new ValueEventListener() {
