@@ -43,7 +43,7 @@ public class RegisterFragment extends Fragment {
     boolean valid = false;
     boolean alreadyRegistered = false;
 
-    String url = "http://192.168.0.107/register.php";
+    String url = "http://192.168.1.208/register.php";
     SendToDevicesActivity send = new SendToDevicesActivity();
 
     @BindView(R.id.input_registration_code)
@@ -67,7 +67,6 @@ public class RegisterFragment extends Fragment {
     }
 
     public void register() {
-        alreadyRegistered = false;
 
         Log.d(TAG, "Register");
 
@@ -75,54 +74,36 @@ public class RegisterFragment extends Fragment {
         code = _registrationCode.getText().toString();
         params.put("code", code);
 
-        final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild(homeID)) {
-                    if (dataSnapshot.child(homeID).hasChild(code)) {
-                        alreadyRegistered = true;
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
 
         if (code.isEmpty() || code.length() < 6) {
             _registrationCode.setError("incorrect number of characters");
-        } else if (alreadyRegistered) {
-            Toast.makeText(getActivity(), "That device has already been registered", Toast.LENGTH_SHORT).show();
-        } else {
-            send.queryServer(getActivity(), url, params, new SendToDevicesActivity.VolleyCallback() {
-                @Override
-                public void onSuccessResponse(JSONObject result) { //Response was successful
-                    try {
-                        valid = result.getBoolean("return");
-                        Log.d(TAG, result.getString("homeID"));
-                        Log.d(TAG, result.getString("deviceID"));
-                        if (valid) {
-                            deviceList.add(result.getString("deviceID").trim().replace("\n", ""));
-                            setList("DeviceID", deviceList);
-                            set("HomeID", result.getString("homeID").trim().replace("\n", ""));
-                            progress();
+        } else { //Code was entered properly
+            if (checkExistingDevice()) { //If the device has already been registered, notify the user
+                Toast.makeText(getActivity(), "That device has already been registered", Toast.LENGTH_SHORT).show();
+            } else { //If the device has not been registered, do all the normal stuff
+                send.queryServer(getActivity(), url, params, new SendToDevicesActivity.VolleyCallback() {
+                    @Override
+                    public void onSuccessResponse(JSONObject result) { //Response was successful
+                        try {
+                            valid = result.getBoolean("return");
+                            if (valid) {
+                                deviceList.add(result.getString("deviceID").trim().replace("\n", ""));
+                                setList("DeviceID", deviceList);
+                                set("HomeID", result.getString("homeID").trim().replace("\n", ""));
+                                FirebaseMessaging.getInstance().subscribeToTopic(result.getString("homeID").trim());
+                                Toast.makeText(getActivity(), "Subscribed to topic " + result.getString("homeID").trim(), Toast.LENGTH_SHORT).show();
+                                _registrationCode.setError(null);
 
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            valid = false;
                         }
-                        FirebaseMessaging.getInstance().subscribeToTopic(result.getString("homeID").trim());
-                        Toast.makeText(getActivity(), "Subscribed to topic " + result.getString("homeID").trim(), Toast.LENGTH_SHORT).show();
-                        _registrationCode.setError(null);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        valid = false;
                     }
-                }
-            });
+                });
+                progress();
+            }
         }
 
     }
@@ -146,6 +127,28 @@ public class RegisterFragment extends Fragment {
         set(key, json);
     }
 
+    public boolean checkExistingDevice() {
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                alreadyRegistered = false;
+                if (dataSnapshot.hasChild(homeID)) {
+                    if (dataSnapshot.child(homeID).hasChild(code)) {
+                        System.out.println(code);
+                        alreadyRegistered = true;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return alreadyRegistered;
+    }
+
     public void set(String key, String value) {
         editor.putString(key, value);
         editor.apply();
@@ -158,8 +161,7 @@ public class RegisterFragment extends Fragment {
 
     public void progress() {
         _registrationButton.setEnabled(false);
-        final ProgressDialog progressDialog = new ProgressDialog(getActivity(),
-                R.style.AppTheme_Welcome_Dialog);
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity(), R.style.AppTheme_Welcome_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Registering Device...");
         progressDialog.show();
