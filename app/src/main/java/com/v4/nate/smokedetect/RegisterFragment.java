@@ -29,8 +29,8 @@ import butterknife.ButterKnife;
 public class RegisterFragment extends Fragment {
 
     private static final String TAG = "RegisterFragment";
-    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
-    SharedPreferences.Editor editor = sharedPreferences.edit();
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     HashMap<String, String> params = new HashMap<>();
     List<String> deviceList = new ArrayList<>();
     boolean valid = false;
@@ -47,6 +47,8 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstancestate) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         ButterKnife.bind(this, view);
+        sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         _registrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +59,9 @@ public class RegisterFragment extends Fragment {
     }
 
     public void register() {
+        deviceList.add("test1");
+        deviceList.add("Test2");
+        setList("DeviceID", deviceList);
         Log.d(TAG, "Register");
 
         String code = _registrationCode.getText().toString();
@@ -73,8 +78,10 @@ public class RegisterFragment extends Fragment {
                         Log.d(TAG, result.getString("homeID"));
                         Log.d(TAG, result.getString("deviceID"));
                         if (valid) {
+                            deviceList.add(result.getString("deviceID").trim().replace("\n", ""));
+                            setList("DeviceID", deviceList);
                             set("HomeID", result.getString("homeID").trim().replace("\n", ""));
-                            set("DeviceID", result.getString("deviceID").trim().replace("\n", ""));
+                            //set("DeviceID", result.getString("deviceID").trim().replace("\n", ""));
                         }
                         FirebaseMessaging.getInstance().subscribeToTopic(result.getString("homeID").trim());
                         Toast.makeText(getActivity(), "Subscribed to topic " + result.getString("homeID").trim(), Toast.LENGTH_SHORT).show();
@@ -124,11 +131,17 @@ public class RegisterFragment extends Fragment {
     public <T> void setList(String key, List<T> list) {
         Gson gson = new Gson();
         String json = gson.toJson(list);
+        System.out.println(json);
+        set(key, json);
     }
 
     public void set(String key, String value) {
         editor.putString(key, value);
         editor.apply();
+        sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
+//        String homeID = sharedPreferences.getString("HomeID", null);
+        String deviceID = sharedPreferences.getString("DeviceID", null);
+        System.out.println(deviceID);
 
     }
 }
