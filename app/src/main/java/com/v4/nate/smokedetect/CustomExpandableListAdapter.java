@@ -37,10 +37,10 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_item, null);
         }
-        TextView firstChildItem = convertView.findViewById(R.id.firstItem);
-        firstChildItem.setText(detailInfo.getEventTime().trim());
-        TextView secondChildItem = convertView.findViewById(R.id.secondItem);
-        secondChildItem.setText(detailInfo.getEventDevice().trim());
+        //TextView firstChildItem = convertView.findViewById(R.id.firstItem);
+        //firstChildItem.setText(detailInfo.getEventTime().trim());
+        //TextView secondChildItem = convertView.findViewById(R.id.secondItem);
+        //secondChildItem.setText(detailInfo.getEventDevice().trim());
         return convertView;
     }
 
@@ -70,9 +70,9 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         HeaderInfo headerInfo = (HeaderInfo) getGroup(listPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_group, null);
+            convertView = layoutInflater.inflate(R.layout.device_row, null);
         }
-        TextView heading = convertView.findViewById(R.id.listTitle);
+        TextView heading = convertView.findViewById(R.id.deviceTitle);
         heading.setText(headerInfo.getEventTitle().trim());
         return convertView;
     }

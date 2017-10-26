@@ -47,7 +47,6 @@ public class LandingActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.navList);
         drawerLayout = findViewById(R.id.drawer_layout);
-        //String db = databaseQuery.requestFromDatabase(homeID, deviceID, "var", "hush");
         activityTitle = getTitle().toString();
 
         addDrawerItems();
@@ -69,7 +68,7 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     private void addDrawerItems() {
-        String[] navBarOptions = {"Notifications", "Detector Health", "History", "Preferences"};
+        String[] navBarOptions = {"Notifications", "History", "Preferences"};
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, navBarOptions);
         listView.setAdapter(arrayAdapter);
 
@@ -79,7 +78,6 @@ public class LandingActivity extends AppCompatActivity {
 
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-                Fragment detectorHealth = new DetectorHealthFragment();
                 Fragment historyFragment = new HistoryFragment();
                 Fragment generalPreferencesFragment = new GeneralPreferencesFragment();
                 Fragment notificationPreferencesFragment = new NotificationPreferencesFragment();
@@ -92,20 +90,13 @@ public class LandingActivity extends AppCompatActivity {
                         drawerLayout.closeDrawer(listView);
                         break;
                     case 1:
-                        fragmentTransaction.replace(R.id.flameImage, detectorHealth);
-                        fragmentTransaction.addToBackStack("detector");
-                        fragmentTransaction.commit();
-                        listView.setItemChecked(i, true);
-                        drawerLayout.closeDrawer(listView);
-                        break;
-                    case 2:
                         fragmentTransaction.replace(R.id.flameImage, historyFragment);
                         fragmentTransaction.addToBackStack("history");
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);
                         drawerLayout.closeDrawer(listView);
                         break;
-                    case 3:
+                    case 2:
                         fragmentTransaction.replace(R.id.flameImage, generalPreferencesFragment);
                         fragmentTransaction.addToBackStack("generalPreferences");
                         fragmentTransaction.commit();

@@ -44,10 +44,6 @@ public class DeviceListFragment extends Fragment {
         expandableListView = view.findViewById(R.id.device_List);
         expandableListAdapter = new CustomExpandableListAdapter(getContext(), SectionList);
         expandableListView.setAdapter(expandableListAdapter);
-
-
-
-
         return view;
     }
 
