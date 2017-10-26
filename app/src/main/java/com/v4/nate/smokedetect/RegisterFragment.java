@@ -13,6 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
@@ -33,7 +38,10 @@ public class RegisterFragment extends Fragment {
     SharedPreferences.Editor editor;
     HashMap<String, String> params = new HashMap<>();
     List<String> deviceList = new ArrayList<>();
+    String homeID = "1376hh";
+    String code;
     boolean valid = false;
+    boolean alreadyRegistered = false;
 
     String url = "http://192.168.0.107/register.php";
     SendToDevicesActivity send = new SendToDevicesActivity();
@@ -59,16 +67,38 @@ public class RegisterFragment extends Fragment {
     }
 
     public void register() {
-        deviceList.add("test1");
-        deviceList.add("Test2");
-        setList("DeviceID", deviceList);
+        alreadyRegistered = false;
+
         Log.d(TAG, "Register");
 
-        String code = _registrationCode.getText().toString();
-
+        //Get deviceID from text input
+        code = _registrationCode.getText().toString();
         params.put("code", code);
+
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild(homeID)) {
+                    if (dataSnapshot.child(homeID).hasChild(code)) {
+                        alreadyRegistered = true;
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
         if (code.isEmpty() || code.length() < 6) {
             _registrationCode.setError("incorrect number of characters");
+        } else if (alreadyRegistered) {
+            Toast.makeText(getActivity(), "That device has already been registered", Toast.LENGTH_SHORT).show();
         } else {
             send.queryServer(getActivity(), url, params, new SendToDevicesActivity.VolleyCallback() {
                 @Override
@@ -81,7 +111,8 @@ public class RegisterFragment extends Fragment {
                             deviceList.add(result.getString("deviceID").trim().replace("\n", ""));
                             setList("DeviceID", deviceList);
                             set("HomeID", result.getString("homeID").trim().replace("\n", ""));
-                            //set("DeviceID", result.getString("deviceID").trim().replace("\n", ""));
+                            progress();
+
                         }
                         FirebaseMessaging.getInstance().subscribeToTopic(result.getString("homeID").trim());
                         Toast.makeText(getActivity(), "Subscribed to topic " + result.getString("homeID").trim(), Toast.LENGTH_SHORT).show();
@@ -94,26 +125,6 @@ public class RegisterFragment extends Fragment {
             });
         }
 
-        _registrationButton.setEnabled(false);
-        final ProgressDialog progressDialog = new ProgressDialog(getActivity(),
-                R.style.AppTheme_Welcome_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Registering Device...");
-        progressDialog.show();
-
-        //TODO: Implement some sort of verification thing to add this new node to the network
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        if (valid)
-                            onRegistrationSuccess();
-                        else
-                            onRegistrationFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
     }
 
     public void onRegistrationSuccess() {
@@ -144,4 +155,28 @@ public class RegisterFragment extends Fragment {
         System.out.println(deviceID);
 
     }
+
+    public void progress() {
+        _registrationButton.setEnabled(false);
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity(),
+                R.style.AppTheme_Welcome_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Registering Device...");
+        progressDialog.show();
+
+        //TODO: Implement some sort of verification thing to add this new node to the network
+
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        if (valid)
+                            onRegistrationSuccess();
+                        else
+                            onRegistrationFailed();
+                        progressDialog.dismiss();
+                    }
+                }, 3000);
+    }
+
 }

@@ -14,6 +14,7 @@ public class DatabasePushActivity extends AppCompatActivity {
     String deviceID;
     SharedPreferences sharedPreferences;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
