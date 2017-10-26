@@ -67,6 +67,10 @@ public class RegisterFragment extends Fragment {
     }
 
     public void register() {
+        deviceList.add("131313");
+        deviceList.add("121212");
+        setList("DeviceID", deviceList);
+
 
         Log.d(TAG, "Register");
 

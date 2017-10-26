@@ -5,4 +5,12 @@
     android:layout_height="match_parent"
     tools:context="com.v4.nate.smokedetect.DeviceListFragment">
 
+    <ExpandableListView
+        android:id="@+id/device_List"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"></ExpandableListView>
+
+
 </android.support.constraint.ConstraintLayout>
