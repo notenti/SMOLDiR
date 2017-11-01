@@ -38,13 +38,15 @@ public class LandingActivity extends AppCompatActivity {
 
 
         sharedPreferences = this.getSharedPreferences("ID", Context.MODE_PRIVATE);
-        String homeID = sharedPreferences.getString("HomeID", null);
-        String deviceID = sharedPreferences.getString("DeviceID", null);
+//        String homeID = sharedPreferences.getString("HomeID", null);
+//        String deviceID = sharedPreferences.getString("DeviceID", null);
+
+        String homeID = "1376hh";
+        String deviceID = "12ab12";
 
 
         listView = findViewById(R.id.navList);
         drawerLayout = findViewById(R.id.drawer_layout);
-        //String db = databaseQuery.requestFromDatabase(homeID, deviceID, "var", "hush");
         activityTitle = getTitle().toString();
 
         addDrawerItems();
@@ -54,8 +56,11 @@ public class LandingActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment landingFragment = new LandingFragment();
-        fragmentTransaction.replace(R.id.frameLayout, landingFragment);
+        Fragment dynamicFlameImage = new LandingFragment();
+        Fragment deviceListFragment = new DeviceListFragment();
+        fragmentTransaction.add(R.id.flameImage, dynamicFlameImage);
+        fragmentTransaction.add(R.id.deviceList, deviceListFragment);
+        fragmentTransaction.addToBackStack("testFragment");
         fragmentTransaction.addToBackStack("landingFragment");
         fragmentTransaction.commit();
 
@@ -63,7 +68,7 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     private void addDrawerItems() {
-        String[] navBarOptions = {"Notifications", "Detector Health", "History", "Preferences"};
+        String[] navBarOptions = {"Notifications", "History", "Preferences"};
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, navBarOptions);
         listView.setAdapter(arrayAdapter);
 
@@ -73,34 +78,26 @@ public class LandingActivity extends AppCompatActivity {
 
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-                Fragment detectorHealth = new DetectorHealthFragment();
                 Fragment historyFragment = new HistoryFragment();
                 Fragment generalPreferencesFragment = new GeneralPreferencesFragment();
                 Fragment notificationPreferencesFragment = new NotificationPreferencesFragment();
                 switch (i) {
                     case 0:
-                        fragmentTransaction.replace(R.id.frameLayout, notificationPreferencesFragment);
+                        fragmentTransaction.replace(R.id.flameImage, notificationPreferencesFragment);
                         fragmentTransaction.addToBackStack("notificationPreferences");
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);
                         drawerLayout.closeDrawer(listView);
                         break;
                     case 1:
-                        fragmentTransaction.replace(R.id.frameLayout, detectorHealth);
-                        fragmentTransaction.addToBackStack("detector");
-                        fragmentTransaction.commit();
-                        listView.setItemChecked(i, true);
-                        drawerLayout.closeDrawer(listView);
-                        break;
-                    case 2:
-                        fragmentTransaction.replace(R.id.frameLayout, historyFragment);
+                        fragmentTransaction.replace(R.id.flameImage, historyFragment);
                         fragmentTransaction.addToBackStack("history");
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);
                         drawerLayout.closeDrawer(listView);
                         break;
-                    case 3:
-                        fragmentTransaction.replace(R.id.frameLayout, generalPreferencesFragment);
+                    case 2:
+                        fragmentTransaction.replace(R.id.flameImage, generalPreferencesFragment);
                         fragmentTransaction.addToBackStack("generalPreferences");
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);

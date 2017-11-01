@@ -17,6 +17,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -37,8 +39,10 @@ public class HistoryFragment extends Fragment {
     ExpandableListView expandableListView;
     ExpandableListAdapter expandablelistAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
-    String homeID;
-    String deviceID;
+    String homeID = "1376hh";
+    String deviceID = "12ab12";
+    String deviceIDJson;
+    ArrayList<String> deviceListTest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,24 +81,29 @@ public class HistoryFragment extends Fragment {
 
     public void initialize() {
         sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
-        homeID = sharedPreferences.getString("HomeID", null);
-        deviceID = sharedPreferences.getString("DeviceID", null);
+        if (sharedPreferences.contains("HomeID") && sharedPreferences.contains("DeviceID")) {
+            Gson gson = new Gson();
+            homeID = sharedPreferences.getString("HomeID", null);
+            deviceIDJson = sharedPreferences.getString("DeviceID", null);
+            deviceListTest = gson.fromJson(deviceIDJson, new TypeToken<ArrayList<String>>() {
+            }.getType());
 
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(deviceID).child("messages");
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //Grabs all of the database info and stores it in three arraylists
-                collectEvents((Map<String, Object>) dataSnapshot.getValue());
+            DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(deviceID).child("messages");
+            database.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    //Grabs all of the database info and stores it in three arraylists
+                    collectEvents((Map<String, Object>) dataSnapshot.getValue());
 
-            }
+                }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
 
+        }
     }
 
     private void collectEvents(Map<String, Object> events) {

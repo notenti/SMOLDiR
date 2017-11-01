@@ -46,6 +46,7 @@ dependencies {
     })
 
 
+    implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.android.support:appcompat-v7:26.0.0-beta1'
     implementation 'com.android.support:design:26.0.0-beta1'
     compile 'com.android.support:preference-v7:26.0.0-beta1'
