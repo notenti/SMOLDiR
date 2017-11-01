@@ -49,7 +49,7 @@ public class DeviceListFragment extends Fragment {
         expandableListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                System.out.println(i);
+                System.out.println("TTTT");
             }
         });
         return view;

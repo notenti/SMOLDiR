@@ -5,13 +5,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class DatabasePushActivity extends AppCompatActivity {
 
     String homeID;
-    String deviceID;
     SharedPreferences sharedPreferences;
 
 
@@ -20,8 +22,7 @@ public class DatabasePushActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPreferences = this.getSharedPreferences("ID", Context.MODE_PRIVATE);
         homeID = sharedPreferences.getString("HomeID", null);
-        deviceID = sharedPreferences.getString("DeviceID", null);
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(deviceID);
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID);
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -30,10 +31,24 @@ public class DatabasePushActivity extends AppCompatActivity {
                 System.out.print("Nothing");
             } else if (extras.getBoolean("hush")) {
                 //Push to database
-                System.out.println("In the database thing");
-                database.child("var").child("hush").setValue(true);
+                database.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            ds.child("var").child("hush").getRef().setValue(true);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
             }
         }
         setContentView(R.layout.activity_database_push);
     }
+
 }
