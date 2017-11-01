@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -44,6 +45,13 @@ public class DeviceListFragment extends Fragment {
         expandableListView = view.findViewById(R.id.device_list);
         expandableListAdapter = new CustomExpandableListAdapter(getContext(), SectionList);
         expandableListView.setAdapter(expandableListAdapter);
+
+        expandableListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                System.out.println(i);
+            }
+        });
         return view;
     }
 
@@ -98,6 +106,7 @@ public class DeviceListFragment extends Fragment {
 
         }
     }
+
 
     private void collapseAll() {
         int count = expandableListAdapter.getGroupCount();

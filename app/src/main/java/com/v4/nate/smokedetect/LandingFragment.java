@@ -61,9 +61,12 @@ public class LandingFragment extends Fragment {
                 if (status.equals("ok")) {
                     _flameButton.setImageResource(R.drawable.green_flame);
                     _detectorStatus.setText("Everything is ok.");
-                } else if (status.equals("low battery")) {
+                } else if (status.equals("warning")) {
                     _flameButton.setImageResource(R.drawable.orange_flame);
-                    _detectorStatus.setText("You should change your battery.");
+                    _detectorStatus.setText("Warning.");
+                } else if (status.equals("info")) {
+                    _flameButton.setImageResource(R.drawable.purple_flame);
+                    _detectorStatus.setText("Something about info.");
                 } else if (status.equals("alarm")) {
                     _flameButton.setImageResource(R.drawable.red_flame);
                     _detectorStatus.setText("An alarm is being raised.");
@@ -78,9 +81,5 @@ public class LandingFragment extends Fragment {
         });
 
         return view;
-    }
-
-    public void function() {
-        System.out.println("Hey nate");
     }
 }

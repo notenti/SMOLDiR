@@ -50,7 +50,8 @@
         <activity android:name=".DatabasePushActivity" />
         <activity android:name=".DatabaseQuery" />
         <activity android:name=".LandingFragment" />
-        <activity android:name=".DeviceListFragment"></activity>
+        <activity android:name=".DeviceListFragment" />
+        <activity android:name=".DeviceInfoFragment"></activity>
     </application>
 
 </manifest>
