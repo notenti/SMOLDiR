@@ -6,11 +6,14 @@
     tools:context="com.v4.nate.smokedetect.DeviceListFragment">
 
     <ExpandableListView
-        android:id="@+id/device_List"
+        android:id="@+id/device_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"></ExpandableListView>
+        android:layout_alignParentTop="true"
+        android:groupIndicator="@null">
+
+    </ExpandableListView>
 
 
 </android.support.constraint.ConstraintLayout>

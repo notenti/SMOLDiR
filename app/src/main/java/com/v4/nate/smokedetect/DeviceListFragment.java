@@ -41,7 +41,7 @@ public class DeviceListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_device_list, container, false);
         initialize();
-        expandableListView = view.findViewById(R.id.device_List);
+        expandableListView = view.findViewById(R.id.device_list);
         expandableListAdapter = new CustomExpandableListAdapter(getContext(), SectionList);
         expandableListView.setAdapter(expandableListAdapter);
         return view;
