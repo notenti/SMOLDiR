@@ -5,15 +5,25 @@
     android:layout_height="match_parent"
     tools:context="com.v4.nate.smokedetect.DeviceListFragment">
 
-    <ExpandableListView
-        android:id="@+id/device_list"
+    <!--<ExpandableListView-->
+    <!--android:id="@+id/device_list"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:groupIndicator="@null">-->
+
+    <!--</ExpandableListView>-->
+
+    <ListView
+        android:id="@+id/device_list_2"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:groupIndicator="@null">
 
-    </ExpandableListView>
+    </ListView>
 
 
 </android.support.constraint.ConstraintLayout>
