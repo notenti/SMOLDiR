@@ -62,8 +62,11 @@ public class LandingFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("device", i);
                 Toast.makeText(getActivity(), Integer.toString(i), Toast.LENGTH_SHORT).show();
                 DeviceInfoFragment deviceInfoFragment = new DeviceInfoFragment();
+                deviceInfoFragment.setArguments(bundle);
                 ((LandingActivity) getActivity()).setNewFragment(deviceInfoFragment);
             }
         });

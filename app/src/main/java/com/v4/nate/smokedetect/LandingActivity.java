@@ -83,21 +83,21 @@ public class LandingActivity extends AppCompatActivity {
                 Fragment notificationPreferencesFragment = new NotificationPreferencesFragment();
                 switch (i) {
                     case 0:
-                        fragmentTransaction.replace(R.id.flameImage, notificationPreferencesFragment);
+                        fragmentTransaction.replace(R.id.landing_fragment, notificationPreferencesFragment);
                         fragmentTransaction.addToBackStack("notificationPreferences");
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);
                         drawerLayout.closeDrawer(listView);
                         break;
                     case 1:
-                        fragmentTransaction.replace(R.id.flameImage, historyFragment);
+                        fragmentTransaction.replace(R.id.landing_fragment, historyFragment);
                         fragmentTransaction.addToBackStack("history");
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);
                         drawerLayout.closeDrawer(listView);
                         break;
                     case 2:
-                        fragmentTransaction.replace(R.id.flameImage, generalPreferencesFragment);
+                        fragmentTransaction.replace(R.id.landing_fragment, generalPreferencesFragment);
                         fragmentTransaction.addToBackStack("generalPreferences");
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);
@@ -117,7 +117,7 @@ public class LandingActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.slideup, 0);
-        fragmentTransaction.add(R.id.flameImage, fragment);
+        fragmentTransaction.add(R.id.landing_fragment, fragment);
         fragmentTransaction.addToBackStack(null).commit();
     }
 
