@@ -27,7 +27,8 @@
                 android:gravity="center"
                 android:hint="Code"
                 android:inputType="textVisiblePassword"
-                android:maxLength="6" />
+                android:maxLength="6"
+                android:textColor="@color/color_accent" />
         </android.support.design.widget.TextInputLayout>
 
         <TextView
@@ -36,12 +37,13 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="14dp"
             android:text="@string/registration_prompt"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/color_accent" />
 
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_registerDevice"
-            style="@style/Smoldr.LaunchButton"
+            style="@style/Smoldr.LaunchButtonFull"
             android:layout_marginBottom="200dp"
             android:layout_marginTop="14dp"
             android:text="@string/register" />

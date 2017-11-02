@@ -30,7 +30,7 @@
 
     <Button
         android:id="@+id/hush_button"
-        style="@style/Smoldr.LaunchButton"
+        style="@style/Smoldr.LaunchButtonOutline"
         android:layout_below="@id/detectorStatus"
         android:layout_centerInParent="true"
         android:text="Hush Alarm" />

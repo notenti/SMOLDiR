@@ -4,6 +4,21 @@
     android:layout_height="match_parent"
     android:layout_weight="1">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background2">
+
+    </ImageView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.7"
+        android:scaleType="centerCrop"
+        android:src="@android:color/black" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,9 +27,9 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="72dp"
+            android:layout_height="110dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_smoke_free_black_24dp" />
+            android:src="@drawable/flame_icon_large" />
 
         <FrameLayout
             android:id="@+id/welcomeFrameLayout"
