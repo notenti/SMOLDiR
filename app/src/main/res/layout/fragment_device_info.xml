@@ -5,4 +5,20 @@
     android:layout_height="match_parent"
     tools:context="com.v4.nate.smokedetect.DeviceInfoFragment">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_primary_dark"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="4dp"
+            android:text="yeah yeah"
+            android:textAlignment="center" />
+    </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>

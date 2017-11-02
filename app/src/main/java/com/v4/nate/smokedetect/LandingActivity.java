@@ -57,10 +57,9 @@ public class LandingActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment dynamicFlameImage = new LandingFragment();
-        Fragment deviceListFragment = new DeviceListFragment();
-        fragmentTransaction.add(R.id.flameImage, dynamicFlameImage);
-        fragmentTransaction.add(R.id.deviceList, deviceListFragment);
+        Fragment landingFragment = new LandingFragment();
+
+        fragmentTransaction.add(R.id.landing_fragment, landingFragment);
         fragmentTransaction.addToBackStack("testFragment");
         fragmentTransaction.addToBackStack("landingFragment");
         fragmentTransaction.commit();
@@ -117,8 +116,8 @@ public class LandingActivity extends AppCompatActivity {
     public void setNewFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.right_to_center, R.anim.center_to_left);
-        fragmentTransaction.replace(R.id.welcomeFrameLayout, fragment);
+        fragmentTransaction.setCustomAnimations(R.anim.slideup, 0);
+        fragmentTransaction.add(R.id.flameImage, fragment);
         fragmentTransaction.addToBackStack(null).commit();
     }
 

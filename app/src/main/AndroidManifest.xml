@@ -46,12 +46,6 @@
         <activity
             android:name=".LandingActivity"
             android:theme="@style/AppTheme.Welcome" />
-        <activity android:name=".InstallFragment" />
-        <activity android:name=".DatabasePushActivity" />
-        <activity android:name=".DatabaseQuery" />
-        <activity android:name=".LandingFragment" />
-        <activity android:name=".DeviceListFragment" />
-        <activity android:name=".DeviceInfoFragment"></activity>
     </application>
 
 </manifest>

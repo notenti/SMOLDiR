@@ -30,6 +30,17 @@
     <Button
         android:id="@+id/hush_button"
         style="@style/Smoldr.LaunchButton"
+        android:layout_below="@id/detectorStatus"
         android:layout_centerInParent="true"
         android:text="Hush Alarm" />
+
+    <ListView
+        android:id="@+id/device_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/hush_button"
+        android:groupIndicator="@null">
+
+    </ListView>
 </RelativeLayout>
