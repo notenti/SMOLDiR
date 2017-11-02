@@ -39,7 +39,7 @@ public class CustomAdapter extends BaseAdapter {
         }
 
         TextView heading = convertView.findViewById(R.id.deviceTitle);
-        heading.setText("etst");
+        heading.setText(deviceID);
         return convertView;
 
 
