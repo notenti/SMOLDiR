@@ -1,12 +1,13 @@
 package com.v4.nate.smokedetect;
 
-import android.app.Fragment;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,7 +82,7 @@ public class WelcomeFragment extends Fragment {
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .enableAutoManage((WelcomeActivity) getActivity(), new GoogleApiClient.OnConnectionFailedListener() {
+                .enableAutoManage(getActivity(), new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
                     }
@@ -124,7 +125,7 @@ public class WelcomeFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
-        mGoogleApiClient.stopAutoManage((WelcomeActivity) getActivity());
+        mGoogleApiClient.stopAutoManage(getActivity());
         mGoogleApiClient.disconnect();
     }
 

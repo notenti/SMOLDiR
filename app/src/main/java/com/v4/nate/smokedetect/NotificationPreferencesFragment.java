@@ -23,8 +23,6 @@ public class NotificationPreferencesFragment extends PreferenceFragmentCompat im
             HashMap<String, String> params = new HashMap<>();
             params.put("user", "4321");
             params.put("hush", "1");
-            SendToDevicesActivity send = new SendToDevicesActivity();
-            send.sendToServer(getActivity(), url, params);
         }
     }
 

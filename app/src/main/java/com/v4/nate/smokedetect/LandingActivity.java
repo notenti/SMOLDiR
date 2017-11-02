@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -111,6 +112,14 @@ public class LandingActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void setNewFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.right_to_center, R.anim.center_to_left);
+        fragmentTransaction.replace(R.id.welcomeFrameLayout, fragment);
+        fragmentTransaction.addToBackStack(null).commit();
     }
 
 

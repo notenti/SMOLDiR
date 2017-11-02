@@ -50,8 +50,6 @@ public class DeviceListFragment extends Fragment {
                 Toast.makeText(getActivity(), Integer.toString(i), Toast.LENGTH_SHORT).show();
             }
         });
-
-
         return view;
     }
 
