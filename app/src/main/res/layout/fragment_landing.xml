@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="34dp"
-    android:paddingRight="34dp"
     tools:context="com.v4.nate.smokedetect.LandingFragment">
 
     <ImageButton
@@ -30,9 +28,10 @@
 
     <Button
         android:id="@+id/hush_button"
-        style="@style/Smoldr.LaunchButtonOutline"
+        style="@style/Smoldr.LaunchButtonFull"
         android:layout_below="@id/detectorStatus"
         android:layout_centerInParent="true"
+        android:layout_marginRight="56dp"
         android:text="Hush Alarm" />
 
     <ListView

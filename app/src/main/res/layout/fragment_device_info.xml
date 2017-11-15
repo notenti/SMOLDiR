@@ -13,13 +13,13 @@
         android:background="@color/color_primary_dark"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="4dp"
-            android:text="yeah yeah"
-            android:textAlignment="center" />
+        <ListView
+            android:id="@+id/granular_device_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:groupIndicator="@null"></ListView>
+
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

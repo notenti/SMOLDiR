@@ -7,7 +7,6 @@
         <bitmap
             android:gravity="center"
             android:src="@drawable/flame_icon_large" />
-
     </item>
 
 </layer-list>
