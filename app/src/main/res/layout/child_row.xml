@@ -11,7 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:paddingBottom="5sp"
         android:paddingLeft="35sp"
+        android:paddingTop="5sp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -20,6 +22,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:paddingBottom="5sp"
         android:paddingRight="35sp"
+        android:paddingTop="5sp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/location"
+        android:paddingBottom="5sp"
+        android:paddingTop="5sp"
+        android:text="Location: "
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 </RelativeLayout>
