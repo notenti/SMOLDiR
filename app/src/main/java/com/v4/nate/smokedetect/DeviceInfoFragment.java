@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -14,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DeviceInfoFragment extends Fragment {
@@ -23,10 +25,13 @@ public class DeviceInfoFragment extends Fragment {
     CustomAdapter adapter;
     String homeID = "1376hh";
     String device;
-
     ArrayList<String> deviceHistory;
     ArrayList<String> eventTimesList;
     ArrayList<String> eventTitlesList;
+    private CustomExpandableListAdapter expandableListAdapter;
+    private ArrayList<HeaderInfo> SectionList = new ArrayList<>();
+    private LinkedHashMap<String, HeaderInfo> mySection = new LinkedHashMap<>();
+    private ExpandableListView expandableListView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,17 +42,21 @@ public class DeviceInfoFragment extends Fragment {
         }
 
         deviceHistory = new ArrayList<>();
+        expandableListAdapter = new CustomExpandableListAdapter(getContext(), SectionList);
+        expandableListView = view.findViewById(R.id.myList);
+        expandableListView.setAdapter(expandableListAdapter);
 
-        list = view.findViewById(R.id.granular_device_list);
-        adapter = new CustomAdapter(getContext(), deviceHistory);
-        list.setAdapter(adapter);
+
+        addProduct("Vegetable", "Potato");
+        addProduct("Vegetable", "Cabbage");
+        addProduct("Vegetable", "Onion");
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device).child("messages");
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 collectEvents((Map<String, Object>) dataSnapshot.getValue());
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -69,5 +78,26 @@ public class DeviceInfoFragment extends Fragment {
 //            deviceHistory.add(messagesMap.get("eventTime").toString());
 
         }
+    }
+
+    private int addProduct(String department, String product) {
+        int groupPosition = 0;
+
+        HeaderInfo headerInfo = mySection.get(department);
+        if (headerInfo == null) {
+            headerInfo = new HeaderInfo();
+            headerInfo.setEventTitle(department);
+            mySection.put(department, headerInfo);
+            SectionList.add(headerInfo);
+        }
+
+        ArrayList<DetailInfo> productList = headerInfo.getProductList();
+        DetailInfo detailInfo = new DetailInfo();
+        detailInfo.setEventStrings("Time: Now", "Nate");
+        productList.add(detailInfo);
+        headerInfo.setProductList(productList);
+
+        groupPosition = SectionList.indexOf(headerInfo);
+        return groupPosition;
     }
 }

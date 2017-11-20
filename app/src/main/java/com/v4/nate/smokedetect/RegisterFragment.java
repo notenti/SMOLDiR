@@ -44,7 +44,7 @@ public class RegisterFragment extends Fragment {
     boolean valid = false;
     boolean alreadyRegistered = false;
 
-    String url = "http://192.168.0.117/register.php";
+    String url = "http://192.168.0.112/register.php";
     SendToDevicesActivity send = new SendToDevicesActivity();
 
     @BindView(R.id.input_registration_code)

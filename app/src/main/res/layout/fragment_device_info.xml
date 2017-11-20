@@ -13,12 +13,12 @@
         android:background="@color/color_primary_dark"
         android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/granular_device_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:groupIndicator="@null"></ListView>
+        <ExpandableListView
+            android:id="@+id/myList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ExpandableListView>
 
     </RelativeLayout>
 
