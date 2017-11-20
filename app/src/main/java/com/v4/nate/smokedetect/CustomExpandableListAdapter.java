@@ -21,7 +21,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
-        ArrayList<DetailInfo> productList = expandableListTitle.get(listPosition).getProductList();
+        ArrayList<EventInfo> productList = expandableListTitle.get(listPosition).getEventStringList();
         return productList.get(expandedListPosition);
     }
 
@@ -32,21 +32,21 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        DetailInfo detailInfo = (DetailInfo) getChild(listPosition, expandedListPosition);
+        EventInfo detailInfo = (EventInfo) getChild(listPosition, expandedListPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.child_row, null);
         }
         TextView sequence = convertView.findViewById(R.id.sequence);
-        sequence.setText(detailInfo.getEventTime().trim());
+        sequence.setText(detailInfo.getEvent().trim());
         TextView childItem = convertView.findViewById(R.id.childItem);
-        childItem.setText(detailInfo.getEventDevice().trim());
+        childItem.setText(detailInfo.getLocation().trim());
         return convertView;
     }
 
     @Override
     public int getChildrenCount(int listPosition) {
-        ArrayList<DetailInfo> productList = expandableListTitle.get(listPosition).getProductList();
+        ArrayList<EventInfo> productList = expandableListTitle.get(listPosition).getEventStringList();
         return productList.size();
     }
 
@@ -73,7 +73,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = layoutInflater.inflate(R.layout.group_heading, null);
         }
         TextView heading = convertView.findViewById(R.id.heading);
-        heading.setText(headerInfo.getEventTitle().trim());
+        heading.setText(headerInfo.getDate().trim());
         return convertView;
     }
 

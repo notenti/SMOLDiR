@@ -7,22 +7,22 @@ import java.util.ArrayList;
  */
 
 public class HeaderInfo {
-    private String eventTitle;
-    private ArrayList<DetailInfo> productList = new ArrayList<>();
+    private String date;
+    private ArrayList<EventInfo> eventStringList = new ArrayList<>();
 
-    public String getEventTitle() {
-        return eventTitle;
+    public String getDate() {
+        return date;
     }
 
-    public void setEventTitle(String eventTitle) {
-        this.eventTitle = eventTitle;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public ArrayList<DetailInfo> getProductList() {
-        return productList;
+    public ArrayList<EventInfo> getEventStringList() {
+        return eventStringList;
     }
 
-    public void setProductList(ArrayList<DetailInfo> productList) {
-        this.productList = productList;
+    public void setEventStringList(ArrayList<EventInfo> eventStringList) {
+        this.eventStringList = eventStringList;
     }
 }

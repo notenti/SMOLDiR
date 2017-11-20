@@ -47,8 +47,8 @@ public class DeviceInfoFragment extends Fragment {
         expandableListView.setAdapter(expandableListAdapter);
 
 
-        addProduct("Vegetable");
-        addProduct("Vegetable");
+        addProduct("Nov. 12, 2017", "Fire Alarm", "Kitchen");
+        addProduct("Nov. 13, 2017", "CO Alarm", "Kitchen");
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device).child("messages");
         database.addValueEventListener(new ValueEventListener() {
@@ -79,22 +79,22 @@ public class DeviceInfoFragment extends Fragment {
         }
     }
 
-    private int addProduct(String department) {
+    private int addProduct(String date, String event, String location) {
         int groupPosition = 0;
 
-        HeaderInfo headerInfo = mySection.get(department);
+        HeaderInfo headerInfo = mySection.get(date);
         if (headerInfo == null) {
             headerInfo = new HeaderInfo();
-            headerInfo.setEventTitle(department);
-            mySection.put(department, headerInfo);
+            headerInfo.setDate(date);
+            mySection.put(date, headerInfo);
             SectionList.add(headerInfo);
         }
 
-        ArrayList<DetailInfo> productList = headerInfo.getProductList();
-        DetailInfo detailInfo = new DetailInfo();
-        detailInfo.setEventStrings("Time: Now", "Nate");
-        productList.add(detailInfo);
-        headerInfo.setProductList(productList);
+        ArrayList<EventInfo> eventStringList = headerInfo.getEventStringList();
+        EventInfo eventInfo = new EventInfo();
+        eventInfo.setEventStrings(event, location);
+        eventStringList.add(eventInfo);
+        headerInfo.setEventStringList(eventStringList);
 
         groupPosition = SectionList.indexOf(headerInfo);
         return groupPosition;

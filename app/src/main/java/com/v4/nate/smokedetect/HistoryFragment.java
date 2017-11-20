@@ -123,14 +123,14 @@ public class HistoryFragment extends Fragment {
 
     private int addEvent(String eventTitle, String eventDevice, String eventTime) {
         HeaderInfo headerInfo = new HeaderInfo();
-        headerInfo.setEventTitle(eventTitle);
+        headerInfo.setDate(eventTitle);
         linkedHashMap.put(eventTitle, headerInfo);
         SectionList.add(headerInfo);
-        ArrayList<DetailInfo> productList = headerInfo.getProductList();
-        DetailInfo detailInfo = new DetailInfo();
+        ArrayList<EventInfo> productList = headerInfo.getEventStringList();
+        EventInfo detailInfo = new EventInfo();
         detailInfo.setEventStrings("Event time: " + eventTime, "From device: " + eventDevice);
         productList.add(detailInfo);
-        headerInfo.setProductList(productList);
+        headerInfo.setEventStringList(productList);
 
         return SectionList.indexOf(headerInfo);
 
