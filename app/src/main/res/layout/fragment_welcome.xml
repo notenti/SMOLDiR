@@ -27,14 +27,6 @@
             android:layout_marginBottom="48dp"
             android:text="Login with Google" />
 
-        <TextView
-            android:id="@+id/text_install"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="14dp"
-            android:text="@string/install"
-            android:textAlignment="center" />
-
 
     </LinearLayout>
 

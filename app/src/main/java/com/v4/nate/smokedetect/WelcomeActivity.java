@@ -49,7 +49,7 @@ public class WelcomeActivity extends AppCompatActivity {
     public void setNewFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.right_to_center, R.anim.center_to_left);
+        fragmentTransaction.setCustomAnimations(R.anim.right_to_center, R.anim.center_to_left, R.anim.left_to_center, R.anim.center_to_right);
         fragmentTransaction.replace(R.id.welcomeFrameLayout, fragment);
         fragmentTransaction.addToBackStack(null).commit();
     }
@@ -58,8 +58,11 @@ public class WelcomeActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
+            overridePendingTransition(R.anim.left_to_center, R.anim.center_to_right);
         } else {
             super.onBackPressed();
+            overridePendingTransition(R.anim.left_to_center, R.anim.center_to_right);
+
         }
     }
 

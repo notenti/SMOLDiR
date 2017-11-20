@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -34,8 +33,6 @@ public class WelcomeFragment extends Fragment {
     Button _registerDeviceButton;
     @BindView(R.id.sign_in_button)
     Button _googleSignupButton;
-    @BindView(R.id.text_install)
-    TextView _installText;
     Boolean login = false;
 
     private GoogleApiClient mGoogleApiClient;
@@ -51,7 +48,6 @@ public class WelcomeFragment extends Fragment {
 
         _registerDeviceButton = view.findViewById(R.id.btn_registerDevice);
         _googleSignupButton = view.findViewById(R.id.sign_in_button);
-        _installText = view.findViewById(R.id.text_install);
 
         _registerDeviceButton.setOnClickListener(new View.OnClickListener() {
 
@@ -69,13 +65,6 @@ public class WelcomeFragment extends Fragment {
             }
         });
 
-        _installText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                InstallFragment installFragment = new InstallFragment();
-                ((WelcomeActivity) getActivity()).setNewFragment(installFragment);
-            }
-        });
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()

@@ -65,7 +65,7 @@ public class DeviceInfoFragment extends Fragment {
 
         for (Map.Entry<String, Object> entry : events.entrySet()) { //Gets all of the entries directly beneath the device
             Map<String, Object> messagesMap = (Map<String, Object>) entry.getValue();
-            System.out.println(messagesMap);
+            System.out.println(device);
 //            deviceHistory.add(messagesMap.get("eventTime").toString());
 
         }
