@@ -128,7 +128,7 @@ public class HistoryFragment extends Fragment {
         SectionList.add(headerInfo);
         ArrayList<EventInfo> productList = headerInfo.getEventStringList();
         EventInfo detailInfo = new EventInfo();
-        detailInfo.setEventStrings("Event time: " + eventTime, "From device: " + eventDevice);
+        //detailInfo.setEventStrings("Event time: " + eventTime, "From device: " + eventDevice);
         productList.add(detailInfo);
         headerInfo.setEventStringList(productList);
 

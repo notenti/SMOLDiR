@@ -37,10 +37,10 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.child_row, null);
         }
-        TextView sequence = convertView.findViewById(R.id.sequence);
-        sequence.setText(detailInfo.getEvent().trim());
-        TextView childItem = convertView.findViewById(R.id.childItem);
-        childItem.setText(detailInfo.getLocation().trim());
+        TextView time = convertView.findViewById(R.id.time);
+        time.setText(detailInfo.getEvent().trim());
+        TextView location = convertView.findViewById(R.id.location);
+        location.setText(detailInfo.getLocation().trim());
         return convertView;
     }
 

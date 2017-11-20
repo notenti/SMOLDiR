@@ -10,12 +10,15 @@ public class EventInfo {
         return event;
     }
 
+    public void setEvent(String event) {
+        this.event = event;
+    }
+
     public String getLocation() {
         return location;
     }
 
-    public void setEventStrings(String event, String location) {
-        this.event = event;
+    public void setLocation(String location) {
         this.location = location;
     }
 

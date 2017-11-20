@@ -15,7 +15,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DeviceInfoFragment extends Fragment {
@@ -47,15 +49,13 @@ public class DeviceInfoFragment extends Fragment {
         expandableListView.setAdapter(expandableListAdapter);
 
 
-        addProduct("Nov. 12, 2017", "Fire Alarm", "Kitchen");
-        addProduct("Nov. 13, 2017", "CO Alarm", "Kitchen");
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device).child("messages");
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 collectEvents((Map<String, Object>) dataSnapshot.getValue());
-                //adapter.notifyDataSetChanged();
+                expandableListAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -73,8 +73,12 @@ public class DeviceInfoFragment extends Fragment {
 
         for (Map.Entry<String, Object> entry : events.entrySet()) { //Gets all of the entries directly beneath the device
             Map<String, Object> messagesMap = (Map<String, Object>) entry.getValue();
-            System.out.println(device);
-//            deviceHistory.add(messagesMap.get("eventTime").toString());
+            System.out.println(messagesMap);
+            System.out.println(messagesMap.get("eventTime").toString());
+            List<String> readable;
+            readable = convertDateNumToString(messagesMap.get("eventTime").toString());
+            addProduct(readable.get(0), readable.get(1), "Kitchen");
+
 
         }
     }
@@ -92,11 +96,74 @@ public class DeviceInfoFragment extends Fragment {
 
         ArrayList<EventInfo> eventStringList = headerInfo.getEventStringList();
         EventInfo eventInfo = new EventInfo();
-        eventInfo.setEventStrings(event, location);
+        eventInfo.setEvent(event);
+        eventInfo.setLocation(location);
         eventStringList.add(eventInfo);
         headerInfo.setEventStringList(eventStringList);
 
         groupPosition = SectionList.indexOf(headerInfo);
         return groupPosition;
+    }
+
+    private List<String> convertDateNumToString(String eventTime) {
+        String month;
+        String day;
+        String year;
+        String hour;
+        List<String> readable = new ArrayList<>();
+        List<String> dateAndTime = Arrays.asList(eventTime.split(" "));
+        List<String> date = Arrays.asList(dateAndTime.get(0).split("-"));
+        List<String> time = Arrays.asList(dateAndTime.get(1).split(":"));
+
+        switch (date.get(0)) {
+            case "1":
+                month = "January";
+                break;
+            case "2":
+                month = "February";
+                break;
+            case "3":
+                month = "March";
+                break;
+            case "4":
+                month = "April";
+                break;
+            case "5":
+                month = "May";
+                break;
+            case "6":
+                month = "June";
+                break;
+            case "7":
+                month = "July";
+                break;
+            case "8":
+                month = "August";
+                break;
+            case "9":
+                month = "September";
+                break;
+            case "10":
+                month = "October";
+                break;
+            case "11":
+                month = "November";
+                break;
+            case "12":
+                month = "December";
+                break;
+            default:
+                month = "Invalid month";
+                break;
+
+        }
+        String readableDate = new StringBuilder(month).append(" ").append(date.get(1)).append(", ").append(date.get(2)).toString();
+        String readableTime = new StringBuilder(time.get(0)).append(time.get(1)).toString();
+
+        readable.add(readableDate);
+        readable.add(readableTime);
+
+        return readable;
+
     }
 }
