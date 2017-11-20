@@ -47,9 +47,8 @@ public class DeviceInfoFragment extends Fragment {
         expandableListView.setAdapter(expandableListAdapter);
 
 
-        addProduct("Vegetable", "Potato");
-        addProduct("Vegetable", "Cabbage");
-        addProduct("Vegetable", "Onion");
+        addProduct("Vegetable");
+        addProduct("Vegetable");
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device).child("messages");
         database.addValueEventListener(new ValueEventListener() {
@@ -80,7 +79,7 @@ public class DeviceInfoFragment extends Fragment {
         }
     }
 
-    private int addProduct(String department, String product) {
+    private int addProduct(String department) {
         int groupPosition = 0;
 
         HeaderInfo headerInfo = mySection.get(department);

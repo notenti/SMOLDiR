@@ -35,12 +35,12 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         DetailInfo detailInfo = (DetailInfo) getChild(listPosition, expandedListPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_item, null);
+            convertView = layoutInflater.inflate(R.layout.child_row, null);
         }
-        //TextView firstChildItem = convertView.findViewById(R.id.firstItem);
-        //firstChildItem.setText(detailInfo.getEventTime().trim());
-        //TextView secondChildItem = convertView.findViewById(R.id.secondItem);
-        //secondChildItem.setText(detailInfo.getEventDevice().trim());
+        TextView sequence = convertView.findViewById(R.id.sequence);
+        sequence.setText(detailInfo.getEventTime().trim());
+        TextView childItem = convertView.findViewById(R.id.childItem);
+        childItem.setText(detailInfo.getEventDevice().trim());
         return convertView;
     }
 
@@ -70,9 +70,9 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         HeaderInfo headerInfo = (HeaderInfo) getGroup(listPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.device_row, null);
+            convertView = layoutInflater.inflate(R.layout.group_heading, null);
         }
-        TextView heading = convertView.findViewById(R.id.deviceTitle);
+        TextView heading = convertView.findViewById(R.id.heading);
         heading.setText(headerInfo.getEventTitle().trim());
         return convertView;
     }
