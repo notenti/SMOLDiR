@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -33,8 +34,9 @@ public class DeviceInfoFragment extends Fragment {
 
     //ListView stuff
     final Context c = getContext();
-    @BindView(R.id.btn_showMoreHistory)
+    @BindView(R.id.btn_changeName)
     Button _changeName;
+
     ListView list;
     DeviceSpecificationsListAdapter adapter;
     String homeID = "1376hh";
@@ -96,9 +98,14 @@ public class DeviceInfoFragment extends Fragment {
             }
         });
 
+
+        View view1 = inflater.inflate(R.layout.bottom_list, null);
+        TextView footer = view1.findViewById(R.id.loadMore);
         deviceHistory = new ArrayList<>();
-        expandableListAdapter = new CustomExpandableListAdapter(getContext(), SectionList);
         expandableListView = view.findViewById(R.id.myList);
+        expandableListView.addFooterView(footer);
+        expandableListAdapter = new CustomExpandableListAdapter(getContext(), SectionList);
+
         expandableListView.setAdapter(expandableListAdapter);
 
 
@@ -123,10 +130,6 @@ public class DeviceInfoFragment extends Fragment {
 
         addSpecificationEntry("Battery Status", "Low");
         addSpecificationEntry("Hushed?", "Yes");
-
-
-
-
 
 
         return view;

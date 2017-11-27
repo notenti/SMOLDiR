@@ -18,17 +18,19 @@
             android:layout_height="wrap_content">
         </ExpandableListView>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_showMoreHistory"
+        <Button
+            android:id="@+id/btn_changeName"
             style="@style/Smoldr.LaunchButtonFull"
             android:layout_below="@+id/myList"
-            android:text="Show More History" />
+            android:padding="10sp"
+            android:text="Change Name" />
+
 
         <ListView
             android:id="@+id/status"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_showMoreHistory">
+            android:layout_below="@+id/btn_changeName">
 
         </ListView>
 
