@@ -9,6 +9,8 @@
     <!--normal layout-->
 
     <!--nav open-->
+
+
     <ListView
         android:id="@+id/navList"
         android:layout_width="240dp"

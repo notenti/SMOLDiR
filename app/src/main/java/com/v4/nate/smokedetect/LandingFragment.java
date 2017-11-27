@@ -3,12 +3,16 @@ package com.v4.nate.smokedetect;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,6 +28,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,10 +43,16 @@ public class LandingFragment extends Fragment {
     String deviceID = "12ab12";
     String deviceIDList;
     String status;
+    View view;
     SharedPreferences sharedPreferences;
+
+    AlphaAnimation inAnimation;
+    AlphaAnimation outAnimation;
 
     ArrayList<String> deviceIDFromDatabase;
     ArrayList<String> deviceListTest;
+
+    FrameLayout progressBarHolder;
 
     //ListView stuff
     ListView list;
@@ -49,11 +60,15 @@ public class LandingFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_landing, container, false);
+        view = inflater.inflate(R.layout.fragment_landing, container, false);
         ButterKnife.bind(this, view);
 
-        deviceIDFromDatabase = new ArrayList<>();
+
+        progressBarHolder = view.findViewById(R.id.progressBarHolder);
+        new MyTask().execute();
         initialize();
+        deviceIDFromDatabase = new ArrayList<>();
+
 
         list = view.findViewById(R.id.device_list);
         adapter = new OverviewDeviceListAdapter(getContext(), deviceIDFromDatabase);
@@ -147,6 +162,8 @@ public class LandingFragment extends Fragment {
 
                 }
                 adapter.notifyDataSetChanged();
+                //view.findViewById(R.id.progressBarHolder).setVisibility(View.GONE);
+
             }
 
             @Override
@@ -156,5 +173,40 @@ public class LandingFragment extends Fragment {
         });
 
 
+    }
+
+
+    private class MyTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            inAnimation = new AlphaAnimation(1f, 1f);
+            inAnimation.setDuration(200);
+            progressBarHolder.setAnimation(inAnimation);
+            progressBarHolder.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            outAnimation = new AlphaAnimation(1f, 0f);
+            outAnimation.setDuration(200);
+            progressBarHolder.setAnimation(outAnimation);
+            progressBarHolder.setVisibility(View.GONE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                for (int i = 0; i < 3; i++) {
+                    Log.d("BLAH", "Emulating some task.. Step " + i);
+                    TimeUnit.SECONDS.sleep(1);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
