@@ -134,13 +134,28 @@ public class LandingFragment extends Fragment {
 
         }
 
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID);
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID);
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    deviceIDFromDatabase.add(ds.getKey());
+
+                    if (ds.child("var").child("loc").getValue().toString().equals("NULL"))
+                        deviceIDFromDatabase.add(ds.getKey());
+                    else
+                        deviceIDFromDatabase.add(ds.child("var").child("loc").getValue().toString());
+
                 }
+
+                Map<String, Object> statusMap = (Map<String, Object>) dataSnapshot.getValue();
+                for (Map.Entry<String, Object> s : statusMap.entrySet()) {
+
+                    Map single = (Map) s.getValue();
+
+
+                    System.out.println(single.get("var"));
+                }
+
                 adapter.notifyDataSetChanged();
             }
 

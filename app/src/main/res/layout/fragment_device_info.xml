@@ -9,15 +9,28 @@
         android:id="@+id/rel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
         android:background="@color/color_accent"
         android:orientation="vertical">
 
         <ExpandableListView
             android:id="@+id/myList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
         </ExpandableListView>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_showMoreHistory"
+            style="@style/Smoldr.LaunchButtonFull"
+            android:layout_below="@+id/myList"
+            android:text="Show More History" />
+
+        <ListView
+            android:id="@+id/status"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_showMoreHistory">
+
+        </ListView>
 
     </RelativeLayout>
 
