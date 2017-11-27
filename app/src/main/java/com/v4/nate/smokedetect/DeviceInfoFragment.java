@@ -55,6 +55,7 @@ public class DeviceInfoFragment extends Fragment {
             device = bundle.getString("device");
         }
 
+
         _changeName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,18 +106,12 @@ public class DeviceInfoFragment extends Fragment {
         adapter = new DeviceSpecificationsListAdapter(getContext(), specificationList);
         list.setAdapter(adapter);
 
-        addSpecificationEntry("Battery Status", "Low");
-        addSpecificationEntry("Hushed?", "Yes");
-
-
-
-
-
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device).child("messages");
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device);
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                collectEvents((Map<String, Object>) dataSnapshot.getValue());
+                collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue());
+                addSpecificationEntry("Location", dataSnapshot.child("var").child("loc").getValue().toString());
                 expandableListAdapter.notifyDataSetChanged();
             }
 
@@ -125,6 +120,13 @@ public class DeviceInfoFragment extends Fragment {
 
             }
         });
+
+        addSpecificationEntry("Battery Status", "Low");
+        addSpecificationEntry("Hushed?", "Yes");
+
+
+
+
 
 
         return view;
