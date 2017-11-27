@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -199,8 +198,7 @@ public class LandingFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                for (int i = 0; i < 3; i++) {
-                    Log.d("BLAH", "Emulating some task.. Step " + i);
+                for (int i = 0; i < 2; i++) {
                     TimeUnit.SECONDS.sleep(1);
                 }
             } catch (InterruptedException e) {

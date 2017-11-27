@@ -43,6 +43,8 @@ public class DeviceInfoFragment extends Fragment {
     String device;
     ArrayList<String> deviceHistory;
     ArrayList<SpecificationInfo> specificationList = new ArrayList<>();
+    Boolean open = true;
+    DataSnapshot totalDatasnapShot;
     private CustomExpandableListAdapter expandableListAdapter;
     private ArrayList<HeaderInfo> SectionList = new ArrayList<>();
     private LinkedHashMap<String, HeaderInfo> mySection = new LinkedHashMap<>();
@@ -99,8 +101,24 @@ public class DeviceInfoFragment extends Fragment {
         });
 
 
-        View view1 = inflater.inflate(R.layout.bottom_list, null);
-        TextView footer = view1.findViewById(R.id.loadMore);
+        View footerView = inflater.inflate(R.layout.bottom_list, null);
+        TextView footer = footerView.findViewById(R.id.loadMore);
+
+        footer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (open) {
+                    SectionList.remove(SectionList.size() - 1);
+                    expandableListAdapter.notifyDataSetChanged();
+                    open = false;
+                } else {
+                    collectEvents((Map<String, Object>) totalDatasnapShot.child("messages").getValue(), 2, false);
+                    expandableListAdapter.notifyDataSetChanged();
+                    open = true;
+                }
+
+            }
+        });
         deviceHistory = new ArrayList<>();
         expandableListView = view.findViewById(R.id.myList);
         expandableListView.addFooterView(footer);
@@ -117,7 +135,9 @@ public class DeviceInfoFragment extends Fragment {
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue());
+                totalDatasnapShot = dataSnapshot;
+
+                collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 1, false);
                 addSpecificationEntry("Location", dataSnapshot.child("var").child("loc").getValue().toString());
                 expandableListAdapter.notifyDataSetChanged();
             }
@@ -135,16 +155,19 @@ public class DeviceInfoFragment extends Fragment {
         return view;
     }
 
-    private void collectEvents(Map<String, Object> events) {
+    private void collectEvents(Map<String, Object> events, int count, boolean full) {
+        int i = 0;
 
         for (Map.Entry<String, Object> entry : events.entrySet()) { //Gets all of the entries directly beneath the device
-            Map<String, Object> messagesMap = (Map<String, Object>) entry.getValue();
-            System.out.println(messagesMap);
-            System.out.println(messagesMap.get("eventTime").toString());
-            List<String> readable;
-            readable = convertDateNumToString(messagesMap.get("eventTime").toString());
-            addHistoryEntry(readable.get(0), readable.get(1), "Kitchen");
-
+            if (i < count || full) {
+                Map<String, Object> messagesMap = (Map<String, Object>) entry.getValue();
+                System.out.println(messagesMap);
+                System.out.println(messagesMap.get("eventTime").toString());
+                List<String> readable;
+                readable = convertDateNumToString(messagesMap.get("eventTime").toString());
+                addHistoryEntry(readable.get(0), readable.get(1), "Kitchen");
+                i++;
+            }
 
         }
     }
