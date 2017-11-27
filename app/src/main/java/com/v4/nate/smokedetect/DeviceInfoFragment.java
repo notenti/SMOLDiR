@@ -36,12 +36,11 @@ public class DeviceInfoFragment extends Fragment {
     @BindView(R.id.btn_showMoreHistory)
     Button _changeName;
     ListView list;
-    CustomAdapter adapter;
+    DeviceSpecificationsListAdapter adapter;
     String homeID = "1376hh";
     String device;
     ArrayList<String> deviceHistory;
-    ArrayList<String> status;
-    ArrayList<String> eventTitlesList;
+    ArrayList<SpecificationInfo> specificationList = new ArrayList<>();
     private CustomExpandableListAdapter expandableListAdapter;
     private ArrayList<HeaderInfo> SectionList = new ArrayList<>();
     private LinkedHashMap<String, HeaderInfo> mySection = new LinkedHashMap<>();
@@ -101,15 +100,16 @@ public class DeviceInfoFragment extends Fragment {
         expandableListView = view.findViewById(R.id.myList);
         expandableListView.setAdapter(expandableListAdapter);
 
-        status = new ArrayList<>();
 
         list = view.findViewById(R.id.status);
-        adapter = new CustomAdapter(getContext(), status);
+        adapter = new DeviceSpecificationsListAdapter(getContext(), specificationList);
         list.setAdapter(adapter);
 
-        status.add("Battery Status");
-        status.add("Hushed?");
-        status.add("Detector Name");
+        addSpecificationEntry("Battery Status", "Low");
+        addSpecificationEntry("Hushed?", "Yes");
+
+
+
 
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device).child("messages");
@@ -138,13 +138,13 @@ public class DeviceInfoFragment extends Fragment {
             System.out.println(messagesMap.get("eventTime").toString());
             List<String> readable;
             readable = convertDateNumToString(messagesMap.get("eventTime").toString());
-            addProduct(readable.get(0), readable.get(1), "Kitchen");
+            addHistoryEntry(readable.get(0), readable.get(1), "Kitchen");
 
 
         }
     }
 
-    private int addProduct(String date, String event, String location) {
+    private int addHistoryEntry(String date, String event, String location) {
         int groupPosition = 0;
 
         HeaderInfo headerInfo = mySection.get(date);
@@ -164,6 +164,13 @@ public class DeviceInfoFragment extends Fragment {
 
         groupPosition = SectionList.indexOf(headerInfo);
         return groupPosition;
+    }
+
+    private void addSpecificationEntry(String specification, String status) {
+        SpecificationInfo specificationInfo = new SpecificationInfo();
+        specificationInfo.setSpecification(specification);
+        specificationInfo.setStatus(status);
+        specificationList.add(specificationInfo);
     }
 
     private List<String> convertDateNumToString(String eventTime) {

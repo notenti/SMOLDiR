@@ -9,12 +9,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+public class DeviceSpecificationsListAdapter extends BaseAdapter {
 
-public class CustomAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<String> data;
+    private ArrayList<SpecificationInfo> data;
 
-    public CustomAdapter(Context context, ArrayList<String> d) {
+    public DeviceSpecificationsListAdapter(Context context, ArrayList<SpecificationInfo> d) {
         this.context = context;
         this.data = d;
     }
@@ -32,17 +32,18 @@ public class CustomAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        String deviceID = data.get(position);
+        SpecificationInfo specificationInfo = data.get(position);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.device_row, null);
+            convertView = layoutInflater.inflate(R.layout.device_specifications_list_row, null);
         }
 
-        TextView heading = convertView.findViewById(R.id.deviceTitle);
-        heading.setText(deviceID);
+        TextView specification = convertView.findViewById(R.id.specification);
+        specification.setText(specificationInfo.getSpecification().trim());
+        TextView status = convertView.findViewById(R.id.status);
+        status.setText(specificationInfo.getStatus().trim());
         return convertView;
 
 
     }
-
 }

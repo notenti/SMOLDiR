@@ -45,7 +45,7 @@ public class LandingFragment extends Fragment {
 
     //ListView stuff
     ListView list;
-    CustomAdapter adapter;
+    OverviewDeviceListAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class LandingFragment extends Fragment {
         initialize();
 
         list = view.findViewById(R.id.device_list);
-        adapter = new CustomAdapter(getContext(), deviceIDFromDatabase);
+        adapter = new OverviewDeviceListAdapter(getContext(), deviceIDFromDatabase);
         list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -146,16 +146,6 @@ public class LandingFragment extends Fragment {
                         deviceIDFromDatabase.add(ds.child("var").child("loc").getValue().toString());
 
                 }
-
-                Map<String, Object> statusMap = (Map<String, Object>) dataSnapshot.getValue();
-                for (Map.Entry<String, Object> s : statusMap.entrySet()) {
-
-                    Map single = (Map) s.getValue();
-
-
-                    System.out.println(single.get("var"));
-                }
-
                 adapter.notifyDataSetChanged();
             }
 
