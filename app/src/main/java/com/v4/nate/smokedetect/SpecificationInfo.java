@@ -8,6 +8,15 @@ public class SpecificationInfo {
 
     private String specification;
     private String status;
+    private int resource;
+
+    public int getResource() {
+        return resource;
+    }
+
+    public void setResource(int resource) {
+        this.resource = resource;
+    }
 
     public String getSpecification() {
         return specification;

@@ -42,6 +42,8 @@ public class DeviceSpecificationsListAdapter extends BaseAdapter {
         specification.setText(specificationInfo.getSpecification().trim());
         TextView status = convertView.findViewById(R.id.status);
         status.setText(specificationInfo.getStatus().trim());
+//        ImageView resource = convertView.findViewById(R.id.icon);
+//        resource.setImageResource(specificationInfo.getResource());
         return convertView;
 
 

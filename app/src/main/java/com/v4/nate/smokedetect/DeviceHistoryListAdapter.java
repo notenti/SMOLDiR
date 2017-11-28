@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class DeviceHistoryListAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<DeviceHistoryInfo> data;
+    private int[] imageIds;
 
     public DeviceHistoryListAdapter(Context context, ArrayList<DeviceHistoryInfo> d) {
         this.context = context;
@@ -46,6 +48,8 @@ public class DeviceHistoryListAdapter extends BaseAdapter {
         date.setText(deviceHistoryInfo.getDate().trim());
         TextView location = convertView.findViewById(R.id.location);
         location.setText(deviceHistoryInfo.getLocation().trim());
+        ImageView icon = convertView.findViewById(R.id.headingImage);
+        icon.setImageResource(deviceHistoryInfo.getResource());
         return convertView;
 
 

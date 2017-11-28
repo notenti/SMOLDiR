@@ -187,7 +187,6 @@ public class DeviceInfoFragment extends Fragment {
         });
 
         addSpecificationEntry("Battery Status", "Low");
-        addSpecificationEntry("Hushed?", "Yes");
 
 
         return view;
@@ -203,7 +202,7 @@ public class DeviceInfoFragment extends Fragment {
                 System.out.println(messagesMap.get("eventTime").toString());
                 List<String> readable;
                 readable = convertDateNumToString(messagesMap.get("eventTime").toString());
-                addDeviceHistoryEntry(readable.get(0), "Kitchen");
+                addDeviceHistoryEntry(readable.get(0), "Kitchen", R.drawable.ic_exclamation_mark);
                 i++;
             }
 
@@ -240,10 +239,11 @@ public class DeviceInfoFragment extends Fragment {
         specificationList.add(specificationInfo);
     }
 
-    private void addDeviceHistoryEntry(String date, String location) {
+    private void addDeviceHistoryEntry(String date, String location, int resource) {
         DeviceHistoryInfo deviceHistoryInfo = new DeviceHistoryInfo();
         deviceHistoryInfo.setDate(date);
         deviceHistoryInfo.setLocation(location);
+        deviceHistoryInfo.setResource(resource);
         historyList.add(deviceHistoryInfo);
     }
 

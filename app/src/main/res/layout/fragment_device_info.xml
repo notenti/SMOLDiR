@@ -23,7 +23,7 @@
             android:text="TEST"
             android:textColor="@color/color_primary"
             android:textSize="24dp" />
-        
+
         <ListView
             android:id="@+id/deviceHistoryList"
             android:layout_width="match_parent"

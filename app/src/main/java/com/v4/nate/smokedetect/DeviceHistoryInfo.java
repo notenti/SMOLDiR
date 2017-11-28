@@ -8,6 +8,15 @@ public class DeviceHistoryInfo {
 
     private String date;
     private String location;
+    private int resource;
+
+    public int getResource() {
+        return resource;
+    }
+
+    public void setResource(int resource) {
+        this.resource = resource;
+    }
 
     public String getDate() {
         return date;
