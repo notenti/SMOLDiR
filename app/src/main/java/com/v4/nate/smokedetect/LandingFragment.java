@@ -62,6 +62,8 @@ public class LandingFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_landing, container, false);
         ButterKnife.bind(this, view);
 
+        getActivity().setTitle("Home");
+
 
         progressBarHolder = view.findViewById(R.id.progressBarHolder);
         new MyTask().execute();

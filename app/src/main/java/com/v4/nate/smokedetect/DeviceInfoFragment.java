@@ -36,6 +36,8 @@ public class DeviceInfoFragment extends Fragment {
     final Context c = getContext();
     @BindView(R.id.btn_changeName)
     Button _changeName;
+    @BindView(R.id.imageHeading)
+    TextView _testButton;
 
     ListView list;
     DeviceSpecificationsListAdapter adapter;
@@ -45,19 +47,54 @@ public class DeviceInfoFragment extends Fragment {
     ArrayList<SpecificationInfo> specificationList = new ArrayList<>();
     Boolean open = true;
     DataSnapshot totalDatasnapShot;
+    String lastTested;
     private CustomExpandableListAdapter expandableListAdapter;
     private ArrayList<HeaderInfo> SectionList = new ArrayList<>();
     private LinkedHashMap<String, HeaderInfo> mySection = new LinkedHashMap<>();
     private ExpandableListView expandableListView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_device_info, container, false);
         ButterKnife.bind(this, view);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             device = bundle.getString("device");
         }
+
+        getActivity().setTitle(device);
+
+        _testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device);
+                        switch (i) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                database.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        dataSnapshot.child("var").child("test").getRef().setValue(true);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                System.out.println("NEGATIVE");
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+            }
+        });
 
 
         _changeName.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +149,7 @@ public class DeviceInfoFragment extends Fragment {
                     expandableListAdapter.notifyDataSetChanged();
                     open = false;
                 } else {
-                    collectEvents((Map<String, Object>) totalDatasnapShot.child("messages").getValue(), 2, false);
+                    collectEvents((Map<String, Object>) totalDatasnapShot.child("messages").getValue(), 2, true);
                     expandableListAdapter.notifyDataSetChanged();
                     open = true;
                 }
@@ -136,6 +173,8 @@ public class DeviceInfoFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 totalDatasnapShot = dataSnapshot;
+                lastTested = dataSnapshot.child("var").child("lastTest").getValue().toString();
+                addSpecificationEntry("Last Tested", convertDateNumToString(lastTested).get(0));
 
                 collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 1, false);
                 addSpecificationEntry("Location", dataSnapshot.child("var").child("loc").getValue().toString());
