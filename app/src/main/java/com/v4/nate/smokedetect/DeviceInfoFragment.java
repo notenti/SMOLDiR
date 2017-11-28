@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,19 +38,21 @@ public class DeviceInfoFragment extends Fragment {
     @BindView(R.id.imageHeading)
     TextView _testButton;
 
-    ListView list;
-    DeviceSpecificationsListAdapter adapter;
+    ListView specificationsList;
+    ListView deviceHistoryList;
+    DeviceHistoryListAdapter deviceHistoryListAdapter;
+    DeviceSpecificationsListAdapter deviceSpecificationsListAdapter;
     String homeID = "1376hh";
     String device;
     ArrayList<String> deviceHistory;
+    ArrayList<DeviceHistoryInfo> historyList = new ArrayList<>();
     ArrayList<SpecificationInfo> specificationList = new ArrayList<>();
     Boolean open = true;
     DataSnapshot totalDatasnapShot;
     String lastTested;
-    private CustomExpandableListAdapter expandableListAdapter;
+
     private ArrayList<HeaderInfo> SectionList = new ArrayList<>();
     private LinkedHashMap<String, HeaderInfo> mySection = new LinkedHashMap<>();
-    private ExpandableListView expandableListView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -145,28 +146,26 @@ public class DeviceInfoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (open) {
-                    SectionList.remove(SectionList.size() - 1);
-                    expandableListAdapter.notifyDataSetChanged();
+
                     open = false;
                 } else {
                     collectEvents((Map<String, Object>) totalDatasnapShot.child("messages").getValue(), 2, true);
-                    expandableListAdapter.notifyDataSetChanged();
+
                     open = true;
                 }
 
             }
         });
         deviceHistory = new ArrayList<>();
-        expandableListView = view.findViewById(R.id.myList);
-        expandableListView.addFooterView(footer);
-        expandableListAdapter = new CustomExpandableListAdapter(getContext(), SectionList);
-
-        expandableListView.setAdapter(expandableListAdapter);
 
 
-        list = view.findViewById(R.id.status);
-        adapter = new DeviceSpecificationsListAdapter(getContext(), specificationList);
-        list.setAdapter(adapter);
+        specificationsList = view.findViewById(R.id.status);
+        deviceSpecificationsListAdapter = new DeviceSpecificationsListAdapter(getContext(), specificationList);
+        specificationsList.setAdapter(deviceSpecificationsListAdapter);
+
+        deviceHistoryList = view.findViewById(R.id.deviceHistoryList);
+        deviceHistoryListAdapter = new DeviceHistoryListAdapter(getContext(), historyList);
+        deviceHistoryList.setAdapter(deviceHistoryListAdapter);
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device);
         database.addValueEventListener(new ValueEventListener() {
@@ -175,10 +174,8 @@ public class DeviceInfoFragment extends Fragment {
                 totalDatasnapShot = dataSnapshot;
                 lastTested = dataSnapshot.child("var").child("lastTest").getValue().toString();
                 addSpecificationEntry("Last Tested", convertDateNumToString(lastTested).get(0));
-
-                collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 1, false);
+                collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 3, false);
                 addSpecificationEntry("Location", dataSnapshot.child("var").child("loc").getValue().toString());
-                expandableListAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -204,11 +201,12 @@ public class DeviceInfoFragment extends Fragment {
                 System.out.println(messagesMap.get("eventTime").toString());
                 List<String> readable;
                 readable = convertDateNumToString(messagesMap.get("eventTime").toString());
-                addHistoryEntry(readable.get(0), readable.get(1), "Kitchen");
+                addDeviceHistoryEntry(readable.get(0), "Kitchen");
                 i++;
             }
 
         }
+        deviceHistoryListAdapter.notifyDataSetChanged();
     }
 
     private int addHistoryEntry(String date, String event, String location) {
@@ -238,6 +236,13 @@ public class DeviceInfoFragment extends Fragment {
         specificationInfo.setSpecification(specification);
         specificationInfo.setStatus(status);
         specificationList.add(specificationInfo);
+    }
+
+    private void addDeviceHistoryEntry(String date, String location) {
+        DeviceHistoryInfo deviceHistoryInfo = new DeviceHistoryInfo();
+        deviceHistoryInfo.setDate(date);
+        deviceHistoryInfo.setLocation(location);
+        historyList.add(deviceHistoryInfo);
     }
 
     private List<String> convertDateNumToString(String eventTime) {
@@ -302,7 +307,7 @@ public class DeviceInfoFragment extends Fragment {
             hour = time.get(0);
             denote = " a.m.";
         }
-        String readableDate = new StringBuilder(month).append(" ").append(date.get(1)).append(", ").append(date.get(2)).toString();
+        String readableDate = new StringBuilder(month).append(" ").append(date.get(1)).toString();
         String readableTime = new StringBuilder(hour).append(":").append(time.get(1)).append(denote).toString();
 
         readable.add(readableDate);

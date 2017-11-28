@@ -23,17 +23,19 @@
             android:text="TEST"
             android:textColor="@color/color_primary"
             android:textSize="24dp" />
-
-        <ExpandableListView
-            android:id="@+id/myList"
+        
+        <ListView
+            android:id="@+id/deviceHistoryList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/imageHeading"></ExpandableListView>
+            android:layout_below="@id/imageHeading">
+
+        </ListView>
 
         <Button
             android:id="@+id/btn_changeName"
             style="@style/Smoldr.LaunchButtonFull"
-            android:layout_below="@+id/myList"
+            android:layout_below="@+id/deviceHistoryList"
             android:padding="10sp"
             android:text="Change Name" />
 
