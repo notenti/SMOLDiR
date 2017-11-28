@@ -44,10 +44,9 @@ public class DeviceInfoFragment extends Fragment {
     DeviceSpecificationsListAdapter deviceSpecificationsListAdapter;
     String homeID = "1376hh";
     String device;
-    ArrayList<String> deviceHistory;
     ArrayList<DeviceHistoryInfo> historyList = new ArrayList<>();
     ArrayList<SpecificationInfo> specificationList = new ArrayList<>();
-    Boolean open = true;
+    Boolean open = false;
     DataSnapshot totalDatasnapShot;
     String lastTested;
 
@@ -146,24 +145,27 @@ public class DeviceInfoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (open) {
-
                     open = false;
+                    for (int i = historyList.size(); i > 2; i--) {
+                        historyList.remove(0);
+                    }
+                    deviceHistoryListAdapter.notifyDataSetChanged();
                 } else {
-                    collectEvents((Map<String, Object>) totalDatasnapShot.child("messages").getValue(), 2, true);
+                    historyList.remove(1);
+                    historyList.remove(0);
 
+                    collectEvents((Map<String, Object>) totalDatasnapShot.child("messages").getValue(), 2, true);
                     open = true;
                 }
 
             }
         });
-        deviceHistory = new ArrayList<>();
-
-
         specificationsList = view.findViewById(R.id.status);
         deviceSpecificationsListAdapter = new DeviceSpecificationsListAdapter(getContext(), specificationList);
         specificationsList.setAdapter(deviceSpecificationsListAdapter);
 
         deviceHistoryList = view.findViewById(R.id.deviceHistoryList);
+        deviceHistoryList.addFooterView(footer);
         deviceHistoryListAdapter = new DeviceHistoryListAdapter(getContext(), historyList);
         deviceHistoryList.setAdapter(deviceHistoryListAdapter);
 
@@ -174,7 +176,7 @@ public class DeviceInfoFragment extends Fragment {
                 totalDatasnapShot = dataSnapshot;
                 lastTested = dataSnapshot.child("var").child("lastTest").getValue().toString();
                 addSpecificationEntry("Last Tested", convertDateNumToString(lastTested).get(0));
-                collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 3, false);
+                collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 2, false);
                 addSpecificationEntry("Location", dataSnapshot.child("var").child("loc").getValue().toString());
             }
 
