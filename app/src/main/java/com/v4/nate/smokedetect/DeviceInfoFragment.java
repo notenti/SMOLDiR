@@ -200,7 +200,7 @@ public class DeviceInfoFragment extends Fragment {
                 System.out.println(messagesMap.get("eventTime").toString());
                 List<String> readable;
                 readable = convertDateNumToString(messagesMap.get("eventTime").toString());
-                addDeviceHistoryEntry(readable.get(0), "Kitchen", R.drawable.ic_exclamation_mark);
+                addDeviceHistoryEntry(readable.get(0), readable.get(1), R.drawable.ic_exclamation_mark);
                 i++;
             }
 
@@ -301,11 +301,11 @@ public class DeviceInfoFragment extends Fragment {
 
         if (Integer.parseInt(time.get(0)) > 12) {
             hour = String.valueOf(Integer.parseInt(time.get(0)) - 12);
-            denote = " p.m.";
+            denote = " PM";
 
         } else {
             hour = time.get(0);
-            denote = " a.m.";
+            denote = " AM";
         }
         String readableDate = new StringBuilder(month).append(" ").append(date.get(1)).toString();
         String readableTime = new StringBuilder(hour).append(":").append(time.get(1)).append(denote).toString();

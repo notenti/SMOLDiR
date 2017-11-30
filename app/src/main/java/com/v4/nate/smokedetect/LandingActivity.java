@@ -126,7 +126,7 @@ public class LandingActivity extends AppCompatActivity {
     public void setNewFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.slideup, 0);
+        fragmentTransaction.setCustomAnimations(R.anim.slideup, 0, 0, R.anim.slidedown);
         fragmentTransaction.add(R.id.landing_fragment, fragment);
         fragmentTransaction.addToBackStack(null).commit();
     }
