@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="false"
     android:descendantFocusability="blocksDescendants"
@@ -14,8 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:paddingLeft="5sp"
-        android:paddingRight="5dp" />
+        android:paddingLeft="10sp"
+        android:paddingRight="10dp" />
 
 
     <TextView
@@ -41,4 +41,13 @@
         android:focusableInTouchMode="false"
         android:text=""
         android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="10dp"
+        android:src="@drawable/ic_chevron_right" />
 </RelativeLayout>

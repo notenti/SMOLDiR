@@ -62,6 +62,7 @@ public class DeviceInfoFragment extends Fragment {
             device = bundle.getString("device");
         }
 
+
         getActivity().setTitle(device);
 
         _testButton.setOnClickListener(new View.OnClickListener() {

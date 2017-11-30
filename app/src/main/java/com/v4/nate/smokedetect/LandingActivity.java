@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -53,8 +54,14 @@ public class LandingActivity extends AppCompatActivity {
         addDrawerItems();
         setupDrawer();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+//        LayoutInflater inflater = LayoutInflater.from(this);
+//
+//        View view = inflater.inflate(R.layout.custom_actionbar, null);
+//        TextView textView = view.findViewById(R.id.title_text);
+//        textView.setText("Home");
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment landingFragment = new LandingFragment();
@@ -63,6 +70,9 @@ public class LandingActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack("testFragment");
         fragmentTransaction.addToBackStack("landingFragment");
         fragmentTransaction.commit();
+
+//        actionBar.setCustomView(view);
+//        actionBar.setDisplayShowCustomEnabled(true);
 
 
     }
@@ -173,14 +183,6 @@ public class LandingActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void function(View view) {
-
-//        Intent sendIntent = new Intent(getApplicationContext(), DatabasePushActivity.class);
-//        sendIntent.putExtra("hush", true);
-//
-//        this.startActivity(sendIntent);
     }
 
 
