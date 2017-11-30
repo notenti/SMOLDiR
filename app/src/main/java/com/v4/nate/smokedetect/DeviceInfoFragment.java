@@ -8,11 +8,8 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,8 +30,8 @@ public class DeviceInfoFragment extends Fragment {
 
     //ListView stuff
     final Context c = getContext();
-    @BindView(R.id.btn_changeName)
-    Button _changeName;
+    //    @BindView(R.id.btn_changeName)
+//    Button _changeName;
     @BindView(R.id.imageHeading)
     TextView _testButton;
 
@@ -98,45 +95,45 @@ public class DeviceInfoFragment extends Fragment {
         });
 
 
-        _changeName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-                View view1 = layoutInflater.inflate(R.layout.user_input_dialog_box, null);
-                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getActivity());
-                alertDialogBuilderUserInput.setView(view1);
-
-                final EditText userInputDialogEditText = view1.findViewById(R.id.userInputDialog);
-                alertDialogBuilderUserInput.setCancelable(false).setPositiveButton("Send", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        final String ttt = userInputDialogEditText.getText().toString();
-                        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device);
-                        database.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                dataSnapshot.child("var").child("loc").getRef().setValue(ttt);
-                            }
-
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-                        Toast.makeText(getContext(), ttt, Toast.LENGTH_SHORT).show();
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-
-                AlertDialog alertDialog = alertDialogBuilderUserInput.create();
-                alertDialog.show();
-            }
-        });
+//        _changeName.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+//                View view1 = layoutInflater.inflate(R.layout.user_input_dialog_box, null);
+//                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getActivity());
+//                alertDialogBuilderUserInput.setView(view1);
+//
+//                final EditText userInputDialogEditText = view1.findViewById(R.id.userInputDialog);
+//                alertDialogBuilderUserInput.setCancelable(false).setPositiveButton("Send", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        final String ttt = userInputDialogEditText.getText().toString();
+//                        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device);
+//                        database.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                dataSnapshot.child("var").child("loc").getRef().setValue(ttt);
+//                            }
+//
+//
+//                            @Override
+//                            public void onCancelled(DatabaseError databaseError) {
+//
+//                            }
+//                        });
+//                        Toast.makeText(getContext(), ttt, Toast.LENGTH_SHORT).show();
+//                    }
+//                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.cancel();
+//                    }
+//                });
+//
+//                AlertDialog alertDialog = alertDialogBuilderUserInput.create();
+//                alertDialog.show();
+//            }
+//        });
 
 
         View footerView = inflater.inflate(R.layout.bottom_list, null);
@@ -161,9 +158,9 @@ public class DeviceInfoFragment extends Fragment {
 
             }
         });
-        specificationsList = view.findViewById(R.id.status);
-        deviceSpecificationsListAdapter = new DeviceSpecificationsListAdapter(getContext(), specificationList);
-        specificationsList.setAdapter(deviceSpecificationsListAdapter);
+//        specificationsList = view.findViewById(R.id.status);
+//        deviceSpecificationsListAdapter = new DeviceSpecificationsListAdapter(getContext(), specificationList);
+//        specificationsList.setAdapter(deviceSpecificationsListAdapter);
 
         deviceHistoryList = view.findViewById(R.id.deviceHistoryList);
         deviceHistoryList.addFooterView(footer);
@@ -178,7 +175,7 @@ public class DeviceInfoFragment extends Fragment {
                 lastTested = dataSnapshot.child("var").child("lastTest").getValue().toString();
                 addSpecificationEntry("Last Tested", convertDateNumToString(lastTested).get(0));
                 collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 2, false);
-                addSpecificationEntry("Location", dataSnapshot.child("var").child("loc").getValue().toString());
+                //addSpecificationEntry("Location", dataSnapshot.child("var").child("loc").getValue().toString());
             }
 
             @Override
@@ -187,7 +184,7 @@ public class DeviceInfoFragment extends Fragment {
             }
         });
 
-        addSpecificationEntry("Battery Status", "Low");
+        // addSpecificationEntry("Battery Status", "Low");
 
 
         return view;
