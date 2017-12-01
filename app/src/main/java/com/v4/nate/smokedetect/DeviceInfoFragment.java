@@ -8,8 +8,10 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,6 +36,8 @@ public class DeviceInfoFragment extends Fragment {
 //    Button _changeName;
     @BindView(R.id.imageHeading)
     TextView _testButton;
+    @BindView(R.id.locationStatus)
+    TextView _location;
 
     ListView specificationsList;
     ListView deviceHistoryList;
@@ -46,13 +50,15 @@ public class DeviceInfoFragment extends Fragment {
     Boolean open = false;
     DataSnapshot totalDatasnapShot;
     String lastTested;
+    String batteryStatus;
+    String location;
 
     private ArrayList<HeaderInfo> SectionList = new ArrayList<>();
     private LinkedHashMap<String, HeaderInfo> mySection = new LinkedHashMap<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_device_info, container, false);
+        final View view = inflater.inflate(R.layout.fragment_device_info, container, false);
         ButterKnife.bind(this, view);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -61,6 +67,48 @@ public class DeviceInfoFragment extends Fragment {
 
 
         getActivity().setTitle(device);
+
+        _location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+                View view1 = layoutInflater.inflate(R.layout.user_input_dialog_box, null);
+                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getActivity());
+                alertDialogBuilderUserInput.setView(view1);
+
+                final EditText userInputDialogEditText = view1.findViewById(R.id.userInputDialog);
+                alertDialogBuilderUserInput.setCancelable(false).setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        final String ttt = userInputDialogEditText.getText().toString();
+                        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device);
+                        database.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                dataSnapshot.child("var").child("loc").getRef().setValue(ttt);
+                            }
+
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                        Toast.makeText(getContext(), ttt, Toast.LENGTH_SHORT).show();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilderUserInput.create();
+                alertDialog.show();
+
+            }
+        });
 
         _testButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,15 +192,23 @@ public class DeviceInfoFragment extends Fragment {
             public void onClick(View view) {
                 if (open) {
                     open = false;
-                    for (int i = historyList.size(); i > 2; i--) {
+                    for (int i = historyList.size(); i > 5; i--) {
                         historyList.remove(0);
                     }
+                    TextView tv1 = view.findViewById(R.id.loadMore);
+                    tv1.setText("Show more");
+
                     deviceHistoryListAdapter.notifyDataSetChanged();
                 } else {
+                    historyList.remove(4);
+                    historyList.remove(3);
+                    historyList.remove(2);
                     historyList.remove(1);
                     historyList.remove(0);
+                    TextView tv1 = view.findViewById(R.id.loadMore);
+                    tv1.setText("Show less");
 
-                    collectEvents((Map<String, Object>) totalDatasnapShot.child("messages").getValue(), 2, true);
+                    collectEvents((Map<String, Object>) totalDatasnapShot.child("messages").getValue(), 6, true);
                     open = true;
                 }
 
@@ -173,9 +229,16 @@ public class DeviceInfoFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 totalDatasnapShot = dataSnapshot;
                 lastTested = dataSnapshot.child("var").child("lastTest").getValue().toString();
+                batteryStatus = dataSnapshot.child("var").child("status").getValue().toString();
+                location = dataSnapshot.child("var").child("loc").getValue().toString();
                 addSpecificationEntry("Last Tested", convertDateNumToString(lastTested).get(0));
-                collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 2, false);
+                collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 5, false);
                 //addSpecificationEntry("Location", dataSnapshot.child("var").child("loc").getValue().toString());
+
+                TextView batteryTV = view.findViewById(R.id.batteryStatus);
+                batteryTV.setText(batteryStatus);
+                TextView locationTV = view.findViewById(R.id.locationStatus);
+                locationTV.setText(location);
             }
 
             @Override
@@ -183,9 +246,6 @@ public class DeviceInfoFragment extends Fragment {
 
             }
         });
-
-        // addSpecificationEntry("Battery Status", "Low");
-
 
         return view;
     }
