@@ -39,7 +39,7 @@ public class LandingFragment extends Fragment {
     @BindView(R.id.detectorStatus)
     TextView _detectorStatus;
     String homeID = "1376hh";
-    String deviceID = "12ab12";
+    String deviceID = "Nate1";
     String deviceIDList;
     String status;
     View view;

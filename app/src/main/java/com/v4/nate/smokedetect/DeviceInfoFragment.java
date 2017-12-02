@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,10 +36,8 @@ public class DeviceInfoFragment extends Fragment {
     @BindView(R.id.locationStatus)
     TextView _location;
 
-    ListView specificationsList;
     ListView deviceHistoryList;
     DeviceHistoryListAdapter deviceHistoryListAdapter;
-    DeviceSpecificationsListAdapter deviceSpecificationsListAdapter;
     String homeID = "1376hh";
     String device;
     ArrayList<DeviceHistoryInfo> historyList = new ArrayList<>();
@@ -79,21 +76,10 @@ public class DeviceInfoFragment extends Fragment {
                 alertDialogBuilderUserInput.setCancelable(false).setPositiveButton("Send", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        final String ttt = userInputDialogEditText.getText().toString();
+                        final String location = userInputDialogEditText.getText().toString();
                         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device);
-                        database.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                dataSnapshot.child("var").child("loc").getRef().setValue(ttt);
-                            }
+                        database.child("var").child("loc").getRef().setValue(location);
 
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-                        Toast.makeText(getContext(), ttt, Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -117,17 +103,7 @@ public class DeviceInfoFragment extends Fragment {
                         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device);
                         switch (i) {
                             case DialogInterface.BUTTON_POSITIVE:
-                                database.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        dataSnapshot.child("var").child("test").getRef().setValue(true);
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
+                                database.child("var").child("test").setValue(true);
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
                                 System.out.println("NEGATIVE");
