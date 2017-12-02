@@ -32,8 +32,6 @@ public class DeviceInfoFragment extends Fragment {
 
     //ListView stuff
     final Context c = getContext();
-    //    @BindView(R.id.btn_changeName)
-//    Button _changeName;
     @BindView(R.id.imageHeading)
     TextView _testButton;
     @BindView(R.id.locationStatus)
@@ -143,47 +141,6 @@ public class DeviceInfoFragment extends Fragment {
         });
 
 
-//        _changeName.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-//                View view1 = layoutInflater.inflate(R.layout.user_input_dialog_box, null);
-//                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getActivity());
-//                alertDialogBuilderUserInput.setView(view1);
-//
-//                final EditText userInputDialogEditText = view1.findViewById(R.id.userInputDialog);
-//                alertDialogBuilderUserInput.setCancelable(false).setPositiveButton("Send", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        final String ttt = userInputDialogEditText.getText().toString();
-//                        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device);
-//                        database.addValueEventListener(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(DataSnapshot dataSnapshot) {
-//                                dataSnapshot.child("var").child("loc").getRef().setValue(ttt);
-//                            }
-//
-//
-//                            @Override
-//                            public void onCancelled(DatabaseError databaseError) {
-//
-//                            }
-//                        });
-//                        Toast.makeText(getContext(), ttt, Toast.LENGTH_SHORT).show();
-//                    }
-//                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        dialogInterface.cancel();
-//                    }
-//                });
-//
-//                AlertDialog alertDialog = alertDialogBuilderUserInput.create();
-//                alertDialog.show();
-//            }
-//        });
-
-
         View footerView = inflater.inflate(R.layout.bottom_list, null);
         TextView footer = footerView.findViewById(R.id.loadMore);
 
@@ -214,9 +171,7 @@ public class DeviceInfoFragment extends Fragment {
 
             }
         });
-//        specificationsList = view.findViewById(R.id.status);
-//        deviceSpecificationsListAdapter = new DeviceSpecificationsListAdapter(getContext(), specificationList);
-//        specificationsList.setAdapter(deviceSpecificationsListAdapter);
+
 
         deviceHistoryList = view.findViewById(R.id.deviceHistoryList);
         deviceHistoryList.addFooterView(footer);
@@ -232,13 +187,24 @@ public class DeviceInfoFragment extends Fragment {
                 batteryStatus = dataSnapshot.child("var").child("status").getValue().toString();
                 location = dataSnapshot.child("var").child("loc").getValue().toString();
                 addSpecificationEntry("Last Tested", convertDateNumToString(lastTested).get(0));
-                collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 5, false);
+                if (historyList.isEmpty()) {
+                    collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 5, false);
+                } else {
+                    historyList.remove(4);
+                    historyList.remove(3);
+                    historyList.remove(2);
+                    historyList.remove(1);
+                    historyList.remove(0);
+                    collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 5, false);
+                }
                 //addSpecificationEntry("Location", dataSnapshot.child("var").child("loc").getValue().toString());
 
                 TextView batteryTV = view.findViewById(R.id.batteryStatus);
                 batteryTV.setText(batteryStatus);
                 TextView locationTV = view.findViewById(R.id.locationStatus);
                 locationTV.setText(location);
+                TextView lastTestTV = view.findViewById(R.id.lastTest);
+                lastTestTV.setText(convertDateNumToString(lastTested).get(2));
             }
 
             @Override
@@ -369,11 +335,14 @@ public class DeviceInfoFragment extends Fragment {
         }
         String readableDate = new StringBuilder(month).append(" ").append(date.get(1)).toString();
         String readableTime = new StringBuilder(hour).append(":").append(time.get(1)).append(denote).toString();
+        String numberedDate = new StringBuilder(date.get(0)).append("/").append(date.get(1)).toString();
 
         readable.add(readableDate);
         readable.add(readableTime);
+        readable.add(numberedDate);
 
         return readable;
 
     }
+
 }

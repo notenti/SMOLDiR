@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 public class OverviewDeviceListAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<String> data;
+    private ArrayList<DeviceOverviewInfo> data;
 
-    public OverviewDeviceListAdapter(Context context, ArrayList<String> d) {
+    public OverviewDeviceListAdapter(Context context, ArrayList<DeviceOverviewInfo> d) {
         this.context = context;
         this.data = d;
     }
@@ -32,14 +32,18 @@ public class OverviewDeviceListAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        String deviceID = data.get(position);
+        DeviceOverviewInfo deviceOverviewInfo = data.get(position);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.overview_device_list_row, null);
         }
 
-        TextView heading = convertView.findViewById(R.id.deviceTitle);
-        heading.setText(deviceID);
+        TextView device = convertView.findViewById(R.id.deviceTitle);
+        device.setText(deviceOverviewInfo.getDevice().trim());
+        TextView location = convertView.findViewById(R.id.locationTitle);
+        location.setText(deviceOverviewInfo.getLocation().trim());
+//        ImageView resource = convertView.findViewById(R.id.statusCircle);
+//        resource.setImageResource(deviceOverviewInfo.getResource());
         return convertView;
 
 

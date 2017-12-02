@@ -48,7 +48,7 @@ public class LandingFragment extends Fragment {
     AlphaAnimation inAnimation;
     AlphaAnimation outAnimation;
 
-    ArrayList<String> deviceIDFromDatabase;
+    ArrayList<DeviceOverviewInfo> deviceIDFromDatabase;
     ArrayList<String> deviceListTest;
 
     FrameLayout progressBarHolder;
@@ -78,6 +78,7 @@ public class LandingFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
                 TextView mytv = view.findViewById(R.id.deviceTitle);
                 Bundle bundle = new Bundle();
                 bundle.putString("device", mytv.getText().toString());
@@ -154,12 +155,13 @@ public class LandingFragment extends Fragment {
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                while (!deviceIDFromDatabase.isEmpty()) {
+                    deviceIDFromDatabase.remove(0);
+                }
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                    if (ds.child("var").child("loc").getValue().toString().equals("NULL"))
-                        deviceIDFromDatabase.add(ds.getKey());
-                    else
-                        deviceIDFromDatabase.add(ds.child("var").child("loc").getValue().toString());
+                    addOverviewDeviceEntry(ds.getKey(), ds.child("var").child("loc").getValue().toString());
 
                 }
                 adapter.notifyDataSetChanged();
@@ -176,6 +178,12 @@ public class LandingFragment extends Fragment {
 
     }
 
+    private void addOverviewDeviceEntry(String device, String location) {
+        DeviceOverviewInfo deviceOverviewInfo = new DeviceOverviewInfo();
+        deviceOverviewInfo.setDevice(device);
+        deviceOverviewInfo.setLocation(location);
+        deviceIDFromDatabase.add(deviceOverviewInfo);
+    }
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
 
@@ -209,4 +217,5 @@ public class LandingFragment extends Fragment {
             return null;
         }
     }
+
 }
