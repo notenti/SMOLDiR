@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ public class DeviceInfoFragment extends Fragment {
     String lastTested;
     String batteryStatus;
     String location;
+    String locationTitle;
 
     private ArrayList<HeaderInfo> SectionList = new ArrayList<>();
     private LinkedHashMap<String, HeaderInfo> mySection = new LinkedHashMap<>();
@@ -60,10 +62,11 @@ public class DeviceInfoFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             device = bundle.getString("device");
+            locationTitle = bundle.getString("location");
         }
 
 
-        getActivity().setTitle(device);
+        getActivity().setTitle(locationTitle);
 
         _batteryStatus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,6 +165,20 @@ public class DeviceInfoFragment extends Fragment {
         deviceHistoryList.addFooterView(footer);
         deviceHistoryListAdapter = new DeviceHistoryListAdapter(getContext(), historyList);
         deviceHistoryList.setAdapter(deviceHistoryListAdapter);
+
+        deviceHistoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+                View view1 = layoutInflater.inflate(R.layout.event_info_expanded, null);
+                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getActivity());
+                alertDialogBuilderUserInput.setView(view1);
+
+                AlertDialog alertDialog = alertDialogBuilderUserInput.create();
+                alertDialog.show();
+
+            }
+        });
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device);
         database.addValueEventListener(new ValueEventListener() {

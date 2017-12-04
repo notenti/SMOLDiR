@@ -15,7 +15,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -80,9 +79,10 @@ public class LandingFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 TextView mytv = view.findViewById(R.id.deviceTitle);
+                TextView locationTV = view.findViewById(R.id.locationTitle);
                 Bundle bundle = new Bundle();
                 bundle.putString("device", mytv.getText().toString());
-                Toast.makeText(getActivity(), mytv.getText().toString(), Toast.LENGTH_SHORT).show();
+                bundle.putString("location", locationTV.getText().toString());
                 DeviceInfoFragment deviceInfoFragment = new DeviceInfoFragment();
                 deviceInfoFragment.setArguments(bundle);
                 ((LandingActivity) getActivity()).setNewFragment(deviceInfoFragment);
