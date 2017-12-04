@@ -19,8 +19,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,9 +76,9 @@ public class DeviceInfoFragment extends Fragment {
         _batteryStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
             }
         });
+
 
         _location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +143,7 @@ public class DeviceInfoFragment extends Fragment {
                 if (open) {
                     open = false;
                     for (int i = historyList.size(); i > 5; i--) {
-                        historyList.remove(0);
+                        historyList.remove(historyList.size() - 1);
                     }
                     TextView tv1 = view.findViewById(R.id.loadMore);
                     tv1.setText("Show more");
@@ -177,6 +182,15 @@ public class DeviceInfoFragment extends Fragment {
                 AlertDialog alertDialog = alertDialogBuilderUserInput.create();
                 alertDialog.show();
 
+
+                TextView locationStatusTV = view1.findViewById(R.id.eventLocationStatus);
+                locationStatusTV.setText(location);
+                TextView eventTypeStatusTV = view1.findViewById(R.id.eventTypeStatus);
+                eventTypeStatusTV.setText("EVENT TYPE");
+                TextView eventDateStatusTV = view1.findViewById(R.id.eventDateStatus);
+                TextView dateTV = view.findViewById(R.id.date);
+                eventDateStatusTV.setText(dateTV.getText().toString());
+
             }
         });
 
@@ -186,7 +200,7 @@ public class DeviceInfoFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 totalDatasnapShot = dataSnapshot;
                 lastTested = dataSnapshot.child("var").child("lastTest").getValue().toString();
-                batteryStatus = dataSnapshot.child("var").child("status").getValue().toString();
+                batteryStatus = dataSnapshot.child("var").child("batt_status").getValue().toString();
                 location = dataSnapshot.child("var").child("loc").getValue().toString();
                 addSpecificationEntry("Last Tested", convertDateNumToString(lastTested).get(0));
                 if (historyList.isEmpty()) {
@@ -199,7 +213,6 @@ public class DeviceInfoFragment extends Fragment {
                     historyList.remove(0);
                     collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 5, false);
                 }
-                //addSpecificationEntry("Location", dataSnapshot.child("var").child("loc").getValue().toString());
 
                 TextView batteryTV = view.findViewById(R.id.batteryStatus);
                 batteryTV.setText(batteryStatus);
@@ -224,15 +237,22 @@ public class DeviceInfoFragment extends Fragment {
         for (Map.Entry<String, Object> entry : events.entrySet()) { //Gets all of the entries directly beneath the device
             if (i < count || full) {
                 Map<String, Object> messagesMap = (Map<String, Object>) entry.getValue();
-                System.out.println(messagesMap);
-                System.out.println(messagesMap.get("eventTime").toString());
                 List<String> readable;
                 readable = convertDateNumToString(messagesMap.get("eventTime").toString());
-                addDeviceHistoryEntry(readable.get(0), readable.get(1), R.drawable.ic_exclamation_mark);
+                addDeviceHistoryEntry(readable.get(0), readable.get(1), messagesMap.get("eventTime").toString(), R.drawable.ic_exclamation_mark);
+                System.out.println(messagesMap.get("eventTime").toString());
                 i++;
             }
 
         }
+
+        Collections.sort(historyList, new Comparator<DeviceHistoryInfo>() {
+            @Override
+            public int compare(DeviceHistoryInfo dh1, DeviceHistoryInfo dh2) {
+                return convertDate(dh1.getDateTime()).compareTo(convertDate(dh2.getDateTime()));
+            }
+        });
+        Collections.reverse(historyList);
         deviceHistoryListAdapter.notifyDataSetChanged();
     }
 
@@ -265,10 +285,11 @@ public class DeviceInfoFragment extends Fragment {
         specificationList.add(specificationInfo);
     }
 
-    private void addDeviceHistoryEntry(String date, String location, int resource) {
+    private void addDeviceHistoryEntry(String date, String time, String dateTime, int resource) {
         DeviceHistoryInfo deviceHistoryInfo = new DeviceHistoryInfo();
         deviceHistoryInfo.setDate(date);
-        deviceHistoryInfo.setLocation(location);
+        deviceHistoryInfo.setTime(time);
+        deviceHistoryInfo.setDateTime(dateTime);
         deviceHistoryInfo.setResource(resource);
         historyList.add(deviceHistoryInfo);
     }
@@ -347,10 +368,15 @@ public class DeviceInfoFragment extends Fragment {
 
     }
 
-    private void sortHistory(ArrayList<DeviceHistoryInfo> list) {
-        for (DeviceHistoryInfo i : list) {
-//          i.getDate()
-
+    private Date convertDate(String dateString) {
+        Date test = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm");
+        try {
+            Date date = formatter.parse(dateString);
+            return date;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return test;
         }
     }
 

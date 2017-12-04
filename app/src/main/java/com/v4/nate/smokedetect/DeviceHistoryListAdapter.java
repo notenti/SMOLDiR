@@ -47,7 +47,7 @@ public class DeviceHistoryListAdapter extends BaseAdapter {
         TextView date = convertView.findViewById(R.id.date);
         date.setText(deviceHistoryInfo.getDate().trim());
         TextView location = convertView.findViewById(R.id.location);
-        location.setText(deviceHistoryInfo.getLocation().trim());
+        location.setText(deviceHistoryInfo.getTime().trim());
         ImageView icon = convertView.findViewById(R.id.headingImage);
         icon.setImageResource(deviceHistoryInfo.getResource());
         return convertView;

@@ -19,26 +19,53 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/thermalImage"
-        android:text="Event Type"
-        android:textAppearance="?android:attr/textAppearance" />
+        android:text="Type"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/eventTypeStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/eventTypeTitle"
+        android:layout_toRightOf="@id/thermalImage"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
         android:id="@+id/eventDateTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/eventTypeTitle"
+        android:layout_below="@id/eventTypeStatus"
         android:layout_toRightOf="@id/thermalImage"
-        android:text="Event Data"
-        android:textAppearance="?android:attr/textAppearance" />
+        android:text="Date"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/eventDateStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/eventDateTitle"
+        android:layout_toRightOf="@id/thermalImage"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
         android:id="@+id/eventLocationTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/eventDateTitle"
+        android:layout_below="@id/eventDateStatus"
         android:layout_toRightOf="@id/thermalImage"
-        android:text="Event Location"
-        android:textAppearance="?android:attr/textAppearance" />
+        android:text="Location"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/eventLocationStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/eventLocationTitle"
+        android:layout_toRightOf="@id/thermalImage"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 
 </RelativeLayout>

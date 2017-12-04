@@ -7,8 +7,18 @@ package com.v4.nate.smokedetect;
 public class DeviceHistoryInfo {
 
     private String date;
-    private String location;
+    private String time;
     private int resource;
+
+    private String dateTime;
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
 
     public int getResource() {
         return resource;
@@ -26,11 +36,11 @@ public class DeviceHistoryInfo {
         this.date = date;
     }
 
-    public String getLocation() {
-        return location;
+    public String getTime() {
+        return time;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setTime(String time) {
+        this.time = time;
     }
 }
