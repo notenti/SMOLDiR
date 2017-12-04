@@ -35,6 +35,8 @@ public class DeviceInfoFragment extends Fragment {
     TextView _testButton;
     @BindView(R.id.locationStatus)
     TextView _location;
+    @BindView(R.id.batteryStatus)
+    TextView _batteryStatus;
 
     ListView deviceHistoryList;
     DeviceHistoryListAdapter deviceHistoryListAdapter;
@@ -62,6 +64,13 @@ public class DeviceInfoFragment extends Fragment {
 
 
         getActivity().setTitle(device);
+
+        _batteryStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         _location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -319,6 +328,13 @@ public class DeviceInfoFragment extends Fragment {
 
         return readable;
 
+    }
+
+    private void sortHistory(ArrayList<DeviceHistoryInfo> list) {
+        for (DeviceHistoryInfo i : list) {
+//          i.getDate()
+
+        }
     }
 
 }
