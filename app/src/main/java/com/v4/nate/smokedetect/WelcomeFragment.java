@@ -1,18 +1,18 @@
 package com.v4.nate.smokedetect;
 
-import android.app.Fragment;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -33,8 +33,6 @@ public class WelcomeFragment extends Fragment {
     Button _registerDeviceButton;
     @BindView(R.id.sign_in_button)
     Button _googleSignupButton;
-    @BindView(R.id.text_install)
-    TextView _installText;
     Boolean login = false;
 
     private GoogleApiClient mGoogleApiClient;
@@ -50,7 +48,6 @@ public class WelcomeFragment extends Fragment {
 
         _registerDeviceButton = view.findViewById(R.id.btn_registerDevice);
         _googleSignupButton = view.findViewById(R.id.sign_in_button);
-        _installText = view.findViewById(R.id.text_install);
 
         _registerDeviceButton.setOnClickListener(new View.OnClickListener() {
 
@@ -68,20 +65,13 @@ public class WelcomeFragment extends Fragment {
             }
         });
 
-        _installText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                InstallFragment installFragment = new InstallFragment();
-                ((WelcomeActivity) getActivity()).setNewFragment(installFragment);
-            }
-        });
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .enableAutoManage((WelcomeActivity) getActivity(), new GoogleApiClient.OnConnectionFailedListener() {
+                .enableAutoManage(getActivity(), new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
                     }
@@ -124,7 +114,7 @@ public class WelcomeFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
-        mGoogleApiClient.stopAutoManage((WelcomeActivity) getActivity());
+        mGoogleApiClient.stopAutoManage(getActivity());
         mGoogleApiClient.disconnect();
     }
 

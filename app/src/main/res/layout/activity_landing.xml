@@ -9,6 +9,8 @@
     <!--normal layout-->
 
     <!--nav open-->
+
+
     <ListView
         android:id="@+id/navList"
         android:layout_width="240dp"
@@ -20,16 +22,10 @@
     </ListView>
 
     <FrameLayout
-        android:id="@+id/flameImage"
+        android:id="@+id/landing_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/deviceList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="300dp">
-
+        android:layout_height="wrap_content">
     </FrameLayout>
+
 
 </android.support.v4.widget.DrawerLayout>

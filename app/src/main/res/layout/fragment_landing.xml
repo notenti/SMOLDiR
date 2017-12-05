@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="34dp"
-    android:paddingRight="34dp"
     tools:context="com.v4.nate.smokedetect.LandingFragment">
+
 
     <ImageButton
         android:id="@+id/landingButton"
@@ -25,11 +26,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:padding="3dp"
         android:text="" />
 
     <Button
         android:id="@+id/hush_button"
-        style="@style/Smoldr.LaunchButton"
+        style="@style/Smoldr.LaunchButtonFull"
+        android:layout_below="@id/detectorStatus"
         android:layout_centerInParent="true"
-        android:text="Hush Alarm" />
+        android:layout_marginRight="56dp"
+        android:text="Hush Alarm"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/device_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/hush_button"
+        android:groupIndicator="@null">
+
+    </ListView>
+
+    <FrameLayout
+        android:id="@+id/progressBarHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="1"
+        android:animateLayoutChanges="true"
+        android:background="#FFFFFF"
+        android:visibility="gone">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+    </FrameLayout>
 </RelativeLayout>

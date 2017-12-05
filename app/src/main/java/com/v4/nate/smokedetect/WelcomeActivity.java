@@ -1,10 +1,10 @@
 package com.v4.nate.smokedetect;
 
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +20,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
         WelcomeFragment welcomeFragment = new WelcomeFragment();
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.welcomeFrameLayout, welcomeFragment);
         fragmentTransaction.addToBackStack(null);
@@ -47,9 +47,9 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void setNewFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.animator.right_to_center, R.animator.center_to_left);
+        fragmentTransaction.setCustomAnimations(R.anim.right_to_center, R.anim.center_to_left, R.anim.left_to_center, R.anim.center_to_right);
         fragmentTransaction.replace(R.id.welcomeFrameLayout, fragment);
         fragmentTransaction.addToBackStack(null).commit();
     }
@@ -58,8 +58,11 @@ public class WelcomeActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
+            overridePendingTransition(R.anim.left_to_center, R.anim.center_to_right);
         } else {
             super.onBackPressed();
+            overridePendingTransition(R.anim.left_to_center, R.anim.center_to_right);
+
         }
     }
 

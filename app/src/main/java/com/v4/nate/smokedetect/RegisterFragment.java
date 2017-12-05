@@ -1,10 +1,13 @@
 package com.v4.nate.smokedetect;
 
-import android.app.Fragment;
+
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,7 +82,7 @@ public class RegisterFragment extends Fragment {
         params.put("code", code);
 
 
-        if (code.isEmpty() || code.length() < 6) {
+        if (code.isEmpty() || code.length() < 4) {
             _registrationCode.setError("incorrect number of characters");
         } else { //Code was entered properly
             if (checkExistingDevice()) { //If the device has already been registered, notify the user
@@ -115,6 +118,41 @@ public class RegisterFragment extends Fragment {
     public void onRegistrationSuccess() {
         _registrationButton.setEnabled(true);
         Toast.makeText(getActivity(), "Registration success", Toast.LENGTH_SHORT).show();
+
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        View view1 = layoutInflater.inflate(R.layout.user_input_dialog_box, null);
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getActivity());
+        alertDialogBuilderUserInput.setView(view1);
+
+        final EditText userInputDialogEditText = view1.findViewById(R.id.userInputDialog);
+        alertDialogBuilderUserInput.setCancelable(false).setPositiveButton("Send", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                final String ttt = userInputDialogEditText.getText().toString();
+                DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(code);
+                database.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        dataSnapshot.child("var").child("loc").getRef().setValue(ttt);
+                    }
+
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                Toast.makeText(getContext(), ttt, Toast.LENGTH_SHORT).show();
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilderUserInput.create();
+        alertDialog.show();
         WifiFragment wifiFragment = new WifiFragment();
         ((WelcomeActivity) getActivity()).setNewFragment(wifiFragment);
     }
@@ -170,7 +208,6 @@ public class RegisterFragment extends Fragment {
         progressDialog.setMessage("Registering Device...");
         progressDialog.show();
 
-        //TODO: Implement some sort of verification thing to add this new node to the network
 
         new android.os.Handler().postDelayed(
                 new Runnable() {

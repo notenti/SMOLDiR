@@ -17,23 +17,15 @@
         <!--Register Device Button-->
         <Button
             android:id="@+id/btn_registerDevice"
-            style="@style/Smoldr.LaunchButton"
+            style="@style/Smoldr.LaunchButtonOutline"
             android:layout_marginBottom="24dp"
             android:text="@string/register" />
         <!--Google login button-->
         <Button
             android:id="@+id/sign_in_button"
-            style="@style/Smoldr.LaunchButton"
+            style="@style/Smoldr.LaunchButtonOutline"
             android:layout_marginBottom="48dp"
             android:text="Login with Google" />
-
-        <TextView
-            android:id="@+id/text_install"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="14dp"
-            android:text="@string/install"
-            android:textAlignment="center" />
 
 
     </LinearLayout>

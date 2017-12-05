@@ -43,7 +43,7 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_push_wifi_credentials"
-            style="@style/Smoldr.LaunchButton"
+            style="@style/Smoldr.LaunchButtonOutline"
             android:layout_marginBottom="200dp"
             android:layout_marginTop="14dp"
             android:text="@string/wifi" />

@@ -1,0 +1,10 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/loadMore"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal|center_vertical"
+    android:paddingBottom="5sp"
+    android:paddingTop="5sp"
+    android:text="Show more"
+    android:textColor="@color/monsoon"
+    android:textSize="14sp" />

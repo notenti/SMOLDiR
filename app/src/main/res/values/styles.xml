@@ -4,14 +4,14 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
-
+        <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@color/color_background</item>
 
-        <item name="colorControlNormal">@color/monsoon</item>
-        <item name="colorControlActivated">@color/monsoon</item>
-        <item name="colorControlHighlight">@color/monsoon</item>
-        <item name="android:textColorHint">@color/monsoon</item>
-        <item name="android:textColorPrimary">@color/monsoon</item>
+        <item name="colorControlNormal">@color/color_accent</item>
+        <item name="colorControlActivated">@color/color_accent</item>
+        <item name="colorControlHighlight">@color/color_accent</item>
+        <item name="android:textColorHint">@color/color_accent</item>
+        <item name="android:textColorPrimary">@color/color_accent</item>
         <item name="android:textColor">@color/monsoon</item>
 
         <item name="colorButtonNormal">@color/blue_grey_800</item>
@@ -34,12 +34,20 @@
         <item name="android:textColorHint">@color/color_text</item>
     </style>
 
-    <style name="Smoldr.LaunchButton">
-        <item name="android:layout_height">40dp</item>
+    <style name="Smoldr.LaunchButtonOutline">
+        <item name="android:layout_height">50dp</item>
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:background">@drawable/login_button</item>
-        <item name="android:textColor">@color/color_background</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:background">@drawable/login_button_outline</item>
+        <item name="android:textColor">@color/color_accent</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Smoldr.LaunchButtonFull">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:background">@drawable/login_button_full</item>
+        <item name="android:textColor">@color/color_accent</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="AppTheme.Welcome.Dialog" parent="Theme.AppCompat.Dialog">

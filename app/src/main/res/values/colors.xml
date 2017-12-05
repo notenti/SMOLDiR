@@ -9,8 +9,15 @@
     <color name="color_background">#FFFFFF</color>
     <color name="color_primary_dark">#073b3a</color>
     <color name="color_accent">#EFEFEF</color>
-
     <color name="color_text">#777777</color>
+    <color name="color_coral">#FF8552</color>
+    <color name="color_yellow">#E9D758</color>
+    <color name="color_platinum">#E6E6E6</color>
+    <color name="color_jet">#3B2C35</color>
+    <color name="color_granite">#5B6C5D</color>
+    <color name="color_raisin">#2A1F2D</color>
+    <color name="color_wine">#6A3937</color>
+    <color name="color_sienna">#3B0D11</color>
 
     <color name="black">#000000</color>
     <color name="jet">#222222</color>
@@ -20,5 +27,6 @@
     <color name="aluminum">#999999</color>
     <color name="base">#AAAAAA</color>
     <color name="iron">#CCCCCC</color>
+    <color name="lightgray">#eaeaea</color>
     <color name="white">#FFFFFF</color>
 </resources>

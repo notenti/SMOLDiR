@@ -11,7 +11,6 @@ import com.google.firebase.database.FirebaseDatabase;
 public class DatabasePushActivity extends AppCompatActivity {
 
     String homeID;
-    String deviceID;
     SharedPreferences sharedPreferences;
 
 
@@ -20,8 +19,7 @@ public class DatabasePushActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPreferences = this.getSharedPreferences("ID", Context.MODE_PRIVATE);
         homeID = sharedPreferences.getString("HomeID", null);
-        deviceID = sharedPreferences.getString("DeviceID", null);
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(deviceID);
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID);
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -29,11 +27,11 @@ public class DatabasePushActivity extends AppCompatActivity {
                 //Do nothing
                 System.out.print("Nothing");
             } else if (extras.getBoolean("hush")) {
-                //Push to database
-                System.out.println("In the database thing");
-                database.child("var").child("hush").setValue(true);
+                database.child("var").child("hush").getRef().setValue(true);
+
             }
         }
         setContentView(R.layout.activity_database_push);
     }
+
 }

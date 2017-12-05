@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -52,17 +54,25 @@ public class LandingActivity extends AppCompatActivity {
         addDrawerItems();
         setupDrawer();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+//        LayoutInflater inflater = LayoutInflater.from(this);
+//
+//        View view = inflater.inflate(R.layout.custom_actionbar, null);
+//        TextView textView = view.findViewById(R.id.title_text);
+//        textView.setText("Home");
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment dynamicFlameImage = new LandingFragment();
-        Fragment deviceListFragment = new DeviceListFragment();
-        fragmentTransaction.add(R.id.flameImage, dynamicFlameImage);
-        fragmentTransaction.add(R.id.deviceList, deviceListFragment);
+        Fragment landingFragment = new LandingFragment();
+
+        fragmentTransaction.add(R.id.landing_fragment, landingFragment);
         fragmentTransaction.addToBackStack("testFragment");
         fragmentTransaction.addToBackStack("landingFragment");
         fragmentTransaction.commit();
+
+//        actionBar.setCustomView(view);
+//        actionBar.setDisplayShowCustomEnabled(true);
 
 
     }
@@ -83,21 +93,21 @@ public class LandingActivity extends AppCompatActivity {
                 Fragment notificationPreferencesFragment = new NotificationPreferencesFragment();
                 switch (i) {
                     case 0:
-                        fragmentTransaction.replace(R.id.flameImage, notificationPreferencesFragment);
+                        fragmentTransaction.replace(R.id.landing_fragment, notificationPreferencesFragment);
                         fragmentTransaction.addToBackStack("notificationPreferences");
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);
                         drawerLayout.closeDrawer(listView);
                         break;
                     case 1:
-                        fragmentTransaction.replace(R.id.flameImage, historyFragment);
+                        fragmentTransaction.replace(R.id.landing_fragment, historyFragment);
                         fragmentTransaction.addToBackStack("history");
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);
                         drawerLayout.closeDrawer(listView);
                         break;
                     case 2:
-                        fragmentTransaction.replace(R.id.flameImage, generalPreferencesFragment);
+                        fragmentTransaction.replace(R.id.landing_fragment, generalPreferencesFragment);
                         fragmentTransaction.addToBackStack("generalPreferences");
                         fragmentTransaction.commit();
                         listView.setItemChecked(i, true);
@@ -111,6 +121,15 @@ public class LandingActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void setNewFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.slideup, 0, 0, R.anim.slidedown);
+//        fragmentTransaction.setCustomAnimations(R.anim.right_to_center, R.anim.center_to_left, R.anim.left_to_center, R.anim.center_to_right);
+        fragmentTransaction.add(R.id.landing_fragment, fragment);
+        fragmentTransaction.addToBackStack(null).commit();
     }
 
 
@@ -141,6 +160,15 @@ public class LandingActivity extends AppCompatActivity {
         drawerToggle.syncState();
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        Intent startMain = new Intent(Intent.ACTION_MAIN);
+//        startMain.addCategory(Intent.CATEGORY_HOME);
+//        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(startMain);
+//
+//    }
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -165,14 +193,6 @@ public class LandingActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void function(View view) {
-
-//        Intent sendIntent = new Intent(getApplicationContext(), DatabasePushActivity.class);
-//        sendIntent.putExtra("hush", true);
-//
-//        this.startActivity(sendIntent);
     }
 
 
