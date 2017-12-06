@@ -165,27 +165,30 @@ public class DeviceInfoFragment extends Fragment {
         footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (open) {
-                    open = false;
-                    for (int i = historyList.size(); i > 5; i--) {
-                        historyList.remove(historyList.size() - 1);
-                    }
-                    TextView tv1 = view.findViewById(R.id.loadMore);
-                    tv1.setText("Show more");
+//                if (open) {
+//                    open = false;
+//                    for (int i = historyList.size(); i > 5; i--) {
+//                        historyList.remove(historyList.size() - 1);
+//                    }
+//                    TextView tv1 = view.findViewById(R.id.loadMore);
+//                    tv1.setText("Show more");
+//
+//                    deviceHistoryListAdapter.notifyDataSetChanged();
+//                } else {
+//                    historyList.remove(4);
+//                    historyList.remove(3);
+//                    historyList.remove(2);
+//                    historyList.remove(1);
+//                    historyList.remove(0);
+//                    TextView tv1 = view.findViewById(R.id.loadMore);
+//                    tv1.setText("Show less");
+//
+//                    collectEvents((Map<String, Object>) totalDatasnapShot.child("messages").getValue(), 6, true);
+//                    open = true;
+//                }
 
-                    deviceHistoryListAdapter.notifyDataSetChanged();
-                } else {
-                    historyList.remove(4);
-                    historyList.remove(3);
-                    historyList.remove(2);
-                    historyList.remove(1);
-                    historyList.remove(0);
-                    TextView tv1 = view.findViewById(R.id.loadMore);
-                    tv1.setText("Show less");
-
-                    collectEvents((Map<String, Object>) totalDatasnapShot.child("messages").getValue(), 6, true);
-                    open = true;
-                }
+                open = !open;
+                collectEvents((Map<String, Object>) totalDatasnapShot.child("messages").getValue(), 6, true);
 
             }
         });
@@ -228,17 +231,18 @@ public class DeviceInfoFragment extends Fragment {
                 batteryStatus = dataSnapshot.child("var").child("batt_status").getValue().toString();
                 imageStr = dataSnapshot.child("messages").child("12-04-2017 14:30:20").child("eventString").getValue().toString();
                 location = dataSnapshot.child("var").child("loc").getValue().toString();
-                addSpecificationEntry("Last Tested", convertDateNumToString(lastTested).get(0));
-                if (historyList.isEmpty()) {
-                    collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 5, false);
-                } else {
-                    historyList.remove(4);
-                    historyList.remove(3);
-                    historyList.remove(2);
-                    historyList.remove(1);
-                    historyList.remove(0);
-                    collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 5, false);
-                }
+//                if (historyList.isEmpty()) {
+//                    collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 5, false);
+//                } else {
+//                    historyList.remove(4);
+//                    historyList.remove(3);
+//                    historyList.remove(2);
+//                    historyList.remove(1);
+//                    historyList.remove(0);
+//                    collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 5, false);
+//                }
+
+                collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 5, true);
 
                 TextView batteryTV = view.findViewById(R.id.batteryStatus);
                 batteryTV.setText(batteryStatus);
@@ -259,6 +263,7 @@ public class DeviceInfoFragment extends Fragment {
 
     private void collectEvents(Map<String, Object> events, int count, boolean full) {
         int i = 0;
+        historyList.clear();
 
         for (Map.Entry<String, Object> entry : events.entrySet()) { //Gets all of the entries directly beneath the device
             if (i < count || full) {
@@ -279,36 +284,19 @@ public class DeviceInfoFragment extends Fragment {
             }
         });
         Collections.reverse(historyList);
-        deviceHistoryListAdapter.notifyDataSetChanged();
-    }
 
-    private int addHistoryEntry(String date, String event, String location) {
-        int groupPosition = 0;
+        if (open) {
+            deviceHistoryListAdapter.notifyDataSetChanged();
+            System.out.println(Arrays.toString(historyList.toArray()));
+        } else {
+            while (historyList.size() > 5) {
+                historyList.remove(historyList.size() - 1);
+            }
+            deviceHistoryListAdapter.notifyDataSetChanged();
 
-        HeaderInfo headerInfo = mySection.get(date);
-        if (headerInfo == null) {
-            headerInfo = new HeaderInfo();
-            headerInfo.setDate(date);
-            mySection.put(date, headerInfo);
-            SectionList.add(headerInfo);
+
         }
 
-        ArrayList<EventInfo> eventStringList = headerInfo.getEventStringList();
-        EventInfo eventInfo = new EventInfo();
-        eventInfo.setEvent(event);
-        eventInfo.setLocation(location);
-        eventStringList.add(eventInfo);
-        headerInfo.setEventStringList(eventStringList);
-
-        groupPosition = SectionList.indexOf(headerInfo);
-        return groupPosition;
-    }
-
-    private void addSpecificationEntry(String specification, String status) {
-        SpecificationInfo specificationInfo = new SpecificationInfo();
-        specificationInfo.setSpecification(specification);
-        specificationInfo.setStatus(status);
-        specificationList.add(specificationInfo);
     }
 
     private void addDeviceHistoryEntry(String date, String time, String dateTime, int resource) {
