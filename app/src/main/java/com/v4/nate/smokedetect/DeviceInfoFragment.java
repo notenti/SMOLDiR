@@ -2,6 +2,7 @@ package com.v4.nate.smokedetect;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +20,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +35,14 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Base64;
+import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -56,7 +69,7 @@ public class DeviceInfoFragment extends Fragment {
     String batteryStatus;
     String location;
     String locationTitle;
-
+    String imageStr;
     private ArrayList<HeaderInfo> SectionList = new ArrayList<>();
     private LinkedHashMap<String, HeaderInfo> mySection = new LinkedHashMap<>();
 
@@ -65,6 +78,7 @@ public class DeviceInfoFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_device_info, container, false);
         ButterKnife.bind(this, view);
         Bundle bundle = this.getArguments();
+
         if (bundle != null) {
             device = bundle.getString("device");
             locationTitle = bundle.getString("location");
@@ -76,6 +90,17 @@ public class DeviceInfoFragment extends Fragment {
         _batteryStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+                byte[] imageBytes;
+
+                //decode base64 string to image
+                imageBytes = Base64.decode(imageStr, Base64.DEFAULT);
+                Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                ImageView imageView=new ImageView(getActivity());
+                imageView.setImageDrawable(new BitmapDrawable(getResources(), decodedImage));
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             }
         });
 
@@ -201,6 +226,7 @@ public class DeviceInfoFragment extends Fragment {
                 totalDatasnapShot = dataSnapshot;
                 lastTested = dataSnapshot.child("var").child("lastTest").getValue().toString();
                 batteryStatus = dataSnapshot.child("var").child("batt_status").getValue().toString();
+                imageStr = dataSnapshot.child("messages").child("12-04-2017 14:30:20").child("eventString").getValue().toString();
                 location = dataSnapshot.child("var").child("loc").getValue().toString();
                 addSpecificationEntry("Last Tested", convertDateNumToString(lastTested).get(0));
                 if (historyList.isEmpty()) {
