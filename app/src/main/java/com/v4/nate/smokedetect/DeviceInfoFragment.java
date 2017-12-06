@@ -47,10 +47,6 @@ public class DeviceInfoFragment extends Fragment {
     TextView _location;
     @BindView(R.id.batteryStatus)
     TextView _batteryStatus;
-
-    ListView deviceHistoryList;
-    DeviceHistoryListAdapter deviceHistoryListAdapter;
-    String homeID = "1376hh";
     String device;
     ArrayList<DeviceHistoryInfo> historyList = new ArrayList<>();
     Boolean open = false;
@@ -60,6 +56,9 @@ public class DeviceInfoFragment extends Fragment {
     String location;
     String locationTitle;
     String imageStr;
+    private ListView deviceHistoryList;
+    private DeviceHistoryListAdapter deviceHistoryListAdapter;
+    private String homeID = "1376hh";
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -72,18 +71,7 @@ public class DeviceInfoFragment extends Fragment {
             locationTitle = bundle.getString("location");
         }
 
-
         getActivity().setTitle(locationTitle);
-
-        _batteryStatus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-
-            }
-        });
-
 
         _location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,13 +157,8 @@ public class DeviceInfoFragment extends Fragment {
                 alertDialog.show();
 
                 TextView imageStringTV = view.findViewById(R.id.imageString);
-
                 String imageString = imageStringTV.getText().toString();
-
-                byte[] imageBytes;
-
-                //decode base64 string to image
-                imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+                byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
                 Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                 ImageView imageView = view1.findViewById(R.id.thermalImage);
                 imageView.setImageDrawable(new BitmapDrawable(getResources(), decodedImage));
@@ -185,8 +168,9 @@ public class DeviceInfoFragment extends Fragment {
 
                 TextView locationStatusTV = view1.findViewById(R.id.eventLocationStatus);
                 locationStatusTV.setText(location);
+                TextView eventTypeTV = view.findViewById(R.id.type);
                 TextView eventTypeStatusTV = view1.findViewById(R.id.eventTypeStatus);
-                eventTypeStatusTV.setText("EVENT TYPE");
+                eventTypeStatusTV.setText(eventTypeTV.getText().toString());
                 TextView eventDateStatusTV = view1.findViewById(R.id.eventDateStatus);
                 TextView dateTV = view.findViewById(R.id.date);
                 eventDateStatusTV.setText(dateTV.getText().toString());
@@ -201,7 +185,6 @@ public class DeviceInfoFragment extends Fragment {
                 totalDatasnapShot = dataSnapshot;
                 lastTested = dataSnapshot.child("var").child("lastTest").getValue().toString();
                 batteryStatus = dataSnapshot.child("var").child("batt_status").getValue().toString();
-                imageStr = dataSnapshot.child("messages").child("12-04-2017 14:30:20").child("eventString").getValue().toString();
                 location = dataSnapshot.child("var").child("loc").getValue().toString();
                 collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 5, true);
 
@@ -231,8 +214,10 @@ public class DeviceInfoFragment extends Fragment {
                 Map<String, Object> messagesMap = (Map<String, Object>) entry.getValue();
                 List<String> readable;
                 readable = convertDateNumToString(messagesMap.get("eventTime").toString());
-                String imageString = messagesMap.get("eventString").toString();
-                addDeviceHistoryEntry(readable.get(0), readable.get(1), messagesMap.get("eventTime").toString(), imageString, R.drawable.ic_exclamation_mark);
+                String imageString = messagesMap.get("eventImage").toString();
+                int type = Integer.valueOf(messagesMap.get("eventID").toString());
+                String eventType = convertID(type);
+                addDeviceHistoryEntry(readable.get(0), readable.get(1), eventType, messagesMap.get("eventTime").toString(), imageString, R.drawable.ic_exclamation_mark);
                 i++;
             }
 
@@ -260,13 +245,14 @@ public class DeviceInfoFragment extends Fragment {
 
     }
 
-    private void addDeviceHistoryEntry(String date, String time, String dateTime, String imageString, int resource) {
+    private void addDeviceHistoryEntry(String date, String time, String type, String dateTime, String imageString, int resource) {
         DeviceHistoryInfo deviceHistoryInfo = new DeviceHistoryInfo();
         deviceHistoryInfo.setDate(date);
         deviceHistoryInfo.setTime(time);
         deviceHistoryInfo.setDateTime(dateTime);
         deviceHistoryInfo.setResource(resource);
         deviceHistoryInfo.setImageString(imageString);
+        deviceHistoryInfo.setType(type);
         historyList.add(deviceHistoryInfo);
     }
 
@@ -355,5 +341,53 @@ public class DeviceInfoFragment extends Fragment {
             return test;
         }
     }
+
+    private String convertID(int ID) {
+        String output;
+
+        switch (ID) {
+            case 10:
+                output = "Low battery";
+                break;
+            case 11:
+                output = "Very low battery";
+                break;
+            case 12:
+                output = "Battery disconnected";
+                break;
+            case 20:
+                output = "IR detected fire";
+                break;
+            case 21:
+                output = "Smoke/IR detected fire";
+                break;
+            case 22:
+                output = "Smoke detected fire";
+                break;
+            case 23:
+                output = "Smoke/IR";
+                break;
+            case 30:
+                output = "Smoke";
+                break;
+            case 40:
+                output = "CO detected";
+                break;
+            case 50:
+                output = "Button test alarm";
+                break;
+            case 51:
+                output = "Remote test alarm";
+                break;
+            case 60:
+                output = "Backup battery";
+                break;
+            default:
+                output = "Default";
+                break;
+        }
+        return output;
+    }
+
 
 }

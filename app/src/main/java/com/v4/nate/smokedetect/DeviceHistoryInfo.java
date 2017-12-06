@@ -8,10 +8,19 @@ public class DeviceHistoryInfo {
 
     private String date;
     private String time;
+    private String type;
     private String dateTime;
     private String imageString;
     private int resource;
 
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getDateTime() {
         return dateTime;
