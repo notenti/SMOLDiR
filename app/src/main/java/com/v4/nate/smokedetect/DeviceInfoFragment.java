@@ -54,6 +54,7 @@ public class DeviceInfoFragment extends Fragment {
     String batteryStatus;
     String location;
     String locationTitle;
+    String status;
     private ListView deviceHistoryList;
     private DeviceHistoryListAdapter deviceHistoryListAdapter;
     private String homeID = "1376hh";
@@ -102,9 +103,11 @@ public class DeviceInfoFragment extends Fragment {
             }
         });
 
+
         _testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -183,6 +186,7 @@ public class DeviceInfoFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 totalDatasnapShot = dataSnapshot;
+                status = dataSnapshot.child("var").child("status").getValue().toString();
                 lastTested = dataSnapshot.child("var").child("lastTest").getValue().toString();
                 batteryStatus = dataSnapshot.child("var").child("batt_status").getValue().toString();
                 location = dataSnapshot.child("var").child("loc").getValue().toString();
@@ -194,6 +198,15 @@ public class DeviceInfoFragment extends Fragment {
                 locationTV.setText(location);
                 TextView lastTestTV = view.findViewById(R.id.lastTest);
                 lastTestTV.setText(convertDateNumToString(lastTested).get(2));
+                TextView testButtonTV = view.findViewById(R.id.imageHeading);
+                TextView hushButtonTV = view.findViewById(R.id.hushButtonHeading);
+                if (status.equals("ok")) {
+                    hushButtonTV.setVisibility(View.GONE);
+                    testButtonTV.setVisibility(View.VISIBLE);
+                } else if (status.equals("alarm")) {
+                    hushButtonTV.setVisibility(View.VISIBLE);
+                    testButtonTV.setVisibility(View.GONE);
+                }
             }
 
             @Override
