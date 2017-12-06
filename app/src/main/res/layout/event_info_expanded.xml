@@ -7,12 +7,14 @@
     android:padding="16dp">
 
     <ImageView
+
         android:id="@+id/thermalImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:layout_centerVertical="true"
-        android:paddingRight="10dp"
-        android:src="@drawable/ic_alarm_1" />
+        android:paddingRight="30dp"
+        android:src="@null" />
+
 
     <TextView
         android:id="@+id/eventTypeTitle"
@@ -66,6 +68,5 @@
         android:layout_toRightOf="@id/thermalImage"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceSmall" />
-
 
 </RelativeLayout>

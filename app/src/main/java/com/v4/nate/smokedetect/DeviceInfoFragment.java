@@ -2,15 +2,19 @@ package com.v4.nate.smokedetect;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,11 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,17 +31,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Base64;
-import android.widget.ImageView;
 
-import java.io.ByteArrayOutputStream;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -62,7 +53,6 @@ public class DeviceInfoFragment extends Fragment {
     String homeID = "1376hh";
     String device;
     ArrayList<DeviceHistoryInfo> historyList = new ArrayList<>();
-    ArrayList<SpecificationInfo> specificationList = new ArrayList<>();
     Boolean open = false;
     DataSnapshot totalDatasnapShot;
     String lastTested;
@@ -70,8 +60,6 @@ public class DeviceInfoFragment extends Fragment {
     String location;
     String locationTitle;
     String imageStr;
-    private ArrayList<HeaderInfo> SectionList = new ArrayList<>();
-    private LinkedHashMap<String, HeaderInfo> mySection = new LinkedHashMap<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -92,15 +80,7 @@ public class DeviceInfoFragment extends Fragment {
             public void onClick(View view) {
 
 
-                byte[] imageBytes;
 
-                //decode base64 string to image
-                imageBytes = Base64.decode(imageStr, Base64.DEFAULT);
-                Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-                ImageView imageView=new ImageView(getActivity());
-                imageView.setImageDrawable(new BitmapDrawable(getResources(), decodedImage));
-                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             }
         });
 
@@ -165,28 +145,6 @@ public class DeviceInfoFragment extends Fragment {
         footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (open) {
-//                    open = false;
-//                    for (int i = historyList.size(); i > 5; i--) {
-//                        historyList.remove(historyList.size() - 1);
-//                    }
-//                    TextView tv1 = view.findViewById(R.id.loadMore);
-//                    tv1.setText("Show more");
-//
-//                    deviceHistoryListAdapter.notifyDataSetChanged();
-//                } else {
-//                    historyList.remove(4);
-//                    historyList.remove(3);
-//                    historyList.remove(2);
-//                    historyList.remove(1);
-//                    historyList.remove(0);
-//                    TextView tv1 = view.findViewById(R.id.loadMore);
-//                    tv1.setText("Show less");
-//
-//                    collectEvents((Map<String, Object>) totalDatasnapShot.child("messages").getValue(), 6, true);
-//                    open = true;
-//                }
-
                 open = !open;
                 collectEvents((Map<String, Object>) totalDatasnapShot.child("messages").getValue(), 6, true);
 
@@ -210,6 +168,20 @@ public class DeviceInfoFragment extends Fragment {
                 AlertDialog alertDialog = alertDialogBuilderUserInput.create();
                 alertDialog.show();
 
+                TextView imageStringTV = view.findViewById(R.id.imageString);
+
+                String imageString = imageStringTV.getText().toString();
+
+                byte[] imageBytes;
+
+                //decode base64 string to image
+                imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+                Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                ImageView imageView = view1.findViewById(R.id.thermalImage);
+                imageView.setImageDrawable(new BitmapDrawable(getResources(), decodedImage));
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
 
                 TextView locationStatusTV = view1.findViewById(R.id.eventLocationStatus);
                 locationStatusTV.setText(location);
@@ -231,17 +203,6 @@ public class DeviceInfoFragment extends Fragment {
                 batteryStatus = dataSnapshot.child("var").child("batt_status").getValue().toString();
                 imageStr = dataSnapshot.child("messages").child("12-04-2017 14:30:20").child("eventString").getValue().toString();
                 location = dataSnapshot.child("var").child("loc").getValue().toString();
-//                if (historyList.isEmpty()) {
-//                    collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 5, false);
-//                } else {
-//                    historyList.remove(4);
-//                    historyList.remove(3);
-//                    historyList.remove(2);
-//                    historyList.remove(1);
-//                    historyList.remove(0);
-//                    collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 5, false);
-//                }
-
                 collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 5, true);
 
                 TextView batteryTV = view.findViewById(R.id.batteryStatus);
@@ -270,8 +231,8 @@ public class DeviceInfoFragment extends Fragment {
                 Map<String, Object> messagesMap = (Map<String, Object>) entry.getValue();
                 List<String> readable;
                 readable = convertDateNumToString(messagesMap.get("eventTime").toString());
-                addDeviceHistoryEntry(readable.get(0), readable.get(1), messagesMap.get("eventTime").toString(), R.drawable.ic_exclamation_mark);
-                System.out.println(messagesMap.get("eventTime").toString());
+                String imageString = messagesMap.get("eventString").toString();
+                addDeviceHistoryEntry(readable.get(0), readable.get(1), messagesMap.get("eventTime").toString(), imageString, R.drawable.ic_exclamation_mark);
                 i++;
             }
 
@@ -299,12 +260,13 @@ public class DeviceInfoFragment extends Fragment {
 
     }
 
-    private void addDeviceHistoryEntry(String date, String time, String dateTime, int resource) {
+    private void addDeviceHistoryEntry(String date, String time, String dateTime, String imageString, int resource) {
         DeviceHistoryInfo deviceHistoryInfo = new DeviceHistoryInfo();
         deviceHistoryInfo.setDate(date);
         deviceHistoryInfo.setTime(time);
         deviceHistoryInfo.setDateTime(dateTime);
         deviceHistoryInfo.setResource(resource);
+        deviceHistoryInfo.setImageString(imageString);
         historyList.add(deviceHistoryInfo);
     }
 

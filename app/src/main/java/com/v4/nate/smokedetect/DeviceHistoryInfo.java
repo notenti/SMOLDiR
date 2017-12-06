@@ -8,9 +8,10 @@ public class DeviceHistoryInfo {
 
     private String date;
     private String time;
+    private String dateTime;
+    private String imageString;
     private int resource;
 
-    private String dateTime;
 
     public String getDateTime() {
         return dateTime;
@@ -42,5 +43,13 @@ public class DeviceHistoryInfo {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getImageString() {
+        return imageString;
+    }
+
+    public void setImageString(String imageString) {
+        this.imageString = imageString;
     }
 }

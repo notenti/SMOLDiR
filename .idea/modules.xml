@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\Chris\Downloads\smokedetect_androidapp\SmokeDetect.iml" filepath="C:\Users\Chris\Downloads\smokedetect_androidapp\SmokeDetect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SmokeDetect.iml" filepath="$PROJECT_DIR$/SmokeDetect.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\Chris\Downloads\smokedetect_androidapp\app\app.iml" filepath="C:\Users\Chris\Downloads\smokedetect_androidapp\app\app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/smokedetect_androidapp.iml" filepath="$PROJECT_DIR$/smokedetect_androidapp.iml" />
     </modules>
   </component>
 </project>

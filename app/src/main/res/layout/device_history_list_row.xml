@@ -52,4 +52,11 @@
         android:layout_centerVertical="true"
         android:paddingRight="10dp"
         android:src="@drawable/ic_chevron_right" />
+
+    <TextView
+        android:id="@+id/imageString"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:visibility="gone" />
 </RelativeLayout>
