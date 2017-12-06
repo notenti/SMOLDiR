@@ -39,7 +39,6 @@ import butterknife.ButterKnife;
 
 public class DeviceInfoFragment extends Fragment {
 
-    //ListView stuff
     final Context c = getContext();
     @BindView(R.id.imageHeading)
     TextView _testButton;
@@ -55,7 +54,6 @@ public class DeviceInfoFragment extends Fragment {
     String batteryStatus;
     String location;
     String locationTitle;
-    String imageStr;
     private ListView deviceHistoryList;
     private DeviceHistoryListAdapter deviceHistoryListAdapter;
     private String homeID = "1376hh";
@@ -130,10 +128,12 @@ public class DeviceInfoFragment extends Fragment {
         View footerView = inflater.inflate(R.layout.bottom_list, null);
         TextView footer = footerView.findViewById(R.id.loadMore);
 
+
         footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 open = !open;
+
                 collectEvents((Map<String, Object>) totalDatasnapShot.child("messages").getValue(), 6, true);
 
             }
@@ -216,8 +216,9 @@ public class DeviceInfoFragment extends Fragment {
                 readable = convertDateNumToString(messagesMap.get("eventTime").toString());
                 String imageString = messagesMap.get("eventImage").toString();
                 int type = Integer.valueOf(messagesMap.get("eventID").toString());
-                String eventType = convertID(type);
-                addDeviceHistoryEntry(readable.get(0), readable.get(1), eventType, messagesMap.get("eventTime").toString(), imageString, R.drawable.ic_exclamation_mark);
+                String eventType = convertIDString(type);
+                int iconType = convertIDInt(type);
+                addDeviceHistoryEntry(readable.get(0), readable.get(1), eventType, messagesMap.get("eventTime").toString(), imageString, iconType);
                 i++;
             }
 
@@ -233,7 +234,8 @@ public class DeviceInfoFragment extends Fragment {
 
         if (open) {
             deviceHistoryListAdapter.notifyDataSetChanged();
-            System.out.println(Arrays.toString(historyList.toArray()));
+
+
         } else {
             while (historyList.size() > 5) {
                 historyList.remove(historyList.size() - 1);
@@ -258,8 +260,6 @@ public class DeviceInfoFragment extends Fragment {
 
     private List<String> convertDateNumToString(String eventTime) {
         String month;
-        String day;
-        String year;
         String hour;
         String denote;
         List<String> readable = new ArrayList<>();
@@ -314,6 +314,10 @@ public class DeviceInfoFragment extends Fragment {
             hour = String.valueOf(Integer.parseInt(time.get(0)) - 12);
             denote = " PM";
 
+        } else if (Integer.parseInt(time.get(0)) == 12) {
+            hour = time.get(0);
+            denote = " PM";
+
         } else {
             hour = time.get(0);
             denote = " AM";
@@ -342,48 +346,80 @@ public class DeviceInfoFragment extends Fragment {
         }
     }
 
-    private String convertID(int ID) {
+    private String convertIDString(int ID) {
         String output;
 
         switch (ID) {
             case 10:
-                output = "Low battery";
+                output = "Low Battery";
                 break;
             case 11:
-                output = "Very low battery";
+                output = "Very Low Battery";
                 break;
             case 12:
-                output = "Battery disconnected";
+                output = "Battery Disconnected";
                 break;
             case 20:
-                output = "IR detected fire";
+                output = "IR Detected Fire";
                 break;
             case 21:
-                output = "Smoke/IR detected fire";
+                output = "Smoke & IR Detected Fire";
                 break;
             case 22:
-                output = "Smoke detected fire";
+                output = "Smoke Detected Fire";
                 break;
             case 23:
-                output = "Smoke/IR";
+                output = "Interconnected Fire";
                 break;
             case 30:
-                output = "Smoke";
+                output = "Fire Warning";
                 break;
             case 40:
-                output = "CO detected";
+                output = "CO Detected";
                 break;
             case 50:
-                output = "Button test alarm";
+                output = "Button Test Alarm";
                 break;
             case 51:
-                output = "Remote test alarm";
+                output = "Remote Test Alarm";
                 break;
             case 60:
-                output = "Backup battery";
+                output = "Backup Battery";
                 break;
             default:
                 output = "Default";
+                break;
+        }
+        return output;
+    }
+
+    private int convertIDInt(int ID) {
+        int output;
+        switch (ID) {
+            case 10:
+            case 11:
+            case 12:
+            case 60:
+                output = R.drawable.ic_exclamation_mark_warning;
+                break;
+            case 20:
+            case 21:
+            case 22:
+            case 23:
+                output = R.drawable.ic_exclamation_mark_alert;
+                break;
+            case 30:
+                output = R.drawable.ic_exclamation_mark_warning;
+                break;
+            case 40:
+                output = R.drawable.ic_exclamation_mark_alert;
+                break;
+            case 50:
+            case 51:
+                output = R.drawable.ic_exclamation_mark_test;
+                break;
+            default:
+                output = R.drawable.ic_exclamation_mark_alert;
                 break;
         }
         return output;

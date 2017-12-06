@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="12dp">
 
     <ImageView
 
@@ -15,58 +15,60 @@
         android:paddingRight="30dp"
         android:src="@null" />
 
-
-    <TextView
-        android:id="@+id/eventTypeTitle"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/thermalImage"
-        android:text="Type"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/thermalImage">
 
-    <TextView
-        android:id="@+id/eventTypeStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/eventTypeTitle"
-        android:layout_toRightOf="@id/thermalImage"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:id="@+id/eventTypeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/eventDateTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/eventTypeStatus"
-        android:layout_toRightOf="@id/thermalImage"
-        android:text="Date"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/eventTypeStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/eventTypeTitle"
 
-    <TextView
-        android:id="@+id/eventDateStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/eventDateTitle"
-        android:layout_toRightOf="@id/thermalImage"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <TextView
-        android:id="@+id/eventLocationTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/eventDateStatus"
-        android:layout_toRightOf="@id/thermalImage"
-        android:text="Location"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/eventDateTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/eventTypeStatus"
+            android:text="Date"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/eventLocationStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/eventLocationTitle"
-        android:layout_toRightOf="@id/thermalImage"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:id="@+id/eventDateStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/eventDateTitle"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/eventLocationTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/eventDateStatus"
+            android:text="Location"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/eventLocationStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/eventLocationTitle"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
