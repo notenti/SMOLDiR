@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.v4.nate.smokedetect.R;
 
@@ -76,7 +77,8 @@ public class RegisterFragment extends Fragment {
         //Get deviceID from text input
         code = _registrationCode.getText().toString();
         params.put("code", code);
-
+        FirebaseMessaging.getInstance().subscribeToTopic("137hh");
+        Toast.makeText(getActivity(), "Subscribed to topic 137hh", Toast.LENGTH_SHORT).show();
 
         if (code.isEmpty() || code.length() < 4) {
             _registrationCode.setError("incorrect number of characters");
