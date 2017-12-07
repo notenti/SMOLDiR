@@ -44,7 +44,7 @@ public class DeviceHistoryListAdapter extends BaseAdapter {
         DeviceHistoryInfo deviceHistoryInfo = data.get(position);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.device_history_list_row, null);
+            convertView = layoutInflater.inflate(R.layout.list_device_history_row, null);
         }
 
         TextView date = convertView.findViewById(R.id.date);

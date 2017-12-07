@@ -80,7 +80,7 @@ public class DeviceInfoFragment extends Fragment {
             public void onClick(View view) {
 
                 LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-                View view1 = layoutInflater.inflate(R.layout.user_input_dialog_box, null);
+                View view1 = layoutInflater.inflate(R.layout.dialog_user_input, null);
                 AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getActivity());
                 alertDialogBuilderUserInput.setView(view1);
 
@@ -131,7 +131,7 @@ public class DeviceInfoFragment extends Fragment {
         });
 
 
-        View footerView = inflater.inflate(R.layout.bottom_list, null);
+        View footerView = inflater.inflate(R.layout.list_device_row_footer, null);
         TextView footer = footerView.findViewById(R.id.loadMore);
 
 
@@ -155,7 +155,7 @@ public class DeviceInfoFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-                View view1 = layoutInflater.inflate(R.layout.event_info_expanded, null);
+                View view1 = layoutInflater.inflate(R.layout.dialog_event_info, null);
                 AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getActivity());
                 alertDialogBuilderUserInput.setView(view1);
 

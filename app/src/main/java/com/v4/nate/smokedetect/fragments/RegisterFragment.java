@@ -116,7 +116,7 @@ public class RegisterFragment extends Fragment {
         Toast.makeText(getActivity(), "Registration success", Toast.LENGTH_SHORT).show();
 
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-        View view1 = layoutInflater.inflate(R.layout.user_input_dialog_box, null);
+        View view1 = layoutInflater.inflate(R.layout.dialog_user_input, null);
         AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getActivity());
         alertDialogBuilderUserInput.setView(view1);
 

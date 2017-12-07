@@ -38,7 +38,7 @@ public class OverviewDeviceListAdapter extends BaseAdapter {
         DeviceOverviewInfo deviceOverviewInfo = data.get(position);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.overview_device_list_row, null);
+            convertView = layoutInflater.inflate(R.layout.list_device_row, null);
         }
 
         TextView device = convertView.findViewById(R.id.deviceTitle);
