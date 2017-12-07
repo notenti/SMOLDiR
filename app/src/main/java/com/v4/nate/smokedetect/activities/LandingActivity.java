@@ -41,12 +41,6 @@ public class LandingActivity extends AppCompatActivity {
 
 
         sharedPreferences = this.getSharedPreferences("ID", Context.MODE_PRIVATE);
-//        String homeID = sharedPreferences.getString("HomeID", null);
-//        String deviceID = sharedPreferences.getString("DeviceID", null);
-
-        String homeID = "1376hh";
-        String deviceID = "12ab12";
-
 
         listView = findViewById(R.id.navList);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -58,12 +52,6 @@ public class LandingActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-//        LayoutInflater inflater = LayoutInflater.from(this);
-//
-//        View view = inflater.inflate(R.layout.custom_actionbar, null);
-//        TextView textView = view.findViewById(R.id.title_text);
-//        textView.setText("Home");
-
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment landingFragment = new LandingFragment();
 
@@ -71,11 +59,6 @@ public class LandingActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack("testFragment");
         fragmentTransaction.addToBackStack("landingFragment");
         fragmentTransaction.commit();
-
-//        actionBar.setCustomView(view);
-//        actionBar.setDisplayShowCustomEnabled(true);
-
-
     }
 
     private void addDrawerItems() {
@@ -89,7 +72,6 @@ public class LandingActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.slideup, 0, 0, R.anim.slidedown);
-//        fragmentTransaction.setCustomAnimations(R.anim.right_to_center, R.anim.center_to_left, R.anim.left_to_center, R.anim.center_to_right);
         fragmentTransaction.add(R.id.landing_fragment, fragment);
         fragmentTransaction.addToBackStack(null).commit();
     }

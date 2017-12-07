@@ -29,7 +29,6 @@ import com.v4.nate.smokedetect.adapters.OverviewDeviceListAdapter;
 import com.v4.nate.smokedetect.objects.DeviceOverviewInfo;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -82,10 +81,10 @@ public class LandingFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                TextView mytv = view.findViewById(R.id.deviceTitle);
+                TextView deviceTitleTV = view.findViewById(R.id.deviceTitle);
                 TextView locationTV = view.findViewById(R.id.locationTitle);
                 Bundle bundle = new Bundle();
-                bundle.putString("device", mytv.getText().toString());
+                bundle.putString("device", deviceTitleTV.getText().toString());
                 bundle.putString("location", locationTV.getText().toString());
                 DeviceInfoFragment deviceInfoFragment = new DeviceInfoFragment();
                 deviceInfoFragment.setArguments(bundle);
@@ -94,38 +93,46 @@ public class LandingFragment extends Fragment {
         });
 
         sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
-//        homeID = sharedPreferences.getString("HomeID", null);
-//        deviceID = sharedPreferences.getString("DeviceID", null);
 
         _flameButton = view.findViewById(R.id.landingButton);
         _detectorStatus.setText("Everything is ok.");
-        _flameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
 
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(deviceID).child("var");
-
-        database.addValueEventListener(new ValueEventListener() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(homeID);
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String, Object> statusMap = (Map<String, Object>) dataSnapshot.getValue();
-                status = statusMap.get("status").toString();
 
-                if (status.equals("ok")) {
-                    _flameButton.setImageResource(R.drawable.green_flame);
-                    _detectorStatus.setText("Everything is ok.");
-                } else if (status.equals("warning")) {
-                    _flameButton.setImageResource(R.drawable.orange_flame);
-                    _detectorStatus.setText("Warning.");
-                } else if (status.equals("info")) {
-                    _flameButton.setImageResource(R.drawable.purple_flame);
-                    _detectorStatus.setText("Something about info.");
-                } else if (status.equals("alarm")) {
-                    _flameButton.setImageResource(R.drawable.red_flame);
-                    _detectorStatus.setText("An alarm is being raised.");
+                int status = 0;
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                    if (ds.child("var").child("status").getValue().toString().equals("ok") && status < 1) {
+                        status = 1;
+
+                    } else if (ds.child("var").child("status").getValue().toString().equals("warning") && status < 2) {
+                        status = 2;
+
+                    } else if (ds.child("var").child("status").getValue().toString().equals("alarm") && status < 3) {
+                        status = 3;
+                    }
                 }
+
+                switch (status) {
+                    case 1:
+                    default:
+                        _flameButton.setImageResource(R.drawable.green_flame);
+                        _detectorStatus.setText("Everything is ok.");
+                        break;
+                    case 2:
+                        _flameButton.setImageResource(R.drawable.orange_flame);
+                        _detectorStatus.setText("Warning.");
+                        break;
+                    case 3:
+                        _flameButton.setImageResource(R.drawable.red_flame);
+                        _detectorStatus.setText("An alarm is being raised.");
+                        break;
+
+                }
+
 
             }
 
