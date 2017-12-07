@@ -117,15 +117,15 @@ public class LandingFragment extends Fragment {
                 switch (status) {
                     case 1:
                     default:
-                        _flameButton.setImageResource(R.drawable.green_flame);
+                        _flameButton.setImageResource(R.drawable.flame_green);
                         _detectorStatus.setText("Everything is ok.");
                         break;
                     case 2:
-                        _flameButton.setImageResource(R.drawable.orange_flame);
+                        _flameButton.setImageResource(R.drawable.flame_orange);
                         _detectorStatus.setText("Warning.");
                         break;
                     case 3:
-                        _flameButton.setImageResource(R.drawable.red_flame);
+                        _flameButton.setImageResource(R.drawable.flame_red);
                         _detectorStatus.setText("An alarm is being raised.");
                         break;
                 }
@@ -183,13 +183,13 @@ public class LandingFragment extends Fragment {
         switch (status) {
             case "ok":
             default:
-                output = R.drawable.green;
+                output = R.drawable.status_circle_green;
                 break;
             case "warning":
-                output = R.drawable.orange;
+                output = R.drawable.status_circle_orange;
                 break;
             case "alarm":
-                output = R.drawable.red;
+                output = R.drawable.status_circle_red;
                 break;
 
         }
