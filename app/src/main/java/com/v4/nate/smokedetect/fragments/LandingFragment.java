@@ -39,21 +39,12 @@ public class LandingFragment extends Fragment {
     @BindView(R.id.detectorStatus)
     TextView _detectorStatus;
     String homeID = "1376hh";
-    String deviceID = "Nate1";
-    String deviceIDList;
-    String status;
     View view;
     SharedPreferences sharedPreferences;
-
     AlphaAnimation inAnimation;
     AlphaAnimation outAnimation;
-
     ArrayList<DeviceOverviewInfo> deviceIDFromDatabase;
-    ArrayList<String> deviceListTest;
-
     FrameLayout progressBarHolder;
-
-    //ListView stuff
     ListView list;
     OverviewDeviceListAdapter adapter;
 

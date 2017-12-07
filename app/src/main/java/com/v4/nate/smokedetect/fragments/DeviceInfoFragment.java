@@ -43,8 +43,10 @@ import butterknife.ButterKnife;
 public class DeviceInfoFragment extends Fragment {
 
     final Context c = getContext();
-    @BindView(R.id.imageHeading)
+    @BindView(R.id.testButtonHeading)
     TextView _testButton;
+    @BindView(R.id.hushButtonHeading)
+    TextView _hushButton;
     @BindView(R.id.locationStatus)
     TextView _location;
     @BindView(R.id.batteryStatus)
@@ -130,6 +132,28 @@ public class DeviceInfoFragment extends Fragment {
             }
         });
 
+        _hushButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(device);
+                        switch (i) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                database.child("var").child("hush").setValue(true);
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                System.out.println("NEGATIVE");
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+            }
+        });
+
 
         View footerView = inflater.inflate(R.layout.list_device_row_footer, null);
         TextView footer = footerView.findViewById(R.id.loadMore);
@@ -201,7 +225,7 @@ public class DeviceInfoFragment extends Fragment {
                 locationTV.setText(location);
                 TextView lastTestTV = view.findViewById(R.id.lastTest);
                 lastTestTV.setText(convertDateNumToString(lastTested).get(2));
-                TextView testButtonTV = view.findViewById(R.id.imageHeading);
+                TextView testButtonTV = view.findViewById(R.id.testButtonHeading);
                 TextView hushButtonTV = view.findViewById(R.id.hushButtonHeading);
                 if (status.equals("ok")) {
                     hushButtonTV.setVisibility(View.GONE);
