@@ -281,10 +281,7 @@ public class DeviceInfoFragment extends Fragment {
                 historyList.remove(historyList.size() - 1);
             }
             deviceHistoryListAdapter.notifyDataSetChanged();
-
-
         }
-
     }
 
     private void addDeviceHistoryEntry(String date, String time, String type, String dateTime, String imageString, int resource) {

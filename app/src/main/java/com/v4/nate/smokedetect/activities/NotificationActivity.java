@@ -30,8 +30,6 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
 
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         customSharedPreferences = this.getSharedPreferences("ID", Context.MODE_PRIVATE);
-        Boolean hush = defaultSharedPreferences.getBoolean("hush", false);
-        Boolean localized = defaultSharedPreferences.getBoolean("localized", false);
 
         Intent sendIntent = new Intent(getApplicationContext(), HushActivity.class);
         sendIntent.putExtra("hush", true);
@@ -50,7 +48,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle("Low Battery")
                     .setContentText("Time to charge your battery")
-                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSmallIcon(R.drawable.ic_exclamation_mark_warning)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -67,7 +65,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle("Very Low Battery")
                     .setContentText("Time to change your battery")
-                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSmallIcon(R.drawable.ic_exclamation_mark_warning)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -84,7 +82,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle("Battery Disconnected")
                     .setContentText("Connect your battery")
-                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSmallIcon(R.drawable.ic_exclamation_mark_warning)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -101,7 +99,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle("IR Detected Fire")
                     .setContentText("Fire detected!!!!")
-                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSmallIcon(R.drawable.ic_exclamation_mark_alert)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -119,7 +117,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle("Smoke/IR Detected Fire")
                     .setContentText("Fire detected!!!!")
-                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSmallIcon(R.drawable.ic_exclamation_mark_alert)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -129,7 +127,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
-                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
+                    .addAction(R.drawable.ic_exclamation_mark_alert, "Silence Active Alarm", sendPendingIntent);
 
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
@@ -137,7 +135,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle("Smoke Detected Fire")
                     .setContentText("Fire detected!!!!")
-                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSmallIcon(R.drawable.ic_exclamation_mark_alert)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -147,7 +145,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
-                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
+                    .addAction(R.drawable.ic_exclamation_mark_alert, "Silence Active Alarm", sendPendingIntent);
 
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
@@ -155,7 +153,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle("Interconnected Fire Detected")
                     .setContentText("Fire detected!!!!")
-                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSmallIcon(R.drawable.ic_exclamation_mark_alert)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -165,7 +163,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
-                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
+                    .addAction(R.drawable.ic_exclamation_mark_alert, "Silence Active Alarm", sendPendingIntent);
 
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
@@ -173,7 +171,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle("Smoke/IR warning")
                     .setContentText("Issuing a warning")
-                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSmallIcon(R.drawable.ic_exclamation_mark_warning)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -191,7 +189,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle("Smoke Only Warning")
                     .setContentText("Smoke is present, stove situation")
-                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSmallIcon(R.drawable.ic_exclamation_mark_warning)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -209,7 +207,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle("Carbon Monoxide Alarm")
                     .setContentText("Detected carbon monoxide")
-                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSmallIcon(R.drawable.ic_exclamation_mark_alert)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -219,7 +217,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
-                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
+                    .addAction(R.drawable.ic_exclamation_mark_alert, "Silence Active Alarm", sendPendingIntent);
 
 
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
@@ -228,7 +226,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle("button test alarm")
                     .setContentText("button test alarm body")
-                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSmallIcon(R.drawable.ic_exclamation_mark_test)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -238,7 +236,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
-                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
+                    .addAction(R.drawable.ic_exclamation_mark_test, "Silence Active Alarm", sendPendingIntent);
 
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
@@ -246,7 +244,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle("remote test alarm")
                     .setContentText("remote test alarm body")
-                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSmallIcon(R.drawable.ic_exclamation_mark_test)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -256,7 +254,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
-                    .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent);
+                    .addAction(R.drawable.ic_exclamation_mark_test, "Silence Active Alarm", sendPendingIntent);
 
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             manager.notify(123, notification.build());
@@ -264,7 +262,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle("Power warning")
                     .setContentText("Power has been disconnected")
-                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSmallIcon(R.drawable.ic_exclamation_mark_warning)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -281,7 +279,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                     .setContentTitle(remoteMessage.getData().get("title"))
                     .setContentText(remoteMessage.getData().get("body"))
-                    .setSmallIcon(R.drawable.ic_smoke_free_black_24dp)
+                    .setSmallIcon(R.drawable.ic_exclamation_mark_alert)
                     .setSound(defaultSoundUri)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
