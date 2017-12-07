@@ -21,8 +21,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.v4.nate.smokedetect.R;
 import com.v4.nate.smokedetect.activities.LandingActivity;
 import com.v4.nate.smokedetect.adapters.OverviewDeviceListAdapter;
@@ -130,7 +128,6 @@ public class LandingFragment extends Fragment {
                         _flameButton.setImageResource(R.drawable.red_flame);
                         _detectorStatus.setText("An alarm is being raised.");
                         break;
-
                 }
 
 
@@ -147,21 +144,6 @@ public class LandingFragment extends Fragment {
 
     public void initialize() {
         sharedPreferences = getActivity().getSharedPreferences("ID", Context.MODE_PRIVATE);
-        if (sharedPreferences.contains("HomeID") && sharedPreferences.contains("DeviceID")) {
-            Gson gson = new Gson();
-            homeID = sharedPreferences.getString("HomeID", null);
-            deviceIDList = sharedPreferences.getString("DeviceID", null);
-            deviceListTest = gson.fromJson(deviceIDList, new TypeToken<ArrayList<String>>() {
-            }.getType());
-        } else {
-            Gson gson = new Gson();
-            homeID = "1376hh";
-            deviceIDList = "[\"12ab12\",\"45tt45\"]";
-            deviceListTest = gson.fromJson(deviceIDList, new TypeToken<ArrayList<String>>() {
-            }.getType());
-
-        }
-
         final DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID);
         database.addValueEventListener(new ValueEventListener() {
             @Override
@@ -171,8 +153,9 @@ public class LandingFragment extends Fragment {
                     deviceIDFromDatabase.remove(0);
                 }
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-                    addOverviewDeviceEntry(ds.getKey(), ds.child("var").child("loc").getValue().toString());
+                    String location = ds.child("var").child("loc").getValue().toString();
+                    String status = ds.child("var").child("status").getValue().toString();
+                    addOverviewDeviceEntry(ds.getKey(), location, convertStatusColor(status));
 
                 }
                 adapter.notifyDataSetChanged();
@@ -187,11 +170,30 @@ public class LandingFragment extends Fragment {
 
     }
 
-    private void addOverviewDeviceEntry(String device, String location) {
+    private void addOverviewDeviceEntry(String device, String location, int resource) {
         DeviceOverviewInfo deviceOverviewInfo = new DeviceOverviewInfo();
         deviceOverviewInfo.setDevice(device);
         deviceOverviewInfo.setLocation(location);
+        deviceOverviewInfo.setResource(resource);
         deviceIDFromDatabase.add(deviceOverviewInfo);
+    }
+
+    private int convertStatusColor(String status) {
+        int output;
+        switch (status) {
+            case "ok":
+            default:
+                output = R.drawable.green;
+                break;
+            case "warning":
+                output = R.drawable.orange;
+                break;
+            case "alarm":
+                output = R.drawable.red;
+                break;
+
+        }
+        return output;
     }
 
     private class MyTask extends AsyncTask<Void, Void, Void> {

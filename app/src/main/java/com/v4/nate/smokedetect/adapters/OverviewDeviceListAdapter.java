@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.v4.nate.smokedetect.R;
@@ -45,8 +46,8 @@ public class OverviewDeviceListAdapter extends BaseAdapter {
         device.setText(deviceOverviewInfo.getDevice().trim());
         TextView location = convertView.findViewById(R.id.locationTitle);
         location.setText(deviceOverviewInfo.getLocation().trim());
-//        ImageView resource = convertView.findViewById(R.id.statusCircle);
-//        resource.setImageResource(deviceOverviewInfo.getResource());
+        ImageView resource = convertView.findViewById(R.id.statusCircle);
+        resource.setImageResource(deviceOverviewInfo.getResource());
         return convertView;
 
 
