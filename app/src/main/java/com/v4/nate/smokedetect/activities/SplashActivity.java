@@ -1,9 +1,11 @@
-package com.v4.nate.smokedetect;
+package com.v4.nate.smokedetect.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+
+import com.v4.nate.smokedetect.R;
 
 public class SplashActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.v4.nate.smokedetect;
+package com.v4.nate.smokedetect.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,8 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.v4.nate.smokedetect.R;
 
-public class DatabasePushActivity extends AppCompatActivity {
+public class HushActivity extends AppCompatActivity {
 
     String homeID;
     SharedPreferences sharedPreferences;
@@ -24,8 +25,6 @@ public class DatabasePushActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras == null) {
-                //Do nothing
-                System.out.print("Nothing");
             } else if (extras.getBoolean("hush")) {
                 database.child("var").child("hush").getRef().setValue(true);
 

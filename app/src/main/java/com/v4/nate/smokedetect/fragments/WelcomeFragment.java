@@ -1,4 +1,4 @@
-package com.v4.nate.smokedetect;
+package com.v4.nate.smokedetect.fragments;
 
 
 import android.app.ProgressDialog;
@@ -23,6 +23,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.v4.nate.smokedetect.R;
+import com.v4.nate.smokedetect.activities.LandingActivity;
+import com.v4.nate.smokedetect.activities.WelcomeActivity;
 
 import butterknife.BindView;
 

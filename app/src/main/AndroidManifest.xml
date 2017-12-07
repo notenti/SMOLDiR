@@ -19,7 +19,7 @@
             android:resource="@drawable/ic_smoke_free_black_24dp" />
 
         <activity
-            android:name=".SplashActivity"
+            android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,24 +27,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".activities.MainActivity" />
 
-        <service android:name=".NotificationActivity">
+        <service android:name=".activities.NotificationActivity">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".IDServiceActivity">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
 
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".activities.WelcomeActivity"
             android:theme="@style/AppTheme.Welcome" />
         <activity
-            android:name=".LandingActivity"
+            android:name=".activities.LandingActivity"
             android:theme="@style/AppTheme.Welcome" />
     </application>
 

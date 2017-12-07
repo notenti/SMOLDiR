@@ -1,4 +1,4 @@
-package com.v4.nate.smokedetect;
+package com.v4.nate.smokedetect.activities;
 
 
 import android.content.Context;
@@ -15,16 +15,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import com.v4.nate.smokedetect.R;
+import com.v4.nate.smokedetect.fragments.LandingFragment;
 
 import butterknife.ButterKnife;
 
 public class LandingActivity extends AppCompatActivity {
 
-    DatabaseQuery databaseQuery = new DatabaseQuery();
+
     SharedPreferences sharedPreferences;
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
@@ -82,45 +83,6 @@ public class LandingActivity extends AppCompatActivity {
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, navBarOptions);
         listView.setAdapter(arrayAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
-                Fragment historyFragment = new HistoryFragment();
-                Fragment generalPreferencesFragment = new GeneralPreferencesFragment();
-                Fragment notificationPreferencesFragment = new NotificationPreferencesFragment();
-                switch (i) {
-                    case 0:
-                        fragmentTransaction.replace(R.id.landing_fragment, notificationPreferencesFragment);
-                        fragmentTransaction.addToBackStack("notificationPreferences");
-                        fragmentTransaction.commit();
-                        listView.setItemChecked(i, true);
-                        drawerLayout.closeDrawer(listView);
-                        break;
-                    case 1:
-                        fragmentTransaction.replace(R.id.landing_fragment, historyFragment);
-                        fragmentTransaction.addToBackStack("history");
-                        fragmentTransaction.commit();
-                        listView.setItemChecked(i, true);
-                        drawerLayout.closeDrawer(listView);
-                        break;
-                    case 2:
-                        fragmentTransaction.replace(R.id.landing_fragment, generalPreferencesFragment);
-                        fragmentTransaction.addToBackStack("generalPreferences");
-                        fragmentTransaction.commit();
-                        listView.setItemChecked(i, true);
-                        drawerLayout.closeDrawer(listView);
-                        break;
-                    default:
-                        Toast.makeText(LandingActivity.this, "4", Toast.LENGTH_SHORT).show();
-                        break;
-                }
-
-
-            }
-        });
     }
 
     public void setNewFragment(Fragment fragment) {
@@ -159,15 +121,6 @@ public class LandingActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
     }
-
-//    @Override
-//    public void onBackPressed() {
-//        Intent startMain = new Intent(Intent.ACTION_MAIN);
-//        startMain.addCategory(Intent.CATEGORY_HOME);
-//        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        startActivity(startMain);
-//
-//    }
 
 
     @Override

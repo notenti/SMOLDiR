@@ -1,4 +1,4 @@
-package com.v4.nate.smokedetect;
+package com.v4.nate.smokedetect.activities;
 
 
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.v4.nate.smokedetect.R;
+import com.v4.nate.smokedetect.fragments.WelcomeFragment;
 
 public class WelcomeActivity extends AppCompatActivity {
 

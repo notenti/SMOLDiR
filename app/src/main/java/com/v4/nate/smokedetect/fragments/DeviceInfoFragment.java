@@ -1,4 +1,4 @@
-package com.v4.nate.smokedetect;
+package com.v4.nate.smokedetect.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +23,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.v4.nate.smokedetect.R;
+import com.v4.nate.smokedetect.adapters.DeviceHistoryListAdapter;
+import com.v4.nate.smokedetect.objects.DeviceHistoryInfo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.v4.nate.smokedetect;
+package com.v4.nate.smokedetect.objects;
 
 /**
  * Created by root on 12/2/17.

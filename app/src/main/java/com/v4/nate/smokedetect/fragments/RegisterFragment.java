@@ -1,4 +1,4 @@
-package com.v4.nate.smokedetect;
+package com.v4.nate.smokedetect.fragments;
 
 
 import android.app.ProgressDialog;
@@ -21,11 +21,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.v4.nate.smokedetect.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +44,6 @@ public class RegisterFragment extends Fragment {
     boolean alreadyRegistered = false;
 
     String url = "http://192.168.1.208/register.php";
-    SendToDevicesActivity send = new SendToDevicesActivity();
 
     @BindView(R.id.input_registration_code)
     EditText _registrationCode;
@@ -88,27 +84,27 @@ public class RegisterFragment extends Fragment {
             if (checkExistingDevice()) { //If the device has already been registered, notify the user
                 Toast.makeText(getActivity(), "That device has already been registered", Toast.LENGTH_SHORT).show();
             } else { //If the device has not been registered, do all the normal stuff
-                send.queryServer(getActivity(), url, params, new SendToDevicesActivity.VolleyCallback() {
-                    @Override
-                    public void onSuccessResponse(JSONObject result) { //Response was successful
-                        try {
-                            valid = result.getBoolean("return");
-                            if (valid) {
-                                deviceList.add(result.getString("deviceID").trim().replace("\n", ""));
-                                setList("DeviceID", deviceList);
-                                set("HomeID", result.getString("homeID").trim().replace("\n", ""));
-                                FirebaseMessaging.getInstance().subscribeToTopic(result.getString("homeID").trim());
-                                Toast.makeText(getActivity(), "Subscribed to topic " + result.getString("homeID").trim(), Toast.LENGTH_SHORT).show();
-                                _registrationCode.setError(null);
-
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            valid = false;
-                        }
-                    }
-                });
+//                send.queryServer(getActivity(), url, params, new SendToDevicesActivity.VolleyCallback() {
+//                    @Override
+//                    public void onSuccessResponse(JSONObject result) { //Response was successful
+//                        try {
+//                            valid = result.getBoolean("return");
+//                            if (valid) {
+//                                deviceList.add(result.getString("deviceID").trim().replace("\n", ""));
+//                                setList("DeviceID", deviceList);
+//                                set("HomeID", result.getString("homeID").trim().replace("\n", ""));
+//                                FirebaseMessaging.getInstance().subscribeToTopic(result.getString("homeID").trim());
+//                                Toast.makeText(getActivity(), "Subscribed to topic " + result.getString("homeID").trim(), Toast.LENGTH_SHORT).show();
+//                                _registrationCode.setError(null);
+//
+//                            }
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                            valid = false;
+//                        }
+//                    }
+//                });
                 progress();
             }
         }
@@ -153,8 +149,7 @@ public class RegisterFragment extends Fragment {
 
         AlertDialog alertDialog = alertDialogBuilderUserInput.create();
         alertDialog.show();
-        WifiFragment wifiFragment = new WifiFragment();
-        ((WelcomeActivity) getActivity()).setNewFragment(wifiFragment);
+
     }
 
     public void onRegistrationFailed() {

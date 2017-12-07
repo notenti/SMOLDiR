@@ -1,4 +1,4 @@
-package com.v4.nate.smokedetect;
+package com.v4.nate.smokedetect.fragments;
 
 
 import android.content.Context;
@@ -23,6 +23,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.v4.nate.smokedetect.R;
+import com.v4.nate.smokedetect.activities.LandingActivity;
+import com.v4.nate.smokedetect.adapters.OverviewDeviceListAdapter;
+import com.v4.nate.smokedetect.objects.DeviceOverviewInfo;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -165,8 +169,6 @@ public class LandingFragment extends Fragment {
 
                 }
                 adapter.notifyDataSetChanged();
-                //view.findViewById(R.id.progressBarHolder).setVisibility(View.GONE);
-
             }
 
             @Override
