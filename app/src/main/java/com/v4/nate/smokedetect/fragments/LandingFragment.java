@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.v4.nate.smokedetect.R;
 import com.v4.nate.smokedetect.activities.LandingActivity;
 import com.v4.nate.smokedetect.adapters.OverviewDeviceListAdapter;
@@ -54,6 +55,8 @@ public class LandingFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         getActivity().setTitle("Home");
+
+        FirebaseMessaging.getInstance().subscribeToTopic("1376hh");
 
 
         progressBarHolder = view.findViewById(R.id.progressBarHolder);
