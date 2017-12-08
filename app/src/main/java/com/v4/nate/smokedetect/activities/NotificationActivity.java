@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.google.firebase.messaging.RemoteMessage;
 import com.v4.nate.smokedetect.R;
+import com.v4.nate.smokedetect.services.HushService;
 
 
 public class NotificationActivity extends com.google.firebase.messaging.FirebaseMessagingService {
@@ -33,10 +34,11 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         customSharedPreferences = this.getSharedPreferences("ID", Context.MODE_PRIVATE);
 
-        Intent sendIntent = new Intent(getApplicationContext(), HushActivity.class);
-        sendIntent.putExtra("hush", true);
-
-        PendingIntent sendPendingIntent = PendingIntent.getActivity(this, 0, sendIntent, PendingIntent.FLAG_ONE_SHOT);
+        Intent sendIntent = new Intent(this, HushService.class);
+        sendIntent.setAction(HushService.ACTION1);
+//        sendIntent.setClass(this, HushActivity.class);
+//        sendIntent.putExtra("hush", true);
+        PendingIntent sendPendingIntent = PendingIntent.getService(this, 0, sendIntent, PendingIntent.FLAG_ONE_SHOT);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -55,6 +57,9 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             notificationChannel.enableVibration(true);
             notificationManager.createNotificationChannel(notificationChannel);
         }
+
+        NotificationCompat.Action action = new NotificationCompat.Action.Builder(R.drawable.ic_exclamation_mark_alert, "Silence Active Alarm", sendPendingIntent).build();
+
 
         if (type == 10) { //Low battery
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "SMOLDiR")
@@ -228,8 +233,8 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             notificationManager.notify(1, notification.build());
         } else if (type == 50) { //button test
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "SMOLDiR")
-                    .setContentTitle("button test alarm")
-                    .setContentText("button test alarm body")
+                    .setContentTitle("Button Test Alarm")
+                    .setContentText("Button-Triggered Test Alarm")
                     .setSmallIcon(R.drawable.ic_exclamation_mark_test)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -239,8 +244,9 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
-                    .addAction(R.drawable.ic_exclamation_mark_test, "Silence Active Alarm", sendPendingIntent)
+                    .addAction(action)
                     .setChannelId("SMOLDiR");
+
             notificationManager.notify(1, notification.build());
         } else if (type == 51) { //remote test
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "SMOLDiR")

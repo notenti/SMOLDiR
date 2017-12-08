@@ -1,7 +1,5 @@
 package com.v4.nate.smokedetect.activities;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -11,22 +9,22 @@ import com.v4.nate.smokedetect.R;
 
 public class HushActivity extends AppCompatActivity {
 
-    String homeID;
-    SharedPreferences sharedPreferences;
+    String homeID = "1376hh";
+    String deviceID = "Nate1";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferences = this.getSharedPreferences("ID", Context.MODE_PRIVATE);
-        homeID = sharedPreferences.getString("HomeID", null);
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID);
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(homeID).child(deviceID);
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras == null) {
+                System.out.println("HHHHHHHsdsdfsdfsdfsd");
             } else if (extras.getBoolean("hush")) {
-                database.child("var").child("hush").getRef().setValue(true);
+                System.out.println("in the pending intent");
+                database.child("var").child("hush").setValue(true);
 
             }
         }

@@ -77,7 +77,7 @@ public class RegisterFragment extends Fragment {
         //Get deviceID from text input
         code = _registrationCode.getText().toString();
         params.put("code", code);
-        FirebaseMessaging.getInstance().subscribeToTopic("137hh");
+        FirebaseMessaging.getInstance().subscribeToTopic("1376hh");
         Toast.makeText(getActivity(), "Subscribed to topic 137hh", Toast.LENGTH_SHORT).show();
 
         if (code.isEmpty() || code.length() < 4) {
