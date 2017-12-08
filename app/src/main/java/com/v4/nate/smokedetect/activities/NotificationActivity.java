@@ -111,7 +111,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
         } else if (type == 20) { //IR Detected Fire
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "SMOLDiR")
                     .setContentTitle("IR Detected Fire")
-                    .setContentText("Fire detected!!!!")
+                    .setContentText("Fire detected!")
                     .setSmallIcon(R.drawable.ic_flame_icon_tiny)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -129,7 +129,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
         } else if (type == 21) { //Smoke/IR Detected Fire
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "SMOLDiR")
                     .setContentTitle("Smoke/IR Detected Fire")
-                    .setContentText("Fire detected!!!!")
+                    .setContentText("Fire detected!")
                     .setSmallIcon(R.drawable.ic_flame_icon_tiny)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -146,7 +146,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
         } else if (type == 22) { //Smoke Detected Fire
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "SMOLDiR")
                     .setContentTitle("Smoke Detected Fire")
-                    .setContentText("Fire detected!!!!")
+                    .setContentText("Fire detected!")
                     .setSmallIcon(R.drawable.ic_flame_icon_tiny)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -163,7 +163,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
         } else if (type == 23) { //Interconnected Detected Fire
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "SMOLDiR")
                     .setContentTitle("Interconnected Fire Detected")
-                    .setContentText("Fire detected!!!!")
+                    .setContentText("Fire detected!")
                     .setSmallIcon(R.drawable.ic_flame_icon_tiny)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -197,7 +197,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
         } else if (type == 31) { //Smoke only warning
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "SMOLDiR")
                     .setContentTitle("Smoke Only Warning")
-                    .setContentText("Smoke is present, stove situation")
+                    .setContentText("Smoke is present")
                     .setSmallIcon(R.drawable.ic_flame_icon_tiny)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -264,7 +264,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             notificationManager.notify(1, notification.build());
         } else if (type == 60) { //Power warning
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "SMOLDiR")
-                    .setContentTitle("Power warning")
+                    .setContentTitle("Power Warning")
                     .setContentText("Power has been disconnected")
                     .setSmallIcon(R.drawable.ic_flame_icon_tiny)
                     .setAutoCancel(true)
