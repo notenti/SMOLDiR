@@ -48,7 +48,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
         int type = Integer.parseInt(remoteMessage.getData().get("messageType"));
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel("SMOLDiR", "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel notificationChannel = new NotificationChannel(getString(R.string.channel_id), "SMOLDiR Notifications", NotificationManager.IMPORTANCE_DEFAULT);
             // Configure the notification channel.
             notificationChannel.setDescription("Channel Description");
             notificationChannel.enableLights(true);
@@ -73,7 +73,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
-                    .setChannelId("SMOLDiR");
+                    .setChannelId(getString(R.string.channel_id));
 
 
             notificationManager.notify(123, notification.build());
@@ -91,7 +91,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
-                    .setChannelId("SMOLDiR");
+                    .setChannelId(getString(R.string.channel_id));
 
             notificationManager.notify(123, notification.build());
         } else if (type == 12) { //Battery disconnected
@@ -107,7 +107,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
-                    .setChannelId("SMOLDiR");
+                    .setChannelId(getString(R.string.channel_id));
 
             notificationManager.notify(123, notification.build());
         } else if (type == 20) { //IR Detected Fire
@@ -124,7 +124,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
                     .addAction(R.drawable.ic_smoke_free_black_24dp, "Silence Active Alarm", sendPendingIntent)
-                    .setChannelId("SMOLDiR");
+                    .setChannelId(getString(R.string.channel_id));
 
             NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
             notificationManager.notify(123, notification.build());
@@ -142,7 +142,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
                     .addAction(R.drawable.ic_exclamation_mark_alert, "Silence Active Alarm", sendPendingIntent)
-                    .setChannelId("SMOLDiR");
+                    .setChannelId(getString(R.string.channel_id));
 
             notificationManager.notify(123, notification.build());
         } else if (type == 22) { //Smoke Detected Fire
@@ -159,7 +159,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
                     .addAction(R.drawable.ic_exclamation_mark_alert, "Silence Active Alarm", sendPendingIntent)
-                    .setChannelId("SMOLDiR");
+                    .setChannelId(getString(R.string.channel_id));
 
             notificationManager.notify(123, notification.build());
         } else if (type == 23) { //Interconnected Detected Fire
@@ -176,7 +176,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
                     .addAction(R.drawable.ic_exclamation_mark_alert, "Silence Active Alarm", sendPendingIntent)
-                    .setChannelId("SMOLDiR");
+                    .setChannelId(getString(R.string.channel_id));
 
             notificationManager.notify(123, notification.build());
         } else if (type == 30) { //Smoke/IR Warning
@@ -192,7 +192,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
-                    .setChannelId("SMOLDiR");
+                    .setChannelId(getString(R.string.channel_id));
 
 
             notificationManager.notify(123, notification.build());
@@ -209,7 +209,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
-                    .setChannelId("SMOLDiR");
+                    .setChannelId(getString(R.string.channel_id));
 
 
             notificationManager.notify(1, notification.build());
@@ -227,7 +227,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
                     .addAction(R.drawable.ic_exclamation_mark_alert, "Silence Active Alarm", sendPendingIntent)
-                    .setChannelId("SMOLDiR");
+                    .setChannelId(getString(R.string.channel_id));
 
 
             notificationManager.notify(1, notification.build());
@@ -245,13 +245,13 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
                     .addAction(action)
-                    .setChannelId("SMOLDiR");
+                    .setChannelId(getString(R.string.channel_id));
 
             notificationManager.notify(1, notification.build());
         } else if (type == 51) { //remote test
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "SMOLDiR")
-                    .setContentTitle("remote test alarm")
-                    .setContentText("remote test alarm body")
+                    .setContentTitle("Remote Test Alarm")
+                    .setContentText("Remote-Triggered Test Alarm")
                     .setSmallIcon(R.drawable.ic_exclamation_mark_test)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -262,7 +262,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setColor(ContextCompat.getColor(this, R.color.color_primary))
                     .addAction(R.drawable.ic_exclamation_mark_test, "Silence Active Alarm", sendPendingIntent)
-                    .setChannelId("SMOLDiR");
+                    .setChannelId(getString(R.string.channel_id));
             notificationManager.notify(1, notification.build());
         } else if (type == 60) { //Power warning
             NotificationCompat.Builder notification = new NotificationCompat.Builder(this, "SMOLDiR")
@@ -276,7 +276,8 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setFullScreenIntent(pendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setColor(ContextCompat.getColor(this, R.color.color_primary));
+                    .setColor(ContextCompat.getColor(this, R.color.color_primary))
+                    .setChannelId(getString(R.string.channel_id));
 
             notificationManager.notify(1, notification.build());
         } else {
@@ -284,7 +285,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
                     .setContentTitle(remoteMessage.getData().get("title"))
                     .setContentText(remoteMessage.getData().get("body"))
                     .setSmallIcon(R.drawable.ic_exclamation_mark_alert)
-                    .setChannelId("SMOLDiR");
+                    .setChannelId(getString(R.string.channel_id));
             notificationManager.notify(1, notification.build());
 
 
