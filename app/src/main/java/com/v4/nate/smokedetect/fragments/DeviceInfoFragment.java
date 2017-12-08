@@ -75,7 +75,7 @@ public class DeviceInfoFragment extends Fragment {
             locationTitle = bundle.getString("location");
         }
 
-        getActivity().setTitle(locationTitle);
+        getActivity().setTitle("Device");
 
         _location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,13 +156,17 @@ public class DeviceInfoFragment extends Fragment {
 
 
         View footerView = inflater.inflate(R.layout.list_device_row_footer, null);
-        TextView footer = footerView.findViewById(R.id.loadMore);
+        final TextView footer = footerView.findViewById(R.id.loadMore);
 
 
         footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 open = !open;
+                if (open)
+                    footer.setText("Show less");
+                else
+                    footer.setText("Show more");
 
                 collectEvents((Map<String, Object>) totalDatasnapShot.child("messages").getValue(), 6, true);
 
