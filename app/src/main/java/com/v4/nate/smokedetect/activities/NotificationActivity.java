@@ -36,8 +36,6 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
 
         Intent sendIntent = new Intent(this, HushService.class);
         sendIntent.setAction(HushService.ACTION1);
-//        sendIntent.setClass(this, HushActivity.class);
-//        sendIntent.putExtra("hush", true);
         PendingIntent sendPendingIntent = PendingIntent.getService(this, 0, sendIntent, PendingIntent.FLAG_ONE_SHOT);
 
         Intent intent = new Intent(this, MainActivity.class);

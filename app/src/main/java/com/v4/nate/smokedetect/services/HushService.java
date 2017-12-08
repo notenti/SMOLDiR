@@ -1,6 +1,8 @@
 package com.v4.nate.smokedetect.services;
 
 import android.app.IntentService;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +23,10 @@ public class HushService extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
+
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.cancel(1);
         final String action = intent.getAction();
         if (ACTION1.equals(action)) {
             DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("1376hh").child("Nate1");
