@@ -221,7 +221,7 @@ public class DeviceInfoFragment extends Fragment {
                 lastTested = dataSnapshot.child("var").child("lastTest").getValue().toString();
                 batteryStatus = dataSnapshot.child("var").child("batt_status").getValue().toString();
                 location = dataSnapshot.child("var").child("loc").getValue().toString();
-                collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 5, true);
+                collectEvents((Map<String, Object>) dataSnapshot.child("messages").getValue(), 6, true);
 
                 TextView batteryTV = view.findViewById(R.id.batteryStatus);
                 batteryTV.setText(batteryStatus);
@@ -281,7 +281,7 @@ public class DeviceInfoFragment extends Fragment {
 
 
         } else {
-            while (historyList.size() > 5) {
+            while (historyList.size() > 6) {
                 historyList.remove(historyList.size() - 1);
             }
             deviceHistoryListAdapter.notifyDataSetChanged();
