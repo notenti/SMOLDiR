@@ -21,18 +21,17 @@ import com.v4.nate.smokedetect.services.HushService;
 
 public class NotificationActivity extends com.google.firebase.messaging.FirebaseMessagingService {
 
-    private static final String TAG = "NotificationActivity";
     SharedPreferences customSharedPreferences;
     SharedPreferences defaultSharedPreferences;
 
+    // Function gets called whenever a notification comes in
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        System.out.println(remoteMessage);
-
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         customSharedPreferences = this.getSharedPreferences("ID", Context.MODE_PRIVATE);
+
 
         Intent sendIntent = new Intent(this, HushService.class);
         sendIntent.setAction(HushService.ACTION1);
@@ -42,8 +41,9 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
-
+        // Get the message type
         int type = Integer.parseInt(remoteMessage.getData().get("messageType"));
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(getString(R.string.channel_id), "SMOLDiR Notifications", NotificationManager.IMPORTANCE_DEFAULT);
@@ -56,6 +56,7 @@ public class NotificationActivity extends com.google.firebase.messaging.Firebase
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
+        // Declare an action to allow for silencing of the active alarm
         NotificationCompat.Action action = new NotificationCompat.Action.Builder(R.drawable.ic_exclamation_mark_alert, "Silence Active Alarm", sendPendingIntent).build();
 
 

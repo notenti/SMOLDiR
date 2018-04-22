@@ -13,15 +13,13 @@ import com.v4.nate.smokedetect.objects.DeviceHistoryInfo;
 
 import java.util.ArrayList;
 
-/**
- * Created by nate on 11/27/17.
+/* Adapter for displaying the device's history
+in a digestible manner
  */
-
 public class DeviceHistoryListAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<DeviceHistoryInfo> data;
-    private int[] imageIds;
 
     public DeviceHistoryListAdapter(Context context, ArrayList<DeviceHistoryInfo> d) {
         this.context = context;
@@ -47,6 +45,7 @@ public class DeviceHistoryListAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.list_device_history_row, null);
         }
 
+        // Setting text and image elements appropriately
         TextView date = convertView.findViewById(R.id.date);
         date.setText(deviceHistoryInfo.getDate().trim());
         TextView location = convertView.findViewById(R.id.location);
