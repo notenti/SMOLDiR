@@ -53,11 +53,10 @@ public class DeviceInfoFragment extends Fragment {
     ArrayList<DeviceHistoryInfo> historyList = new ArrayList<>();
     Boolean open = false;
     DataSnapshot totalDatasnapShot;
-    String lastTested;
-    String batteryStatus;
-    String location;
-    String locationTitle;
-    String status;
+    private String lastTested;
+    private String batteryStatus;
+    private String location;
+    private String status;
     private ListView deviceHistoryList;
     private DeviceHistoryListAdapter deviceHistoryListAdapter;
     private String homeID = "1376hh";
@@ -70,7 +69,6 @@ public class DeviceInfoFragment extends Fragment {
 
         if (bundle != null) {
             device = bundle.getString("device");
-            locationTitle = bundle.getString("location");
         }
 
         getActivity().setTitle("Device");
@@ -381,8 +379,7 @@ public class DeviceInfoFragment extends Fragment {
         Date test = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm");
         try {
-            Date date = formatter.parse(dateString);
-            return date;
+            return formatter.parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
             return test;
