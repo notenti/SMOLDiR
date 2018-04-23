@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.v4.nate.smokedetect.R;
 
-/* Basic spliash screen, displays the SMOLDiR logo
+/* Basic splash screen, displays the SMOLDiR logo
 * before the user is brought to the login screen */
 public class SplashActivity extends AppCompatActivity {
 
