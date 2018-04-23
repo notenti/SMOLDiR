@@ -1,12 +1,11 @@
 package com.v4.nate.smokedetect.fragments;
 
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,15 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.v4.nate.smokedetect.R;
 import com.v4.nate.smokedetect.activities.LandingActivity;
 import com.v4.nate.smokedetect.activities.WelcomeActivity;
@@ -36,19 +32,13 @@ public class WelcomeFragment extends Fragment {
     Button _registerDeviceButton;
     @BindView(R.id.sign_in_button)
     Button _googleSignupButton;
-    Boolean login = false;
 
-    private GoogleApiClient mGoogleApiClient;
-    private ProgressDialog progressDialog;
+
+    private GoogleSignInClient googleSignInClient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle onSavedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_welcome, container, false);
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        login = prefs.getBoolean("login", false);
-
-
         _registerDeviceButton = view.findViewById(R.id.btn_registerDevice);
         _googleSignupButton = view.findViewById(R.id.sign_in_button);
 
@@ -64,7 +54,7 @@ public class WelcomeFragment extends Fragment {
         _googleSignupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sign();
+                signIn();
             }
         });
 
@@ -73,34 +63,14 @@ public class WelcomeFragment extends Fragment {
                 .requestEmail()
                 .build();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .enableAutoManage(getActivity(), new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                    }
-                })
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+        googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
         return view;
 
     }
 
-    private void sign() {
-        Intent intent = new Intent(getActivity(), LandingActivity.class);
-        startActivity(intent);
-
-//        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-//        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-
-    private void signOut() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                    }
-                });
+    private void signIn() {
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     @Override
@@ -108,79 +78,39 @@ public class WelcomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
         }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        mGoogleApiClient.stopAutoManage(getActivity());
-        mGoogleApiClient.disconnect();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        hideProgressDialog();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-        OptionalPendingResult<GoogleSignInResult> optionalPendingResult = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (optionalPendingResult.isDone()) {
-            GoogleSignInResult result = optionalPendingResult.get();
-            handleSignInResult(result);
-            Log.e("CACHE STATUS", "Got cached sign-in");
-        } else {
-            showProgressDialog();
-            optionalPendingResult.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
-                }
-            });
-        }
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getContext());
+        updateUI(account);
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handSignInResult:" + result.isSuccess());
 
-        if (result.isSuccess()) {
-            GoogleSignInAccount account = result.getSignInAccount();
-            //Logging for debugging, can remove later
-            String name = account.getDisplayName();
-            Log.e("DISPLAY NAME", name);
-            String email = account.getEmail();
-            Log.e("USER EMAIL", email);
-            String profile = String.valueOf(account.getPhotoUrl());
-            Log.e("USER PROFILE", profile);
-            Log.e("ID", account.getId());
-
-
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             Intent intent = new Intent(getActivity(), LandingActivity.class);
             startActivity(intent);
-
+            updateUI(account);
+        } catch (ApiException e) {
+            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            updateUI(null);
         }
     }
 
-    private void showProgressDialog() {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setMessage("Loading...");
-            progressDialog.setIndeterminate(true);
-        }
-        progressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.hide();
+    private void updateUI(@Nullable GoogleSignInAccount account) {
+        if (account != null) {
+//            getView().findViewByID(R.id.sign_in_button).setVisibility(View.GONE);
         }
     }
 

@@ -18,6 +18,7 @@
     <string name="login_prompt">Already have an account? Login.</string>
     <string name="create_account">Create Account</string>
     <string name="server_client_id">1009762478612-ooi106evsru4ba7euu21ntgf67k2puqv.apps.googleusercontent.com</string>
+    <string name="client_id">811354252455-dg3ci48giudvv81i4tjjkhfkc02vm5s0.apps.googleusercontent.com</string>
     <string name="title_activity_wifi_fragment">WifiFragment</string>
     <string name="wifi">Push WiFi information</string>
     <string name="install">Need to install? Click here.</string>
