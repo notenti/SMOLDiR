@@ -13,7 +13,9 @@ import com.v4.nate.smokedetect.objects.DeviceOverviewInfo;
 
 import java.util.ArrayList;
 
-
+/* Adapter for displaying the devices
+in the home in a digestible manner
+ */
 public class OverviewDeviceListAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<DeviceOverviewInfo> data;
@@ -42,6 +44,7 @@ public class OverviewDeviceListAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.list_device_row, null);
         }
 
+        // Setting text and image elements appropriately
         TextView device = convertView.findViewById(R.id.deviceTitle);
         device.setText(deviceOverviewInfo.getDevice().trim());
         TextView location = convertView.findViewById(R.id.locationTitle);
