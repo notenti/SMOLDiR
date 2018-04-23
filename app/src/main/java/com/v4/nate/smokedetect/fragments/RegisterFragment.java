@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -16,6 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +41,7 @@ import butterknife.ButterKnife;
 public class RegisterFragment extends Fragment {
 
     private static final String TAG = "RegisterFragment";
+    private FirebaseAuth firebaseAuth;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     HashMap<String, String> params = new HashMap<>();
@@ -63,9 +70,49 @@ public class RegisterFragment extends Fragment {
                 register();
             }
         });
+        firebaseAuth = FirebaseAuth.getInstance();
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+//        updateUI(currentUser);
+    }
+
+    private void createAccount(String email, String password) {
+        Log.d("GGGG", "createAccount:" + email);
+        if (!validateForm()) {
+            return;
+        }
+
+//        showProgressDialog();
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the sign-ed in user's info
+                            Log.d("GGGG", "createUserWithEmail:success");
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+//                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user
+                            Log.w("GGGG", "createUserWithEmail:failure", task.getException());
+//                            Toast.makeText(getActivity(), "Authentication Failed", Toast.LENGTH_SHORT).show();
+//                            updateUI(null);
+                        }
+//                        hideProgressDialog();
+                    }
+                });
+
+    }
+
+    private boolean validateForm() {
+        boolean valid = true;
+        return valid;
+    }
     public void register() {
         deviceList.add("131313");
         deviceList.add("121212");

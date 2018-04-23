@@ -22,20 +22,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        // Starts the welcome activity intent
         Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            String channelId = getString(R.string.default_notification_channel_id);
-//            String channelName = "smokeDetect";
-//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-//            notificationManager.createNotificationChannel(new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW));
-//        }
+        // Creates and configures the notification channel
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel("SMOLDiR", "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
-            // Configure the notification channel.
             notificationChannel.setDescription("Channel Description");
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.GREEN);

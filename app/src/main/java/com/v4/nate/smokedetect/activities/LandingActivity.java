@@ -39,7 +39,6 @@ public class LandingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_landing);
         ButterKnife.bind(this);
 
-
         sharedPreferences = this.getSharedPreferences("ID", Context.MODE_PRIVATE);
 
         listView = findViewById(R.id.navList);
