@@ -434,6 +434,7 @@ public class DeviceInfoFragment extends Fragment {
         return output;
     }
 
+    // Function to take in the message ID and set the proper icon
     private int convertIDInt(int ID) {
         int output;
         switch (ID) {
@@ -441,17 +442,13 @@ public class DeviceInfoFragment extends Fragment {
             case 11:
             case 12:
             case 60:
+            case 30:
                 output = R.drawable.ic_exclamation_mark_warning;
                 break;
             case 20:
             case 21:
             case 22:
             case 23:
-                output = R.drawable.ic_exclamation_mark_alert;
-                break;
-            case 30:
-                output = R.drawable.ic_exclamation_mark_warning;
-                break;
             case 40:
                 output = R.drawable.ic_exclamation_mark_alert;
                 break;
