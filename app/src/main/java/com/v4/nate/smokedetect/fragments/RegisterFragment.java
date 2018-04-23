@@ -40,6 +40,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/* None of this is really used. It will be implemented better in the future,
+but for now it's code that doesn't really do anything.
+ */
 public class RegisterFragment extends Fragment {
 
     private static final String TAG = "RegisterFragment";

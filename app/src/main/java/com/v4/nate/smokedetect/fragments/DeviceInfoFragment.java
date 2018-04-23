@@ -1,6 +1,5 @@
 package com.v4.nate.smokedetect.fragments;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -42,7 +41,6 @@ import butterknife.ButterKnife;
 
 public class DeviceInfoFragment extends Fragment {
 
-    final Context c = getContext();
     @BindView(R.id.testButtonHeading)
     TextView _testButton;
     @BindView(R.id.hushButtonHeading)
@@ -288,6 +286,7 @@ public class DeviceInfoFragment extends Fragment {
         }
     }
 
+    // Function to add a device history entry to a list
     private void addDeviceHistoryEntry(String date, String time, String type, String dateTime, String imageString, int resource) {
         DeviceHistoryInfo deviceHistoryInfo = new DeviceHistoryInfo();
         deviceHistoryInfo.setDate(date);
@@ -299,6 +298,7 @@ public class DeviceInfoFragment extends Fragment {
         historyList.add(deviceHistoryInfo);
     }
 
+    // Simple function to convert a date to a string
     private List<String> convertDateNumToString(String eventTime) {
         String month;
         String hour;
@@ -375,6 +375,8 @@ public class DeviceInfoFragment extends Fragment {
 
     }
 
+    // Simple function for converting the date into a human
+    // readable format
     private Date convertDate(String dateString) {
         Date test = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm");
@@ -387,6 +389,7 @@ public class DeviceInfoFragment extends Fragment {
         }
     }
 
+    // Takes in the message ID and returns the proper message string
     private String convertIDString(int ID) {
         String output;
 
