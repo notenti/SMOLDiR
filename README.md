@@ -1,4 +1,4 @@
-# What is is?
+# What is it?
 SMOLDiR is a smart smoke detector for in-home use. It is designed to replace traditional smoke detectors, but leverages an IR camera to provide faster recognition of real, dangerous fires, while reducing the likelihood of false positives.
 
 # The app
